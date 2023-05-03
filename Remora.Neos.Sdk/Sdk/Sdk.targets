@@ -26,7 +26,7 @@
             <ItemGroup>
                 <Reference Include="NeosModLoader">
                     <HintPath Condition="'%(HintPath)' == '' And Exists('$(NeosPath)/Libraries/NeosModLoaderHeadless.dll')">$(NeosPath)/Libraries/NeosModLoaderHeadless.dll</HintPath>
-                    <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or (%(HintPath)' == '' And Exists('$(NeosReferencePath)/nml/NeosModLoaderHeadless.dll'))">$(NeosReferencePath)/nml/NeosModLoaderHeadless.dll</HintPath>
+                    <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(NeosReferencePath)/nml/NeosModLoaderHeadless.dll'))">$(NeosReferencePath)/nml/NeosModLoaderHeadless.dll</HintPath>
                     <Private>false</Private>
                 </Reference>
             </ItemGroup>
