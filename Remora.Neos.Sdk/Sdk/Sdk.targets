@@ -84,13 +84,13 @@
 
     <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences">
         <ItemGroup>
-            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' "
+            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' Or '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference'"
                                      Update="%(ReferenceCopyLocalPaths)"
                                      DestinationSubDirectory="../$(_LibraryOutputDirectory)"/>
         </ItemGroup>
 
         <ItemGroup>
-            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' == '' "
+            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' == '' And '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' != 'ProjectReference'"
                                      Remove="%(ReferenceCopyLocalPaths.Identity)"/>
         </ItemGroup>
     </Target>
