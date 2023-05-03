@@ -1,0 +1,10 @@
+<Project>
+    <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.props" />
+
+    <PropertyGroup>
+        <NeosProjectType>plugin</NeosProjectType>
+        <NeosTarget>headless</NeosTarget>
+    </PropertyGroup>
+
+    <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.targets" />
+</Project>

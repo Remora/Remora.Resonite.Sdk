@@ -1,0 +1,123 @@
+<Project>
+    <ItemDefinitionGroup>
+        <NeosReference>
+            <Visible>false</Visible>
+        </NeosReference>
+    </ItemDefinitionGroup>
+
+    <PropertyGroup Condition="'$(NeosProjectType)' == 'mod'">
+        <DefineConstants>$(DefineConstants);NEOSVR_MOD</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(NeosProjectType)' == 'plugin'">
+        <DefineConstants>$(DefineConstants);NEOSVR_PLUGIN</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(NeosTarget)' == 'client'">
+        <DefineConstants>$(DefineConstants);NEOSVR_CLIENT;NEOSVR_BUILD_10933802</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(NeosTarget)' == 'headless'">
+        <DefineConstants>$(DefineConstants);NEOSVR_HEADLESS;NEOSVR_BUILD_10933759</DefineConstants>
+    </PropertyGroup>
+
+    <Choose>
+        <When Condition="'$(NeosProjectType)' == 'mod' And '$(NeosTarget)' == 'headless'">
+            <ItemGroup>
+                <Reference Include="NeosModLoader">
+                    <HintPath Condition="'%(HintPath)' == '' And Exists('$(NeosPath)/Libraries/NeosModLoaderHeadless.dll')">$(NeosPath)/Libraries/NeosModLoaderHeadless.dll</HintPath>
+                    <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or (%(HintPath)' == '' And Exists('$(NeosReferencePath)/nml/NeosModLoaderHeadless.dll'))">$(NeosReferencePath)/nml/NeosModLoaderHeadless.dll</HintPath>
+                    <Private>false</Private>
+                </Reference>
+            </ItemGroup>
+        </When>
+        <When Condition="'$(NeosProjectType)' == 'mod' And '$(NeosTarget)' == 'client'">
+            <ItemGroup>
+                <Reference Include="NeosModLoader">
+                    <HintPath Condition="'%(HintPath)' == '' And Exists('$(NeosPath)/Libraries/NeosModLoader.dll')">$(NeosPath)/Libraries/NeosModLoader.dll</HintPath>
+                    <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(NeosReferencePath)/nml/NeosModLoader.dll'))">$(NeosReferencePath)/nml/NeosModLoader.dll</HintPath>
+                    <Private>false</Private>
+                </Reference>
+            </ItemGroup>
+        </When>
+    </Choose>
+
+    <PropertyGroup>
+        <_NeosAssemblyPath>$(NeosPath)/Neos_Data/Managed</_NeosAssemblyPath>
+        <_NeosAssemblyPath Condition="'$(NeosTarget)' == 'headless'">$(NeosPath)</_NeosAssemblyPath>
+    </PropertyGroup>
+
+    <!--
+    Transform NeosReference items into real assembly references, either to our bundled reference assemblies or to
+    real ones from an installation.
+    -->
+    <ItemGroup>
+        <Reference Include="@(NeosReference)">
+            <Name>%(NeosReference.Identity)</Name>
+            <HintPath Condition="'%(HintPath)' == '' And Exists('$(NeosAssemblyPath)/%(Identity).dll')">$(NeosAssemblyPath)/%(Identity).dll</HintPath>
+            <HintPath Condition="'%(HintPath)' == '' And Exists('$(NeosAssemblyPath)/%(Identity).exe')">$(NeosAssemblyPath)/%(Identity).exe</HintPath>
+            <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll'))">$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll</HintPath>
+            <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe'))">$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <!-- Fix output directories and filter out non-nuget dependency assemblies from the output -->
+    <PropertyGroup Condition="$(NeosProjectType) == 'mod'">
+        <_MainOutputDirectory>nml_mods/</_MainOutputDirectory>
+        <_LibraryOutputDirectory>nml_libs/</_LibraryOutputDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(NeosProjectType) == 'plugin'">
+        <_MainOutputDirectory>Libraries/</_MainOutputDirectory>
+        <_LibraryOutputDirectory>Libraries/</_LibraryOutputDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <_ReleaseArchiveDir>bin/publish/</_ReleaseArchiveDir>
+        <_RootPublishDir>bin/publish/$(NeosProjectType)/$(NeosTarget)/</_RootPublishDir>
+        <_RootOutDir>bin/$(Configuration)/$(NeosProjectType)/$(NeosTarget)/</_RootOutDir>
+
+        <OutDir>$(_RootOutDir)/$(_MainOutputDirectory)/</OutDir>
+        <PublishDir>$(_RootPublishDir)/$(_MainOutputDirectory)/</PublishDir>
+    </PropertyGroup>
+
+    <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences">
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' "
+                                     Update="%(ReferenceCopyLocalPaths)"
+                                     DestinationSubDirectory="../$(_LibraryOutputDirectory)"/>
+        </ItemGroup>
+
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' == '' "
+                                     Remove="%(ReferenceCopyLocalPaths.Identity)"/>
+        </ItemGroup>
+    </Target>
+
+    <Target Name="_MoveAfterPublish" AfterTargets="Publish" Condition="'$(_MainOutputDirectory)' != '$(_LibraryOutputDirectory)'">
+        <Move SourceFiles="@(_ResolvedCopyLocalPublishAssets->'$(PublishDir)/%(Filename)%(Extension)')" DestinationFolder="$(_RootPublishDir)/$(_LibraryOutputDirectory)"/>
+    </Target>
+
+    <Target Name="_ZipResults" Condition="'$(NeosGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
+        <ZipDirectory DestinationFile="$(_ReleaseArchiveDir)/$(MSBuildProjectName)-$(Version).zip" SourceDirectory="$(PublishDir)/../" Overwrite="true"/>
+    </Target>
+
+    <!-- Install the project to the Neos directory -->
+    <Target Name="_InstallProject" Condition="Exists('$(NeosPath)') And '$(NeosInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
+        <ItemGroup>
+            <NeosModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.dll"/>
+            <NeosModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.pdb"/>
+            <NeosModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.xml"/>
+            <NeosDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.dll"/>
+            <NeosDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.pdb"/>
+            <NeosDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.xml"/>
+        </ItemGroup>
+
+        <Copy SourceFiles="@(NeosModFiles)" DestinationFolder="$(NeosPath)/$(_MainOutputDirectory)"/>
+        <Copy SourceFiles="@(NeosDependencyFiles)" DestinationFolder="$(NeosPath)/$(_LibraryOutputDirectory)"/>
+    </Target>
+
+    <!-- Import last to respect set properties -->
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(NeosSdkImportsMicrosoftSdk)' == 'true'"/>
+</Project>

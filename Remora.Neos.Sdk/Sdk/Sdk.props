@@ -1,0 +1,40 @@
+<Project>
+    <!-- Defaults for centrally managed package versions -->
+    <Import Project="Sdk.Packages.props" />
+
+    <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' != 'true'">
+        <NeosSdkImportsMicrosoftSdk>true</NeosSdkImportsMicrosoftSdk>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(NeosSdkImportsMicrosoftSdk)' == 'true'" />
+
+    <!-- Overridable defaults -->
+
+    <!-- Targeting properties -->
+    <PropertyGroup>
+        <TargetFramework Condition="'$(TargetFramework)' == ''">net462</TargetFramework>
+    </PropertyGroup>
+
+    <!-- Remora.Neos.Sdk-specific properties -->
+    <PropertyGroup>
+        <NeosProjectType Condition="'$(NeosProjectType)' == ''">mod</NeosProjectType>
+        <NeosTarget Condition="'$(NeosTarget)' == ''">client</NeosTarget>
+        <NeosForceReferenceAssemblies Condition="'$(NeosForceReferenceAssemblies)' == ''">false</NeosForceReferenceAssemblies>
+        <NeosInstallOnBuild Condition="'$(CopyToNeosOnBuild)' == ''">false</NeosInstallOnBuild>
+        <NeosReferencePath Condition="'$(NeosReferencePath)' == ''">$(MSBuildThisFileDirectory)/ref/</NeosReferencePath>
+        <NeosGenerateReleaseArchive Condition="'$(NeosGenerateReleaseArchive)' == '' And '$(Configuration)' == 'Release'">true</NeosGenerateReleaseArchive>
+        <NeosGenerateReleaseArchive Condition="'$(NeosGenerateReleaseArchive)' == ''">false</NeosGenerateReleaseArchive>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(NeosPath)'==''">
+        <NeosPath>$(MSBuildProjectDirectory)/NeosVR/</NeosPath>
+        <NeosPath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/NeosVR/')">C:/Program Files (x86)/Steam/steamapps/common/NeosVR/</NeosPath>
+        <NeosPath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/NeosVR/')">$(HOME)/.steam/steam/steamapps/common/NeosVR/</NeosPath>
+    </PropertyGroup>
+
+    <!-- Packing properties -->
+    <PropertyGroup>
+        <IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
+    </PropertyGroup>
+
+</Project>

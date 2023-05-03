@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Neos.Sdk", "Remora.Neos.Sdk\Remora.Neos.Sdk.msbuildproj", "{A0E6A673-9B62-49EE-806B-D2B386F89403}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosPlugin", "Tests\NeosPlugin\NeosPlugin.csproj", "{7BB751AC-4851-442B-9693-F7C6E68185A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosMod", "Tests\NeosMod\NeosMod.csproj", "{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosHeadlessMod", "Tests\NeosHeadlessMod\NeosHeadlessMod.csproj", "{663CED01-285E-4554-B6D7-5C3B06EA0C00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualSdkProject", "Tests\DualSdkProject\DualSdkProject.csproj", "{9F927878-5FAF-4761-9D6B-D77795D29B8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosHeadlessPlugin", "Tests\NeosHeadlessPlugin\NeosHeadlessPlugin.csproj", "{389BFD41-7D5C-4B05-84B3-4A8781F9CC52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "metadata", "metadata", "{B4CB3E4F-5F29-440D-AC41-0DBF64D00717}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0E6A673-9B62-49EE-806B-D2B386F89403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E6A673-9B62-49EE-806B-D2B386F89403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E6A673-9B62-49EE-806B-D2B386F89403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E6A673-9B62-49EE-806B-D2B386F89403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BB751AC-4851-442B-9693-F7C6E68185A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BB751AC-4851-442B-9693-F7C6E68185A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BB751AC-4851-442B-9693-F7C6E68185A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BB751AC-4851-442B-9693-F7C6E68185A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{663CED01-285E-4554-B6D7-5C3B06EA0C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{663CED01-285E-4554-B6D7-5C3B06EA0C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{663CED01-285E-4554-B6D7-5C3B06EA0C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{663CED01-285E-4554-B6D7-5C3B06EA0C00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F927878-5FAF-4761-9D6B-D77795D29B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F927878-5FAF-4761-9D6B-D77795D29B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F927878-5FAF-4761-9D6B-D77795D29B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F927878-5FAF-4761-9D6B-D77795D29B8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{389BFD41-7D5C-4B05-84B3-4A8781F9CC52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{389BFD41-7D5C-4B05-84B3-4A8781F9CC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{389BFD41-7D5C-4B05-84B3-4A8781F9CC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{389BFD41-7D5C-4B05-84B3-4A8781F9CC52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7BB751AC-4851-442B-9693-F7C6E68185A4} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{663CED01-285E-4554-B6D7-5C3B06EA0C00} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{9F927878-5FAF-4761-9D6B-D77795D29B8B} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{389BFD41-7D5C-4B05-84B3-4A8781F9CC52} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+	EndGlobalSection
+EndGlobal

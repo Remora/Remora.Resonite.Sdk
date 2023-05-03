@@ -1,0 +1,25 @@
+<Project>
+    <ItemGroup Condition="$(IsPackable)">
+        <None Include="Sdk\**" Pack="true" PackagePath="Sdk" />
+    </ItemGroup>
+
+    <!-- NuGet README -->
+    <ItemGroup Condition="$(IsPackable)">
+        <None Include="$(MSBuildProjectDirectory)/README.md" Pack="true" PackagePath="/">
+            <Link>README.md</Link>
+        </None>
+    </ItemGroup>
+
+    <!-- NuGet Icon -->
+    <PropertyGroup Condition="$(IsPackable) And Exists('$(PackageIconPath)')">
+        <IconName>$([System.IO.Path]::GetFileName('$(PackageIconPath)'))</IconName>
+        <PackageIcon>$(IconName)</PackageIcon>
+    </PropertyGroup>
+
+    <ItemGroup Condition="$(IsPackable) And Exists('$(PackageIconPath)')">
+        <None Include="$(PackageIconPath)" Pack="true" PackagePath="/">
+            <Link>$(IconName)</Link>
+            <InProject>false</InProject>
+        </None>
+    </ItemGroup>
+</Project>

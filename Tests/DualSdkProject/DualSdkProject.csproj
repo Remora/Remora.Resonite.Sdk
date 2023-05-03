@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.props" />
+    
+    <PropertyGroup>
+        <NeosProjectType>mod</NeosProjectType>
+    </PropertyGroup>
+    
+    <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.targets" />
+</Project>
