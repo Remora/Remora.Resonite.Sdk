@@ -1,0 +1,16 @@
+<Project>
+    <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <NeosProjectType>standalone</NeosProjectType>
+        <NeosTarget>client</NeosTarget>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <NeosReference Include="BaseX" />
+    </ItemGroup>
+
+    <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.targets" />
+</Project>

@@ -13,6 +13,11 @@
         <DefineConstants>$(DefineConstants);NEOSVR_PLUGIN</DefineConstants>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(NeosProjectType)' == 'standalone'">
+        <DefineConstants>$(DefineConstants);NEOSVR_STANDALONE</DefineConstants>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(NeosTarget)' == 'client'">
         <DefineConstants>$(DefineConstants);NEOSVR_CLIENT;NEOSVR_BUILD_10933802</DefineConstants>
     </PropertyGroup>
@@ -45,6 +50,7 @@
     <PropertyGroup>
         <_NeosAssemblyPath>$(NeosPath)/Neos_Data/Managed</_NeosAssemblyPath>
         <_NeosAssemblyPath Condition="'$(NeosTarget)' == 'headless'">$(NeosPath)</_NeosAssemblyPath>
+        <ReferencePath>$(_NeosAssemblyPath);$(ReferencePath)</ReferencePath>
     </PropertyGroup>
 
     <!--
@@ -58,31 +64,35 @@
             <HintPath Condition="'%(HintPath)' == '' And Exists('$(_NeosAssemblyPath)/%(Identity).exe')">$(_NeosAssemblyPath)/%(Identity).exe</HintPath>
             <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll'))">$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll</HintPath>
             <HintPath Condition="'$(NeosForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe'))">$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe</HintPath>
-            <Private>false</Private>
+            <Private Condition="'$(NeosProjectType)' != 'standalone'">false</Private>
         </Reference>
     </ItemGroup>
 
     <!-- Fix output directories and filter out non-nuget dependency assemblies from the output -->
-    <PropertyGroup Condition="$(NeosProjectType) == 'mod'">
-        <_MainOutputDirectory>nml_mods/</_MainOutputDirectory>
-        <_LibraryOutputDirectory>nml_libs/</_LibraryOutputDirectory>
-    </PropertyGroup>
+    <Choose>
+        <When Condition="'$(NeosProjectType)' != 'standalone'">
+            <PropertyGroup Condition="$(NeosProjectType) == 'mod'">
+                <_MainOutputDirectory>nml_mods/</_MainOutputDirectory>
+                <_LibraryOutputDirectory>nml_libs/</_LibraryOutputDirectory>
+            </PropertyGroup>
 
-    <PropertyGroup Condition="$(NeosProjectType) == 'plugin'">
-        <_MainOutputDirectory>Libraries/</_MainOutputDirectory>
-        <_LibraryOutputDirectory>Libraries/</_LibraryOutputDirectory>
-    </PropertyGroup>
+            <PropertyGroup Condition="$(NeosProjectType) == 'plugin'">
+                <_MainOutputDirectory>Libraries/</_MainOutputDirectory>
+                <_LibraryOutputDirectory>Libraries/</_LibraryOutputDirectory>
+            </PropertyGroup>
 
-    <PropertyGroup>
-        <_ReleaseArchiveDir>bin/publish/</_ReleaseArchiveDir>
-        <_RootPublishDir>bin/publish/$(NeosProjectType)/$(NeosTarget)/</_RootPublishDir>
-        <_RootOutDir>bin/$(Configuration)/$(NeosProjectType)/$(NeosTarget)/</_RootOutDir>
+            <PropertyGroup>
+                <_ReleaseArchiveDir>bin/publish/</_ReleaseArchiveDir>
+                <_RootPublishDir>bin/publish/$(NeosProjectType)/$(NeosTarget)/</_RootPublishDir>
+                <_RootOutDir>bin/$(Configuration)/$(NeosProjectType)/$(NeosTarget)/</_RootOutDir>
 
-        <OutDir>$(_RootOutDir)/$(_MainOutputDirectory)/</OutDir>
-        <PublishDir>$(_RootPublishDir)/$(_MainOutputDirectory)/</PublishDir>
-    </PropertyGroup>
+                <OutDir>$(_RootOutDir)/$(_MainOutputDirectory)/</OutDir>
+                <PublishDir>$(_RootPublishDir)/$(_MainOutputDirectory)/</PublishDir>
+            </PropertyGroup>
+        </When>
+    </Choose>
 
-    <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences">
+    <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences" Condition="'$(NeosProjectType)' != 'standalone'">
         <ItemGroup>
             <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' Or '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference'"
                                      Update="%(ReferenceCopyLocalPaths)"
@@ -95,16 +105,16 @@
         </ItemGroup>
     </Target>
 
-    <Target Name="_MoveAfterPublish" AfterTargets="Publish" Condition="'$(_MainOutputDirectory)' != '$(_LibraryOutputDirectory)'">
+    <Target Name="_MoveAfterPublish" AfterTargets="Publish" Condition="'$(NeosProjectType)' != 'standalone' And '$(_MainOutputDirectory)' != '$(_LibraryOutputDirectory)'">
         <Move SourceFiles="@(_ResolvedCopyLocalPublishAssets->'$(PublishDir)/%(Filename)%(Extension)')" DestinationFolder="$(_RootPublishDir)/$(_LibraryOutputDirectory)"/>
     </Target>
 
-    <Target Name="_ZipResults" Condition="'$(NeosGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
+    <Target Name="_ZipResults" Condition="'$(NeosProjectType)' != 'standalone' And '$(NeosGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
         <ZipDirectory DestinationFile="$(_ReleaseArchiveDir)/$(MSBuildProjectName)-$(Version).zip" SourceDirectory="$(PublishDir)/../" Overwrite="true"/>
     </Target>
 
     <!-- Install the project to the Neos directory -->
-    <Target Name="_InstallProject" Condition="Exists('$(NeosPath)') And '$(NeosInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
+    <Target Name="_InstallProject" Condition="'$(NeosProjectType)' != 'standalone' And Exists('$(NeosPath)') And '$(NeosInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
         <ItemGroup>
             <NeosModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.dll"/>
             <NeosModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.pdb"/>
