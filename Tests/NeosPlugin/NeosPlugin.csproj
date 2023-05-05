@@ -3,6 +3,7 @@
 
     <PropertyGroup>
         <NeosProjectType>plugin</NeosProjectType>
+        <NeosTarget>client</NeosTarget>
     </PropertyGroup>
 
     <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.targets" />

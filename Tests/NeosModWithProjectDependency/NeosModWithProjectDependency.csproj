@@ -3,6 +3,7 @@
 
     <PropertyGroup>
         <NeosProjectType>mod</NeosProjectType>
+        <NeosTarget>client</NeosTarget>
     </PropertyGroup>
 
     <ItemGroup>

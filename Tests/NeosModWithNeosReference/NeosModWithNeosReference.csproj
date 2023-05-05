@@ -2,12 +2,12 @@
     <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.props" />
 
     <PropertyGroup>
-        <NeosProjectType>plugin</NeosProjectType>
+        <NeosProjectType>mod</NeosProjectType>
         <NeosTarget>client</NeosTarget>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Library\Library.csproj" />
+        <NeosReference Include="BaseX" />
     </ItemGroup>
 
     <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.targets" />
