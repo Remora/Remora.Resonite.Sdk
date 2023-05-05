@@ -62,8 +62,8 @@
             <Name>%(NeosReference.Identity)</Name>
             <HintPath Condition="'%(HintPath)' == '' And Exists('$(_NeosAssemblyPath)/%(Identity).dll')">$(_NeosAssemblyPath)/%(Identity).dll</HintPath>
             <HintPath Condition="'%(HintPath)' == '' And Exists('$(_NeosAssemblyPath)/%(Identity).exe')">$(_NeosAssemblyPath)/%(Identity).exe</HintPath>
-            <HintPath Condition="('$(NeosForceReferenceAssemblies)' == 'true' Or '%(HintPath)' == '') And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll'))">$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll</HintPath>
-            <HintPath Condition="('$(NeosForceReferenceAssemblies)' == 'true' Or '%(HintPath)' == '') And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe'))">$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe</HintPath>
+            <HintPath Condition="('$(NeosForceReferenceAssemblies)' == 'true' Or '%(HintPath)' == '') And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll')">$(NeosReferencePath)/$(NeosTarget)/%(Identity).dll</HintPath>
+            <HintPath Condition="('$(NeosForceReferenceAssemblies)' == 'true' Or '%(HintPath)' == '') And Exists('$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe')">$(NeosReferencePath)/$(NeosTarget)/%(Identity).exe</HintPath>
             <Private Condition="'$(NeosProjectType)' != 'standalone'">false</Private>
         </Reference>
     </ItemGroup>
