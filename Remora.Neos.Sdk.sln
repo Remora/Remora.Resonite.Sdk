@@ -4,9 +4,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Neos.Sdk", "Remora.N
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosPlugin", "Tests\NeosPlugin\NeosPlugin.csproj", "{7BB751AC-4851-442B-9693-F7C6E68185A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosPluginWithPackageDependency", "Tests\NeosPluginWithPackageDependency\NeosPluginWithPackageDependency.csproj", "{7BB751AC-4851-442B-9693-F7C6E68185A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosMod", "Tests\NeosMod\NeosMod.csproj", "{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosModWithPackageDependency", "Tests\NeosModWithPackageDependency\NeosModWithPackageDependency.csproj", "{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosHeadlessMod", "Tests\NeosHeadlessMod\NeosHeadlessMod.csproj", "{663CED01-285E-4554-B6D7-5C3B06EA0C00}"
 EndProject
@@ -25,6 +25,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Tests\Library\Library.csproj", "{11FFC3A1-F466-4832-A881-E0D0DD3FA018}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosModWithProjectDependency", "Tests\NeosModWithProjectDependency\NeosModWithProjectDependency.csproj", "{F5D5CA7B-959B-4363-B8DD-C00EDE124CF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosPluginWithProjectDependency", "Tests\NeosPluginWithProjectDependency\NeosPluginWithProjectDependency.csproj", "{18A8EEFA-F26C-4C60-A268-2E948D3A9E33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosMod", "Tests\NeosMod\NeosMod.csproj", "{16B13284-FBE3-430E-AF30-F7CBCB6FC660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosPlugin", "Tests\NeosPlugin\NeosPlugin.csproj", "{30F32DD9-2D8F-41AE-B8A2-80E415312EE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosHeadlessPluginWithPackageDependency", "Tests\NeosHeadlessPluginWithPackageDependency\NeosHeadlessPluginWithPackageDependency.csproj", "{28E51328-6C9C-407F-A8CD-99EB9E766600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosHeadlessPluginWithProjectDependency", "Tests\NeosHeadlessPluginWithProjectDependency\NeosHeadlessPluginWithProjectDependency.csproj", "{C067BBFD-69B3-443B-AC52-1CF67EA0A3BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosHeadlessModWithPackageDependency", "Tests\NeosHeadlessModWithPackageDependency\NeosHeadlessModWithPackageDependency.csproj", "{11AB46F8-45AF-499E-A1B1-D3514E58AC87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosHeadlessModWithProjectDependency", "Tests\NeosHeadlessModWithProjectDependency\NeosHeadlessModWithProjectDependency.csproj", "{AD98F517-DC5E-47B2-9514-4F45DC2381F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +78,34 @@ Global
 		{F5D5CA7B-959B-4363-B8DD-C00EDE124CF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5D5CA7B-959B-4363-B8DD-C00EDE124CF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5D5CA7B-959B-4363-B8DD-C00EDE124CF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18A8EEFA-F26C-4C60-A268-2E948D3A9E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18A8EEFA-F26C-4C60-A268-2E948D3A9E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18A8EEFA-F26C-4C60-A268-2E948D3A9E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18A8EEFA-F26C-4C60-A268-2E948D3A9E33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B13284-FBE3-430E-AF30-F7CBCB6FC660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B13284-FBE3-430E-AF30-F7CBCB6FC660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B13284-FBE3-430E-AF30-F7CBCB6FC660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B13284-FBE3-430E-AF30-F7CBCB6FC660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30F32DD9-2D8F-41AE-B8A2-80E415312EE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30F32DD9-2D8F-41AE-B8A2-80E415312EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30F32DD9-2D8F-41AE-B8A2-80E415312EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30F32DD9-2D8F-41AE-B8A2-80E415312EE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28E51328-6C9C-407F-A8CD-99EB9E766600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28E51328-6C9C-407F-A8CD-99EB9E766600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E51328-6C9C-407F-A8CD-99EB9E766600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28E51328-6C9C-407F-A8CD-99EB9E766600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C067BBFD-69B3-443B-AC52-1CF67EA0A3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C067BBFD-69B3-443B-AC52-1CF67EA0A3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C067BBFD-69B3-443B-AC52-1CF67EA0A3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C067BBFD-69B3-443B-AC52-1CF67EA0A3BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11AB46F8-45AF-499E-A1B1-D3514E58AC87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11AB46F8-45AF-499E-A1B1-D3514E58AC87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11AB46F8-45AF-499E-A1B1-D3514E58AC87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11AB46F8-45AF-499E-A1B1-D3514E58AC87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD98F517-DC5E-47B2-9514-4F45DC2381F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD98F517-DC5E-47B2-9514-4F45DC2381F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD98F517-DC5E-47B2-9514-4F45DC2381F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD98F517-DC5E-47B2-9514-4F45DC2381F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7BB751AC-4851-442B-9693-F7C6E68185A4} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
@@ -73,5 +115,12 @@ Global
 		{389BFD41-7D5C-4B05-84B3-4A8781F9CC52} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
 		{11FFC3A1-F466-4832-A881-E0D0DD3FA018} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
 		{F5D5CA7B-959B-4363-B8DD-C00EDE124CF6} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{18A8EEFA-F26C-4C60-A268-2E948D3A9E33} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{16B13284-FBE3-430E-AF30-F7CBCB6FC660} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{30F32DD9-2D8F-41AE-B8A2-80E415312EE8} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{28E51328-6C9C-407F-A8CD-99EB9E766600} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{C067BBFD-69B3-443B-AC52-1CF67EA0A3BA} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{11AB46F8-45AF-499E-A1B1-D3514E58AC87} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+		{AD98F517-DC5E-47B2-9514-4F45DC2381F4} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
 	EndGlobalSection
 EndGlobal

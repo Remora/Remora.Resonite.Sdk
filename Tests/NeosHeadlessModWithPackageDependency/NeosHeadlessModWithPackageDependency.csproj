@@ -6,5 +6,9 @@
         <NeosTarget>headless</NeosTarget>
     </PropertyGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Remora.Results" Version="7.2.3" />
+    </ItemGroup>
+
     <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.targets" />
 </Project>

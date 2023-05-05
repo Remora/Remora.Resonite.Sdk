@@ -6,5 +6,10 @@
         <NeosTarget>headless</NeosTarget>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Library\Library.csproj" />
+    </ItemGroup>
+
+
     <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.targets" />
 </Project>
