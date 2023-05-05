@@ -47,12 +47,16 @@ The following properties are defined by the SDK.
 | NeosProjectType* | mod    | Yes         |
 | NeosTarget*      | client | Yes         |
 
-`NeosProjectType` can be set to either `plugin` or `mod`. In the latter case, a
-reference to `NeosModLoader` will be automatically added as well.
+`NeosProjectType` can be set to `plugin`, `mod`, or `standalone`. In the case of
+mods, a reference to `NeosModLoader` will be automatically added as well.
 
 `NeosTarget` can be set to either `client` or `headless`. The latter is for the
 server version of NeosVR which does not have any graphics, while the former is
 the normal version.
+
+`standalone` projects build freestanding executables instead of additions to the
+official NeosVR clients - this can be used to build tools and utilities that
+work with the NeosVR ecosystem outside of direct client interaction.
 
 ### Building
 The following properties are defined by the SDK.
