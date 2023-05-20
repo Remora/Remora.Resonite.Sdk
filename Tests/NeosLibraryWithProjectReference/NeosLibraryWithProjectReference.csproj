@@ -2,8 +2,8 @@
     <Import Project="../../Remora.Neos.Sdk/Sdk/Sdk.props" />
 
     <PropertyGroup>
-        <NeosProjectType>mod</NeosProjectType>
-        <NeosTarget>headless</NeosTarget>
+        <NeosProjectType>library</NeosProjectType>
+        <NeosTarget>client</NeosTarget>
     </PropertyGroup>
 
     <ItemGroup>
