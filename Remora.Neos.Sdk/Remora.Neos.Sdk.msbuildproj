@@ -7,9 +7,10 @@
     <PropertyGroup>
         <Title>Remora.Neos.Sdk</Title>
         <Description>A .NET SDK for developing NeosVR mods and plugins.</Description>
-        <VersionPrefix>1.2.0</VersionPrefix>
+        <VersionPrefix>1.2.1</VersionPrefix>
         <PackageReleaseNotes>
             Add support for building libraries.
+            Fix invalid condition.
         </PackageReleaseNotes>
         <IsPackable>true</IsPackable>
         <PackageTags>MSBuild;MSBuildSdk;Remora;NeosVR;Neos</PackageTags>

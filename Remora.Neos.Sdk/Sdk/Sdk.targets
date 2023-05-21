@@ -113,7 +113,7 @@
         <Move SourceFiles="@(_ResolvedCopyLocalPublishAssets->'$(PublishDir)/%(Filename)%(Extension)')" DestinationFolder="$(_RootPublishDir)/$(_LibraryOutputDirectory)"/>
     </Target>
 
-    <Target Name="_ZipResults" Condition="'($(NeosProjectType)' == 'mod' Or '$(NeosProjectType)' == 'plugin') And '$(NeosGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
+    <Target Name="_ZipResults" Condition="('$(NeosProjectType)' == 'mod' Or '$(NeosProjectType)' == 'plugin') And '$(NeosGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
         <ZipDirectory DestinationFile="$(_ReleaseArchiveDir)/$(MSBuildProjectName)-$(Version).zip" SourceDirectory="$(PublishDir)/../" Overwrite="true"/>
     </Target>
 
