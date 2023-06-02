@@ -47,7 +47,7 @@ The following properties are defined by the SDK.
 | NeosProjectType* | mod    | Yes         |
 | NeosTarget*      | client | Yes         |
 
-`NeosProjectType` can be set to `plugin`, `mod`, or `standalone`. In the case of
+`NeosProjectType` can be set to `plugin`, `mod`, `library`or `standalone`. In the case of
 mods, a reference to `NeosModLoader` will be automatically added as well.
 
 `NeosTarget` can be set to either `client` or `headless`. The latter is for the
