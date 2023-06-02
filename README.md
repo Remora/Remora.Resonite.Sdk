@@ -63,7 +63,7 @@ The following properties are defined by the SDK.
 
 | Property                      | Value                             | Overridable |
 |-------------------------------|-----------------------------------|-------------|
-| NeosPath                      | $(MSBuildProjectDirectory)/NeosVR | Yes         |
+| NeosPath*                     | $(MSBuildProjectDirectory)/NeosVR | Yes         |
 | NeosInstallOnBuild*           | false                             | Yes         |
 | NeosReferencePath*            | (internal)                        | Yes         |
 | NeosForceReferenceAssemblies* | false                             | Yes         |
