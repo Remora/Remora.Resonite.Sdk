@@ -1,9 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project>
     <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.props" />
 
     <PropertyGroup>
         <ResoniteProjectType>mod</ResoniteProjectType>
+        <ResoniteTarget>client</ResoniteTarget>
+        <RootNamespace>ResoniteModWithResoniteReference</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ResoniteReference Include="BaseX" />
+    </ItemGroup>
 
     <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.targets" />
 </Project>

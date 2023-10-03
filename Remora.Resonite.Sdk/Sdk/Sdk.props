@@ -1,0 +1,40 @@
+<Project>
+    <!-- Defaults for centrally managed package versions -->
+    <Import Project="Sdk.Packages.props" />
+
+    <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' != 'true'">
+        <ResoniteSdkImportsMicrosoftSdk>true</ResoniteSdkImportsMicrosoftSdk>
+    </PropertyGroup>
+
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(ResoniteSdkImportsMicrosoftSdk)' == 'true'" />
+
+    <!-- Overridable defaults -->
+
+    <!-- Targeting properties -->
+    <PropertyGroup>
+        <TargetFramework Condition="'$(TargetFramework)' == ''">net462</TargetFramework>
+    </PropertyGroup>
+
+    <!-- Remora.Resonite.Sdk-specific properties -->
+    <PropertyGroup>
+        <ResoniteProjectType Condition="'$(ResoniteProjectType)' == ''">mod</ResoniteProjectType>
+        <ResoniteTarget Condition="'$(ResoniteTarget)' == ''">client</ResoniteTarget>
+        <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
+        <ResoniteInstallOnBuild Condition="'$(CopyToResoniteOnBuild)' == ''">false</ResoniteInstallOnBuild>
+        <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)/ref/</ResoniteReferencePath>
+        <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' And '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>
+        <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == ''">false</ResoniteGenerateReleaseArchive>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(ResonitePath)'==''">
+        <ResonitePath>$(MSBuildProjectDirectory)/Resonite/</ResonitePath>
+        <ResonitePath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/Resonite/')">C:/Program Files (x86)/Steam/steamapps/common/Resonite/</ResonitePath>
+        <ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
+    </PropertyGroup>
+
+    <!-- Packing properties -->
+    <PropertyGroup>
+        <IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
+    </PropertyGroup>
+
+</Project>

@@ -7,9 +7,9 @@
   <PropertyGroup>
     <Authors>Jarl Gullberg</Authors>
     <Copyright>$(Authors) $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
-    <RepositoryUrl>https://github.com/Remora/Remora.Neos.Sdk</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Remora/Remora.Resonite.Sdk</RepositoryUrl>
     <RepositoryBranch>main</RepositoryBranch>
-    <PackageProjectUrl>https://github.com/Remora/Remora.Neos.Sdk</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Remora/Remora.Resonite.Sdk</PackageProjectUrl>
     <PackageOutputPath>$(MSBuildThisFileDirectory)/nuget</PackageOutputPath>
     <PackageIconPath>$(MSBuildThisFileDirectory)/images/shark.png</PackageIconPath>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>

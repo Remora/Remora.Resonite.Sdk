@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project>
     <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.props" />
 
     <PropertyGroup>
-        <ResoniteProjectType>mod</ResoniteProjectType>
+        <ResoniteProjectType>library</ResoniteProjectType>
+        <ResoniteTarget>headless</ResoniteTarget>
     </PropertyGroup>
 
     <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.targets" />

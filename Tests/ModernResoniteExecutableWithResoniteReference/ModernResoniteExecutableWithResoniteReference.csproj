@@ -1,0 +1,17 @@
+<Project>
+    <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ResoniteProjectType>standalone</ResoniteProjectType>
+        <ResoniteTarget>client</ResoniteTarget>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>ModernResoniteExecutableWithResoniteReference</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ResoniteReference Include="BaseX" />
+    </ItemGroup>
+
+    <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.targets" />
+</Project>
