@@ -58,8 +58,7 @@ jobs:
         with:
           keep: 4
           names: |
-            Remora.Sdk
-            Remora.Tests.Sdk
+            Remora.Resonite.Sdk
 
       - name: Push to GitHub Feed
         run: |
