@@ -5,6 +5,11 @@
         </ResoniteReference>
     </ItemDefinitionGroup>
 
+    <PropertyGroup>
+        <!-- Versioning constants -->
+        <DefineConstants><!-- Actual current version -->RESONITE_2023_10_6_1038;<!-- OR_GREATER markers (list will grow over time) -->RESONITE_2023_OR_GREATER;RESONITE_2023_10_OR_GREATER;RESONITE_2023_10_6_OR_GREATER;RESONITE_2023_10_6_1038_OR_GREATER</DefineConstants>
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(ResoniteProjectType)' == 'mod'">
         <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
     </PropertyGroup>
@@ -23,33 +28,20 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(ResoniteTarget)' == 'client'">
-        <DefineConstants>$(DefineConstants);RESONITE_CLIENT;RESONITE_BUILD_10933802</DefineConstants>
+        <DefineConstants>$(DefineConstants);RESONITE_CLIENT</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(ResoniteTarget)' == 'headless'">
-        <DefineConstants>$(DefineConstants);RESONITE_HEADLESS;RESONITE_BUILD_10933759</DefineConstants>
+        <DefineConstants>$(DefineConstants);RESONITE_HEADLESS</DefineConstants>
     </PropertyGroup>
 
-    <Choose>
-        <When Condition="'$(ResoniteProjectType)' == 'mod' And '$(ResoniteTarget)' == 'headless'">
-            <ItemGroup>
-                <Reference Include="ResoniteModLoader">
-                    <HintPath Condition="'%(HintPath)' == '' And Exists('$(ResonitePath)/Libraries/ResoniteModLoaderHeadless.dll')">$(ResonitePath)/Libraries/ResoniteModLoaderHeadless.dll</HintPath>
-                    <HintPath Condition="'$(ResoniteForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(ResoniteReferencePath)/nml/ResoniteModLoaderHeadless.dll'))">$(ResoniteReferencePath)/nml/ResoniteModLoaderHeadless.dll</HintPath>
-                    <Private>false</Private>
-                </Reference>
-            </ItemGroup>
-        </When>
-        <When Condition="'$(ResoniteProjectType)' == 'mod' And '$(ResoniteTarget)' == 'client'">
-            <ItemGroup>
-                <Reference Include="ResoniteModLoader">
-                    <HintPath Condition="'%(HintPath)' == '' And Exists('$(ResonitePath)/Libraries/ResoniteModLoader.dll')">$(ResonitePath)/Libraries/ResoniteModLoader.dll</HintPath>
-                    <HintPath Condition="'$(ResoniteForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(ResoniteReferencePath)/nml/ResoniteModLoader.dll'))">$(ResoniteReferencePath)/nml/ResoniteModLoader.dll</HintPath>
-                    <Private>false</Private>
-                </Reference>
-            </ItemGroup>
-        </When>
-    </Choose>
+    <ItemGroup Condition="'$(ResoniteProjectType)' == 'mod'">
+        <Reference Include="ResoniteModLoader">
+            <HintPath Condition="'%(HintPath)' == '' And Exists('$(ResonitePath)/Libraries/ResoniteModLoader.dll')">$(ResonitePath)/Libraries/ResoniteModLoader.dll</HintPath>
+            <HintPath Condition="'$(ResoniteForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(ResoniteReferencePath)/rml/ResoniteModLoader.dll'))">$(ResoniteReferencePath)/rml/ResoniteModLoader.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
 
     <PropertyGroup>
         <_ResoniteAssemblyPath>$(ResonitePath)/Resonite_Data/Managed</_ResoniteAssemblyPath>
@@ -76,8 +68,8 @@
     <Choose>
         <When Condition="'$(ResoniteProjectType)' == 'mod' Or '$(ResoniteProjectType)' == 'plugin'">
             <PropertyGroup Condition="$(ResoniteProjectType) == 'mod'">
-                <_MainOutputDirectory>nml_mods/</_MainOutputDirectory>
-                <_LibraryOutputDirectory>nml_libs/</_LibraryOutputDirectory>
+                <_MainOutputDirectory>rml_mods/</_MainOutputDirectory>
+                <_LibraryOutputDirectory>rml_libs/</_LibraryOutputDirectory>
             </PropertyGroup>
 
             <PropertyGroup Condition="$(ResoniteProjectType) == 'plugin'">

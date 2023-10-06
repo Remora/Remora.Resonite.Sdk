@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ResoniteReference Include="BaseX" />
+        <ResoniteReference Include="FrooxEngine" />
     </ItemGroup>
 
     <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.targets" />
