@@ -15,4 +15,8 @@
         <PackageTags>MSBuild;MSBuildSdk;Remora;Resonite</PackageTags>
         <PackageType>MSBuildSdk</PackageType>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="make-ref-assemblies.sh" />
+    </ItemGroup>
 </Project>
