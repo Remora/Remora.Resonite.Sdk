@@ -7,7 +7,7 @@
 
     <PropertyGroup>
         <!-- Versioning constants -->
-        <DefineConstants><!-- Actual current version -->RESONITE_2023_10_6_1038;<!-- OR_GREATER markers (list will grow over time) -->RESONITE_2023_OR_GREATER;RESONITE_2023_10_OR_GREATER;RESONITE_2023_10_6_OR_GREATER;RESONITE_2023_10_6_1038_OR_GREATER</DefineConstants>
+        <DefineConstants>$(DefineConstants);RESONITE_2023_10_10_1407;</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(ResoniteProjectType)' == 'mod'">
