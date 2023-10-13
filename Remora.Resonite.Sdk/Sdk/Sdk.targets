@@ -5,11 +5,6 @@
         </ResoniteReference>
     </ItemDefinitionGroup>
 
-    <PropertyGroup>
-        <!-- Versioning constants -->
-        <DefineConstants>$(DefineConstants);RESONITE_2023_10_10_1407;</DefineConstants>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(ResoniteProjectType)' == 'mod'">
         <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
     </PropertyGroup>
