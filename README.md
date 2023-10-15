@@ -41,9 +41,9 @@ Microsoft.NET.Sdk.
 ### Targeting
 The following properties are defined by the SDK.
 
-| Property         | Value  | Overridable |
-|------------------|--------|-------------|
-| TargetFramework  | net462 | Yes         |
+| Property             | Value  | Overridable |
+|----------------------|--------|-------------|
+| TargetFramework      | net462 | Yes         |
 | ResoniteProjectType* | mod    | Yes         |
 | ResoniteTarget*      | client | Yes         |
 
@@ -61,12 +61,12 @@ work with the Resonite ecosystem outside of direct client interaction.
 ### Building
 The following properties are defined by the SDK.
 
-| Property                      | Value                             | Overridable |
-|-------------------------------|-----------------------------------|-------------|
+| Property                          | Value                               | Overridable |
+|-----------------------------------|-------------------------------------|-------------|
 | ResonitePath*                     | $(MSBuildProjectDirectory)/Resonite | Yes         |
-| ResoniteInstallOnBuild*           | false                             | Yes         |
-| ResoniteReferencePath*            | (internal)                        | Yes         |
-| ResoniteForceReferenceAssemblies* | false                             | Yes         |
+| ResoniteInstallOnBuild*           | false                               | Yes         |
+| ResoniteReferencePath*            | (internal)                          | Yes         |
+| ResoniteForceReferenceAssemblies* | false                               | Yes         |
 
 `ResonitePath` defaults to looking for a live installation of Resonite in the project
 directory, and then proceeds to check common system installation paths. If you
@@ -114,22 +114,34 @@ The SDK also defines a set of compile-time constants which you can use if your
 project needs to know certain information about the target environment it's 
 being compiled for.
 
-| Name                     | Description                                                                      |
-|--------------------------|----------------------------------------------------------------------------------|
-| RESONITE_MOD               | defined if `'$(ResoniteProjectType)' == 'mod'`                                       |
-| RESONITE_PLUGIN            | defined if `'$(ResoniteProjectType)' == 'plugin'`                                    |
-| RESONITE_CLIENT            | defined if `'$(ResoniteTarget)' == 'client'`                                         |
-| RESONITE_HEADLESS          | defined if `'$(ResoniteTarget)' == 'headless'`                                       |
-| RESONITE_BUILD_\<buildid\> | defines the Steam BuildID of the Resonite version the reference assemblies reflect |
+| Name                | Description                                           |
+|---------------------|-------------------------------------------------------|
+| RESONITE_MOD        | defined if `'$(ResoniteProjectType)' == 'mod'`        |
+| RESONITE_PLUGIN     | defined if `'$(ResoniteProjectType)' == 'plugin'`     |
+| RESONITE_LIBRARY    | defined if `'$(ResoniteProjectType)' == 'library'`    |
+| RESONITE_STANDALONE | defined if `'$(ResoniteProjectType)' == 'standalone'` |
+| RESONITE_CLIENT     | defined if `'$(ResoniteTarget)' == 'client'`          |
+| RESONITE_HEADLESS   | defined if `'$(ResoniteTarget)' == 'headless'`        |
 
 These can be useful if you want to support both the headless and the normal 
 client but need to use specialized API surfaces in either target.
 
+# Assembly Attributes
+Since knowing the Resonite version something was built against can be useful in
+several instances, the version is embedded into your assemblies as an assembly
+attribute.
+
+No matter your project type, the following attributes are always defined.
+
+| Name             | Parameters                                          |
+|------------------|-----------------------------------------------------|
+| AssemblyMetadata | Key = "ResoniteVersion", Value = "$CURRENT_VERSION" |
+
 ### Publishing
 The following properties are defined by the SDK.
 
-| Property                   | Value                             | Overridable |
-|----------------------------|-----------------------------------|-------------|
+| Property                       | Value                             | Overridable |
+|--------------------------------|-----------------------------------|-------------|
 | ResoniteGenerateReleaseArchive | `'$(Configuration)' == 'Release'` | Yes         |
 
 `dotnet publish` has been extended to both generate a proper directory structure
