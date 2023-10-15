@@ -5,6 +5,13 @@
         </ResoniteReference>
     </ItemDefinitionGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+            <_Parameter1>ResoniteVersion</_Parameter1>
+            <_Parameter2>2023.10.13.743</_Parameter2>
+        </AssemblyAttribute>
+    </ItemGroup>
+
     <PropertyGroup Condition="'$(ResoniteProjectType)' == 'mod'">
         <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
     </PropertyGroup>
