@@ -7,16 +7,12 @@
     <PropertyGroup>
         <Title>Remora.Resonite.Sdk</Title>
         <Description>A .NET SDK for developing Resonite mods and plugins.</Description>
-        <VersionPrefix>1.1.1</VersionPrefix>
+        <VersionPrefix>1.1.2</VersionPrefix>
         <PackageReleaseNotes>
-            Update references assemblies to 2023.10.17.464.
+            Update references assemblies to 2023.10.18.449.
         </PackageReleaseNotes>
         <IsPackable>true</IsPackable>
         <PackageTags>MSBuild;MSBuildSdk;Remora;Resonite</PackageTags>
         <PackageType>MSBuildSdk</PackageType>
     </PropertyGroup>
-
-    <ItemGroup>
-      <None Include="make-ref-assemblies.sh" />
-    </ItemGroup>
 </Project>
