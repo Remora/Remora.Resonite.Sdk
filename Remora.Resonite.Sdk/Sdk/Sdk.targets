@@ -8,7 +8,7 @@
     <ItemGroup>
         <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
             <_Parameter1>ResoniteVersion</_Parameter1>
-            <_Parameter2>2023.11.25.49</_Parameter2>
+            <_Parameter2>2023.12.11.1259</_Parameter2>
         </AssemblyAttribute>
     </ItemGroup>
 
