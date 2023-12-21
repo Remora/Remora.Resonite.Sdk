@@ -5,12 +5,7 @@
         </ResoniteReference>
     </ItemDefinitionGroup>
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-            <_Parameter1>ResoniteVersion</_Parameter1>
-            <_Parameter2>2023.12.13.87</_Parameter2>
-        </AssemblyAttribute>
-    </ItemGroup>
+    <Import Project="Sdk.ResoniteVersion.targets" />
 
     <PropertyGroup Condition="'$(ResoniteProjectType)' == 'mod'">
         <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
