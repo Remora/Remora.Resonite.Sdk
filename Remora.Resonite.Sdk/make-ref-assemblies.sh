@@ -2,7 +2,7 @@
 
 set -euf -o pipefail
 
-declare -r OUTPUT_PATH="$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)/Sdk/ref/"
+declare -r SCRIPT_PATH=$(dirname $(realpath -s $0))
 declare -r RESONITE_PATH="${HOME}/.steam/steam/steamapps/common/Resonite"
 declare -ra RESONITE_ASSEMBLIES=(
   "Elements.Assets.dll"
@@ -21,18 +21,50 @@ declare -ra RESONITE_ASSEMBLIES=(
   "UnityFrooxEngineRunner.dll"
 )
 
-if ! command -v refasmer &> /dev/null; then
-  echo "refasmer not found"
-  exit 1
-fi
+function generate_ref_assemblies() {
+    for assembly in "${RESONITE_ASSEMBLIES[@]}"; do
+      echo "Generating reference assembly for ${assembly}"
+      dotnet refasmer \
+        --all \
+        --overwrite \
+        --outputdir "${SCRIPT_PATH}/Sdk/ref/client" \
+        "${RESONITE_PATH}/Resonite_Data/Managed/${assembly}"
 
-echo "Resonite build version: $(cat ${RESONITE_PATH}/Build.version)"
+      pushd "${SCRIPT_PATH}/Sdk/ref/headless" &> /dev/null
+        ln -sfr "../client/${assembly}" "${assembly}"
+      popd &> /dev/null
+    done
+}
 
-for assembly in "${RESONITE_ASSEMBLIES[@]}"; do
-  echo "Generating reference assembly for ${assembly}"
-  dotnet refasmer --all --overwrite --outputdir "${OUTPUT_PATH}/client" "${RESONITE_PATH}/Resonite_Data/Managed/${assembly}"
+function get_versioned_targets_contents() {
+    local -r RESONITE_VERSION="${1}"
 
-  pushd "${OUTPUT_PATH}/headless" &> /dev/null
-    ln -sfr "../client/${assembly}" "${assembly}"
-  popd &> /dev/null
-done
+    cat << EOF
+<!-- auto-generated -->
+<Project>
+        <ItemGroup>
+        <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+            <_Parameter1>ResoniteVersion</_Parameter1>
+            <_Parameter2>${RESONITE_VERSION}</_Parameter2>
+        </AssemblyAttribute>
+    </ItemGroup>
+</Project>
+EOF
+}
+
+function main() {
+    if ! command -v refasmer &> /dev/null; then
+      echo "refasmer not found"
+      exit 1
+    fi
+
+    local -r RESONITE_VERSION="$(cat ${RESONITE_PATH}/Build.version)"
+
+    echo "Resonite build version: ${RESONITE_VERSION}"
+    generate_ref_assemblies
+
+    echo "Creating assembly version directives..."
+    get_versioned_targets_contents "${RESONITE_VERSION}" | tee "${SCRIPT_PATH}/Sdk/Sdk.ResoniteVersion.targets"
+}
+
+main ${@}
