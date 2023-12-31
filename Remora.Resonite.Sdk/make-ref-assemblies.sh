@@ -42,7 +42,7 @@ function get_versioned_targets_contents() {
     cat << EOF
 <!-- auto-generated -->
 <Project>
-        <ItemGroup>
+    <ItemGroup>
         <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
             <_Parameter1>ResoniteVersion</_Parameter1>
             <_Parameter2>${RESONITE_VERSION}</_Parameter2>
