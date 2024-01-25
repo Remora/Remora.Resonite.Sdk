@@ -3,7 +3,7 @@
     <ItemGroup>
         <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
             <_Parameter1>ResoniteVersion</_Parameter1>
-            <_Parameter2>2024.1.19.687</_Parameter2>
+            <_Parameter2>2024.1.24.840</_Parameter2>
         </AssemblyAttribute>
     </ItemGroup>
 </Project>
