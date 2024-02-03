@@ -9,7 +9,7 @@
         <Description>A .NET SDK for developing Resonite mods and plugins.</Description>
         <VersionPrefix>1.2.13</VersionPrefix>
         <PackageReleaseNotes>
-            Update reference assemblies to Resonite 2024.1.27.1114.
+            Update reference assemblies to Resonite 2024.2.2.1015.
         </PackageReleaseNotes>
         <IsPackable>true</IsPackable>
         <PackageTags>MSBuild;MSBuildSdk;Remora;Resonite</PackageTags>
