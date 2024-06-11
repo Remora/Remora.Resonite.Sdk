@@ -1,39 +1,36 @@
 #!/usr/bin/env bash
 
-set -euf -o pipefail
+set -eu -o pipefail
 
 declare -r SCRIPT_PATH=$(dirname $(realpath -s $0))
 declare -r RESONITE_PATH="${HOME}/.steam/steam/steamapps/common/Resonite"
-declare -ra RESONITE_ASSEMBLIES=(
-  "Elements.Assets.dll"
-  "Elements.Core.dll"
-  "Elements.Quantity.dll"
-  "FrooxEngine.dll"
-  "FrooxEngine.Commands.dll"
-  "FrooxEngine.Store.dll"
-  "FrooxEngine.Weaver.dll"
-  "ProtoFlux.Core.dll"
-  "ProtoFlux.Nodes.Core.dll"
-  "ProtoFlux.Nodes.FrooxEngine.dll"
-  "ProtoFluxBindings.dll"
+declare -ra RESONITE_ASSEMBLY_GLOBS=(
+  "Elements*.dll"
+  "FrooxEngine*.dll"
+  "ProtoFlux*.dll"
   "QuantityX.dll"
-  "SkyFrost.Base.dll"
+  "SkyFrost.*.dll"
   "UnityFrooxEngineRunner.dll"
 )
 
 function generate_ref_assemblies() {
-    for assembly in "${RESONITE_ASSEMBLIES[@]}"; do
-      echo "Generating reference assembly for ${assembly}"
-      dotnet refasmer \
-        --all \
-        --overwrite \
-        --outputdir "${SCRIPT_PATH}/Sdk/ref/client" \
-        "${RESONITE_PATH}/Resonite_Data/Managed/${assembly}"
+    pushd "${RESONITE_PATH}/Resonite_Data/Managed" &> /dev/null
+        for assembly in ${RESONITE_ASSEMBLY_GLOBS[@]}; do
+            local full_path="$(realpath ${assembly})"
+            pushd "${SCRIPT_PATH}" &> /dev/null
+                echo "Generating reference assembly for ${assembly}"
+                dotnet refasmer \
+                  --all \
+                  --overwrite \
+                  --outputdir "${SCRIPT_PATH}/Sdk/ref/client" \
+                  "${full_path}"
 
-      pushd "${SCRIPT_PATH}/Sdk/ref/headless" &> /dev/null
-        ln -sfr "../client/${assembly}" "${assembly}"
-      popd &> /dev/null
-    done
+                pushd "${SCRIPT_PATH}/Sdk/ref/headless" &> /dev/null
+                  ln -sfr "../client/${assembly}" "${assembly}"
+                popd &> /dev/null
+          popd &> /dev/null
+        done
+    popd &> /dev/null
 }
 
 function get_versioned_targets_contents() {
