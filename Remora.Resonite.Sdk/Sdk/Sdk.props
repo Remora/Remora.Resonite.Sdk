@@ -20,7 +20,7 @@
         <ResoniteProjectType Condition="'$(ResoniteProjectType)' == ''">mod</ResoniteProjectType>
         <ResoniteTarget Condition="'$(ResoniteTarget)' == ''">client</ResoniteTarget>
         <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
-        <ResoniteInstallOnBuild Condition="'$(CopyToResoniteOnBuild)' == ''">false</ResoniteInstallOnBuild>
+        <ResoniteInstallOnBuild Condition="'$(ResoniteInstallOnBuild)' == ''">false</ResoniteInstallOnBuild>
         <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)/ref/</ResoniteReferencePath>
         <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' And '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>
         <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == ''">false</ResoniteGenerateReleaseArchive>
@@ -36,5 +36,4 @@
     <PropertyGroup>
         <IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
     </PropertyGroup>
-
 </Project>
