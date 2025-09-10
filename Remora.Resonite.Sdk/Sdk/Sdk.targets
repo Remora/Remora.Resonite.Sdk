@@ -6,43 +6,18 @@
     </ItemDefinitionGroup>
 
     <Import Project="Sdk.ResoniteVersion.targets" />
+    
+    <Import Project="ProjectTypes/Mod.targets" Condition="'$(ResoniteProjectType)' == 'mod'"/>
+    <Import Project="ProjectTypes/Plugin.targets" Condition="'$(ResoniteProjectType)' == 'plugin'"/>
+    <Import Project="ProjectTypes/Library.targets" Condition="'$(ResoniteProjectType)' == 'library'"/>
+    <Import Project="ProjectTypes/Standalone.targets" Condition="'$(ResoniteProjectType)' == 'standalone'"/>
 
-    <PropertyGroup Condition="'$(ResoniteProjectType)' == 'mod'">
-        <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(ResoniteProjectType)' == 'plugin'">
-        <DefineConstants>$(DefineConstants);RESONITE_PLUGIN</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(ResoniteProjectType)' == 'library'">
-        <DefineConstants>$(DefineConstants);RESONITE_LIBRARY</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(ResoniteProjectType)' == 'standalone'">
-        <DefineConstants>$(DefineConstants);RESONITE_STANDALONE</DefineConstants>
-        <OutputType>Exe</OutputType>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(ResoniteTarget)' == 'client'">
-        <DefineConstants>$(DefineConstants);RESONITE_CLIENT</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(ResoniteTarget)' == 'headless'">
-        <DefineConstants>$(DefineConstants);RESONITE_HEADLESS</DefineConstants>
-    </PropertyGroup>
-
-    <ItemGroup Condition="'$(ResoniteProjectType)' == 'mod'">
-        <Reference Include="ResoniteModLoader">
-            <HintPath Condition="'%(HintPath)' == '' And Exists('$(ResonitePath)/Libraries/ResoniteModLoader.dll')">$(ResonitePath)/Libraries/ResoniteModLoader.dll</HintPath>
-            <HintPath Condition="'$(ResoniteForceReferenceAssemblies)' == 'true' Or ('%(HintPath)' == '' And Exists('$(ResoniteReferencePath)/rml/ResoniteModLoader.dll'))">$(ResoniteReferencePath)/rml/ResoniteModLoader.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-    </ItemGroup>
+    <Import Project="Targets/Client.targets" Condition="'$(ResoniteTarget)' == 'client'"/>
+    <Import Project="Targets/Headless.targets" Condition="'$(ResoniteTarget)' == 'headless'"/>
+    <Import Project="Targets/Renderite.targets" Condition="'$(ResoniteTarget)' == 'renderite'"/>
 
     <PropertyGroup>
-        <_ResoniteAssemblyPath>$(ResonitePath)/Resonite_Data/Managed</_ResoniteAssemblyPath>
-        <_ResoniteAssemblyPath Condition="'$(ResoniteTarget)' == 'headless'">$(ResonitePath)</_ResoniteAssemblyPath>
+        <_ResoniteAssemblyPath Condition="'$(_ResoniteAssemblyPath)' == ''">$(ResonitePath)</_ResoniteAssemblyPath>
         <ReferencePath>$(_ResoniteAssemblyPath);$(ReferencePath)</ReferencePath>
     </PropertyGroup>
 
@@ -53,73 +28,16 @@
     <ItemGroup>
         <Reference Include="@(ResoniteReference)">
             <Name>%(ResoniteReference.Identity)</Name>
-            <HintPath Condition="'%(HintPath)' == '' And Exists('$(_ResoniteAssemblyPath)/%(Identity).dll')">$(_ResoniteAssemblyPath)/%(Identity).dll</HintPath>
-            <HintPath Condition="'%(HintPath)' == '' And Exists('$(_ResoniteAssemblyPath)/%(Identity).exe')">$(_ResoniteAssemblyPath)/%(Identity).exe</HintPath>
-            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' Or '%(HintPath)' == '') And Exists('$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).dll')">$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).dll</HintPath>
-            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' Or '%(HintPath)' == '') And Exists('$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).exe')">$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).exe</HintPath>
+            <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).dll')">$(_ResoniteAssemblyPath)/%(Identity).dll</HintPath>
+            <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).exe')">$(_ResoniteAssemblyPath)/%(Identity).exe</HintPath>
+            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).dll')">$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).dll</HintPath>
+            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).exe')">$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).exe</HintPath>
             <Private Condition="'$(ResoniteProjectType)' != 'standalone'">false</Private>
         </Reference>
     </ItemGroup>
 
-    <!-- Fix output directories and filter out non-nuget dependency assemblies from the output -->
-    <Choose>
-        <When Condition="'$(ResoniteProjectType)' == 'mod' Or '$(ResoniteProjectType)' == 'plugin'">
-            <PropertyGroup Condition="$(ResoniteProjectType) == 'mod'">
-                <_MainOutputDirectory>rml_mods/</_MainOutputDirectory>
-                <_LibraryOutputDirectory>rml_libs/</_LibraryOutputDirectory>
-            </PropertyGroup>
-
-            <PropertyGroup Condition="$(ResoniteProjectType) == 'plugin'">
-                <_MainOutputDirectory>Libraries/</_MainOutputDirectory>
-                <_LibraryOutputDirectory>Libraries/</_LibraryOutputDirectory>
-            </PropertyGroup>
-
-            <PropertyGroup>
-                <_ReleaseArchiveDir>bin/publish/</_ReleaseArchiveDir>
-                <_RootPublishDir>bin/publish/$(ResoniteProjectType)/$(ResoniteTarget)/</_RootPublishDir>
-                <_RootOutDir>bin/$(Configuration)/$(ResoniteProjectType)/$(ResoniteTarget)/</_RootOutDir>
-
-                <OutDir>$(_RootOutDir)/$(_MainOutputDirectory)/</OutDir>
-                <PublishDir>$(_RootPublishDir)/$(_MainOutputDirectory)/</PublishDir>
-            </PropertyGroup>
-        </When>
-    </Choose>
-
-    <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences" Condition="'$(ResoniteProjectType)' == 'mod' Or '$(ResoniteProjectType)' == 'plugin'">
-        <ItemGroup>
-            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' Or '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference'"
-                                     Update="%(ReferenceCopyLocalPaths)"
-                                     DestinationSubDirectory="../$(_LibraryOutputDirectory)"/>
-        </ItemGroup>
-
-        <ItemGroup>
-            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' == '' And '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' != 'ProjectReference'"
-                                     Remove="%(ReferenceCopyLocalPaths.Identity)"/>
-        </ItemGroup>
-    </Target>
-
-    <Target Name="_MoveAfterPublish" AfterTargets="Publish" Condition="('$(ResoniteProjectType)' == 'mod' Or '$(ResoniteProjectType)' == 'plugin') And '$(_MainOutputDirectory)' != '$(_LibraryOutputDirectory)'">
-        <Move SourceFiles="@(_ResolvedCopyLocalPublishAssets->'$(PublishDir)/%(Filename)%(Extension)')" DestinationFolder="$(_RootPublishDir)/$(_LibraryOutputDirectory)"/>
-    </Target>
-
-    <Target Name="_ZipResults" Condition="('$(ResoniteProjectType)' == 'mod' Or '$(ResoniteProjectType)' == 'plugin') And '$(ResoniteGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
-        <ZipDirectory DestinationFile="$(_ReleaseArchiveDir)/$(MSBuildProjectName)-$(Version).zip" SourceDirectory="$(PublishDir)/../" Overwrite="true"/>
-    </Target>
-
-    <!-- Install the project to the Resonite directory -->
-    <Target Name="_InstallProject" Condition="('$(ResoniteProjectType)' == 'mod' Or '$(ResoniteProjectType)' == 'plugin') And Exists('$(ResonitePath)') And '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
-        <ItemGroup>
-            <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.dll"/>
-            <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.pdb"/>
-            <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.xml"/>
-            <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.dll"/>
-            <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.pdb"/>
-            <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.xml"/>
-        </ItemGroup>
-
-        <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResonitePath)/$(_MainOutputDirectory)"/>
-        <Copy SourceFiles="@(ResoniteDependencyFiles)" DestinationFolder="$(ResonitePath)/$(_LibraryOutputDirectory)"/>
-    </Target>
+    <!-- Special handling for Mods and Plugins -->
+    <Import Project="ProjectTypes/Shared.ModPlugin.targets" Condition="'$(ResoniteProjectType)' == 'mod' OR '$(ResoniteProjectType)' == 'plugin'"/>
 
     <!-- Import last to respect set properties -->
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(ResoniteSdkImportsMicrosoftSdk)' == 'true'"/>

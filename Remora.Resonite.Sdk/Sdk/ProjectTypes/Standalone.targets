@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_STANDALONE</DefineConstants>
+        
+        <OutputType>Exe</OutputType>
+        <IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
+    </PropertyGroup>
+</Project>

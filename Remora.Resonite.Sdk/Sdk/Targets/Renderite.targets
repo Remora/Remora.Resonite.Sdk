@@ -1,0 +1,15 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_RENDERITE</DefineConstants>
+        <TargetFramework Condition="'$(TargetFramework)' == 'net9.0'">net462</TargetFramework>
+
+        <_ResoniteAssemblyPath>$(ResonitePath)Renderer/Renderite.Renderer_Data/Managed/</_ResoniteAssemblyPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="PolySharp" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+</Project>

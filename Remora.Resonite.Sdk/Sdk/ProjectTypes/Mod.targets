@@ -1,0 +1,16 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <Import Project="Mod.MonkeyLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'"/>
+    <Import Project="Mod.MonkeyLoader.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoader'"/>
+    <Import Project="Mod.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoaderStandalone'"/>
+</Project>

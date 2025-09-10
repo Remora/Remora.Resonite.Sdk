@@ -1,0 +1,12 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_MONKEYLOADER</DefineConstants>
+
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="*" Condition="'$(ResoniteTarget)' == 'renderite'"/>
+        <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="*" Condition="'$(ResoniteTarget)' != 'renderite'"/>
+    </ItemGroup>
+</Project>

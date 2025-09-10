@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_HEADLESS</DefineConstants>
+
+        <_ResoniteAssemblyPath>$(ResonitePath)Headless/</_ResoniteAssemblyPath>
+    </PropertyGroup>
+</Project>

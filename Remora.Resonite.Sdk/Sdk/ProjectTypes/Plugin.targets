@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_PLUGIN</DefineConstants>
+
+        <_MainOutputDirectory>Libraries/</_MainOutputDirectory>
+        <_LibraryOutputDirectory>Libraries/</_LibraryOutputDirectory>
+    </PropertyGroup>
+</Project>

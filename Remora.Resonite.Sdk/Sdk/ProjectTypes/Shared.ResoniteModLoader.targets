@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_RML</DefineConstants>
+        
+        <_MainOutputDirectory>rml_mods/</_MainOutputDirectory>
+        <_LibraryOutputDirectory>rml_libs/</_LibraryOutputDirectory>
+    </PropertyGroup>
+</Project>

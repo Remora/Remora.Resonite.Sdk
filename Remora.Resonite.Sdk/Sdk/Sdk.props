@@ -12,16 +12,19 @@
 
     <!-- Targeting properties -->
     <PropertyGroup>
-        <TargetFramework Condition="'$(TargetFramework)' == ''">net462</TargetFramework>
+        <TargetFramework Condition="'$(TargetFramework)' == ''">net9.0</TargetFramework>
     </PropertyGroup>
 
     <!-- Remora.Resonite.Sdk-specific properties -->
     <PropertyGroup>
-        <ResoniteProjectType Condition="'$(ResoniteProjectType)' == ''">mod</ResoniteProjectType>
         <ResoniteTarget Condition="'$(ResoniteTarget)' == ''">client</ResoniteTarget>
-        <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
+        <ResoniteProjectType Condition="'$(ResoniteProjectType)' == ''">mod</ResoniteProjectType>
+        <ResoniteTargetModLoader Condition="'$(ResoniteTargetModLoader)' == ''">MonkeyLoader</ResoniteTargetModLoader>
+
         <ResoniteInstallOnBuild Condition="'$(ResoniteInstallOnBuild)' == ''">false</ResoniteInstallOnBuild>
         <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)/ref/</ResoniteReferencePath>
+        <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
+
         <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' And '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>
         <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == ''">false</ResoniteGenerateReleaseArchive>
     </PropertyGroup>
@@ -30,10 +33,5 @@
         <ResonitePath>$(MSBuildProjectDirectory)/Resonite/</ResonitePath>
         <ResonitePath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/Resonite/')">C:/Program Files (x86)/Steam/steamapps/common/Resonite/</ResonitePath>
         <ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
-    </PropertyGroup>
-
-    <!-- Packing properties -->
-    <PropertyGroup>
-        <IsPackable Condition="'$(IsPackable)' == ''">false</IsPackable>
     </PropertyGroup>
 </Project>

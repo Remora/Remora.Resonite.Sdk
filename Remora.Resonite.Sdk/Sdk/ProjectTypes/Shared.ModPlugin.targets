@@ -1,0 +1,50 @@
+<Project>
+    <!-- Fix output directories -->
+    <PropertyGroup>
+        <_ReleaseArchiveDir>bin/publish/</_ReleaseArchiveDir>
+        <_RootPublishDir>bin/publish/$(ResoniteProjectType)/$(ResoniteTarget)/</_RootPublishDir>
+        <_RootOutDir>bin/$(Configuration)/$(ResoniteProjectType)/$(ResoniteTarget)/</_RootOutDir>
+
+        <OutDir>$(_RootOutDir)/$(_MainOutputDirectory)/</OutDir>
+        <PublishDir>$(_RootPublishDir)/$(_MainOutputDirectory)/</PublishDir>
+
+        <PackageOutputPath Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">$(OutDir)MonkeyLoader/Mods/</PackageOutputPath>
+    </PropertyGroup>
+
+    <!-- Filter out non-nuget dependency assemblies from the output -->
+    <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences" Condition="">
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' OR '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference'"
+                                     Update="%(ReferenceCopyLocalPaths)"
+                                     DestinationSubDirectory="../$(_LibraryOutputDirectory)"/>
+        </ItemGroup>
+
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' == '' AND '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' != 'ProjectReference'"
+                                     Remove="%(ReferenceCopyLocalPaths.Identity)"/>
+        </ItemGroup>
+    </Target>
+
+    <Target Name="_MoveAfterPublish" AfterTargets="Publish" Condition="'$(_MainOutputDirectory)' != '$(_LibraryOutputDirectory)'">
+        <Move SourceFiles="@(_ResolvedCopyLocalPublishAssets->'$(PublishDir)/%(Filename)%(Extension)')" DestinationFolder="$(_RootPublishDir)/$(_LibraryOutputDirectory)"/>
+    </Target>
+
+    <Target Name="_ZipResults" Condition="'$(ResoniteGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
+        <ZipDirectory DestinationFile="$(_ReleaseArchiveDir)/$(MSBuildProjectName)-$(Version).zip" SourceDirectory="$(PublishDir)/../" Overwrite="true"/>
+    </Target>
+
+    <!-- Install the project to the Resonite directory -->
+    <Target Name="_InstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
+        <ItemGroup>
+            <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.dll"/>
+            <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.pdb"/>
+            <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.xml"/>
+            <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.dll"/>
+            <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.pdb"/>
+            <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.xml"/>
+        </ItemGroup>
+
+        <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResonitePath)/$(_MainOutputDirectory)"/>
+        <Copy SourceFiles="@(ResoniteDependencyFiles)" DestinationFolder="$(ResonitePath)/$(_LibraryOutputDirectory)"/>
+    </Target>
+</Project>

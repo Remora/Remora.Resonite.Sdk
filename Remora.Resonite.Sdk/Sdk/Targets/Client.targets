@@ -1,0 +1,5 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_CLIENT</DefineConstants>
+    </PropertyGroup>
+</Project>
