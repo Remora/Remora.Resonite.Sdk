@@ -6,25 +6,24 @@
     </ItemDefinitionGroup>
 
     <Import Project="Sdk.ResoniteVersion.targets" />
+
+    <Import Project="Targets/Client.targets" Condition="'$(ResoniteTarget)' == 'client'"/>
+    <Import Project="Targets/Headless.targets" Condition="'$(ResoniteTarget)' == 'headless'"/>
+    <Import Project="Targets/Renderite.targets" Condition="'$(ResoniteTarget)' == 'renderite'"/>
     
     <Import Project="ProjectTypes/Mod.targets" Condition="'$(ResoniteProjectType)' == 'mod'"/>
     <Import Project="ProjectTypes/Plugin.targets" Condition="'$(ResoniteProjectType)' == 'plugin'"/>
     <Import Project="ProjectTypes/Library.targets" Condition="'$(ResoniteProjectType)' == 'library'"/>
     <Import Project="ProjectTypes/Standalone.targets" Condition="'$(ResoniteProjectType)' == 'standalone'"/>
 
-    <Import Project="Targets/Client.targets" Condition="'$(ResoniteTarget)' == 'client'"/>
-    <Import Project="Targets/Headless.targets" Condition="'$(ResoniteTarget)' == 'headless'"/>
-    <Import Project="Targets/Renderite.targets" Condition="'$(ResoniteTarget)' == 'renderite'"/>
-
+    <!-- Add Path for Resonite Assemblies to the Reference Paths if it exists.
+         This allows MSBuild to search for references there. -->
     <PropertyGroup>
-        <_ResoniteAssemblyPath Condition="'$(_ResoniteAssemblyPath)' == ''">$(ResonitePath)</_ResoniteAssemblyPath>
-        <ReferencePath>$(_ResoniteAssemblyPath);$(ReferencePath)</ReferencePath>
+        <ReferencePath Condition="Exists('$(_ResoniteAssemblyPath)')">$(_ResoniteAssemblyPath);$(ReferencePath)</ReferencePath>
     </PropertyGroup>
 
-    <!--
-    Transform ResoniteReference items into real assembly references, either to our bundled reference assemblies or to
-    real ones from an installation.
-    -->
+    <!-- Transform ResoniteReference items into real assembly references,
+         either to our bundled reference assemblies or to real ones from an installation. -->
     <ItemGroup>
         <Reference Include="@(ResoniteReference)">
             <Name>%(ResoniteReference.Identity)</Name>

@@ -3,10 +3,28 @@
         <DefineConstants>$(DefineConstants);RESONITE_MONKEYLOADER</DefineConstants>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">true</IsMonkeyLoaderGamePack>
+
+        <MonkeyLoaderPath>$(ResoniteTargetPath)MonkeyLoader/</MonkeyLoaderPath>
+        <_MonkeyLoaderLibraryDirectory>MonkeyLoader/Libs/</_MonkeyLoaderLibraryDirectory>
+
+        <_MonkeyLoaderMainDirectory>MonkeyLoader/Mods/</_MonkeyLoaderMainDirectory>
+        <_MonkeyLoaderMainDirectory Condition="'$(IsMonkeyLoaderGamePack)' == 'true'">MonkeyLoader/GamePacks/</_MonkeyLoaderMainDirectory>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="*" Condition="'$(ResoniteTarget)' == 'renderite'"/>
         <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="*" Condition="'$(ResoniteTarget)' != 'renderite'"/>
     </ItemGroup>
+
+    <!-- Install the project to the right MonkeyLoader directory -->
+    <Target Name="_MonkeyLoaderInstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
+        <ItemGroup>
+            <ResoniteModFiles Include="$(PackageOutputPath)/*.nupkg"/>
+           <!-- <ResoniteDependencyFiles Include="/*.nupkg"/> -->
+        </ItemGroup>
+
+        <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)"/>
+       <!-- <Copy SourceFiles="@(ResoniteDependencyFiles)" DestinationFolder="$(ResoniteTargetPath)/$(_MonkeyLoaderLibraryDirectory)"/>-->
+    </Target>
 </Project>

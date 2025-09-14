@@ -1,5 +1,8 @@
 <Project>
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);RESONITE_CLIENT</DefineConstants>
+
+        <ResoniteTargetPath>$(ResonitePath)</ResoniteTargetPath>
+        <_ResoniteAssemblyPath>$(ResonitePath)</_ResoniteAssemblyPath>
     </PropertyGroup>
 </Project>

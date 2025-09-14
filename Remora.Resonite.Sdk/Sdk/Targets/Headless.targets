@@ -2,6 +2,7 @@
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);RESONITE_HEADLESS</DefineConstants>
 
-        <_ResoniteAssemblyPath>$(ResonitePath)Headless/</_ResoniteAssemblyPath>
+        <ResoniteTargetPath>$(ResonitePath)Headless/</ResoniteTargetPath>
+        <_ResoniteAssemblyPath>$(ResoniteTargetPath)</_ResoniteAssemblyPath>
     </PropertyGroup>
 </Project>

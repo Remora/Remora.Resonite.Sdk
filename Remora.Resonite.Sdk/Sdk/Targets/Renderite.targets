@@ -3,7 +3,8 @@
         <DefineConstants>$(DefineConstants);RESONITE_RENDERITE</DefineConstants>
         <TargetFramework Condition="'$(TargetFramework)' == 'net9.0'">net462</TargetFramework>
 
-        <_ResoniteAssemblyPath>$(ResonitePath)Renderer/Renderite.Renderer_Data/Managed/</_ResoniteAssemblyPath>
+        <ResoniteTargetPath>$(ResonitePath)Renderer/</ResoniteTargetPath>
+        <_ResoniteAssemblyPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/</_ResoniteAssemblyPath>
     </PropertyGroup>
 
     <ItemGroup>

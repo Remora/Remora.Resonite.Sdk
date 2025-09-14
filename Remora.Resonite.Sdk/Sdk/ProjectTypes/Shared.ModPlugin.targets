@@ -8,11 +8,11 @@
         <OutDir>$(_RootOutDir)/$(_MainOutputDirectory)/</OutDir>
         <PublishDir>$(_RootPublishDir)/$(_MainOutputDirectory)/</PublishDir>
 
-        <PackageOutputPath Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">$(OutDir)MonkeyLoader/Mods/</PackageOutputPath>
+        <PackageOutputPath Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">$(_RootPublishDir)MonkeyLoader/Mods/</PackageOutputPath>
     </PropertyGroup>
 
     <!-- Filter out non-nuget dependency assemblies from the output -->
-    <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences" Condition="">
+    <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences">
         <ItemGroup>
             <ReferenceCopyLocalPaths Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' OR '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference'"
                                      Update="%(ReferenceCopyLocalPaths)"
@@ -34,11 +34,12 @@
     </Target>
 
     <!-- Install the project to the Resonite directory -->
-    <Target Name="_InstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
+    <Target Name="_InstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true' AND ('$(ResoniteProjectType)' == 'plugin' OR '$(ResoniteTargetModLoader)' != 'MonkeyLoader')" AfterTargets="CopyFilesToOutputDirectory;Publish">
         <ItemGroup>
             <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.dll"/>
             <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.pdb"/>
             <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.xml"/>
+            
             <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.dll"/>
             <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.pdb"/>
             <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.xml"/>
