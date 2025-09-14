@@ -1,0 +1,21 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_BEPISLOADER_RENDERER</DefineConstants>
+        <BepInExPath>$(ResoniteTargetPath)BepInEx/</BepInExPath>
+        <_PluginsOutputDirectory>$(BepInExPath)plugins</_PluginsOutputDirectory>
+        <_PatchersOutputDirectory>$(BepInExPath)patchers</_PatchersOutputDirectory>
+    </PropertyGroup>
+    
+    <Reference Include="0Harmony">
+      <HintPath>$(BepInExPath)core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExPath)core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+</Project>
