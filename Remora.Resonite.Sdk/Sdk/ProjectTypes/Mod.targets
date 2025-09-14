@@ -13,4 +13,5 @@
     <Import Project="Mod.MonkeyLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'"/>
     <Import Project="Mod.MonkeyLoader.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoader'"/>
     <Import Project="Mod.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoaderStandalone'"/>
+    <Import Project="Mod.BepisLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'BepisLoader'"/>
 </Project>

@@ -1,0 +1,19 @@
+<Project>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);RESONITE_BEPISLOADER</DefineConstants>
+		<BepInExPath>$(ResoniteTargetPath)BepInEx/</BepInExPath>
+        <_PluginsOutputDirectory>BepInEx/plugins</_MainOutputDirectory>
+        <_PatchersOutputDirectory>BepInEx/patchers</_LibraryOutputDirectory>
+    </PropertyGroup>
+    
+    <RestoreAdditionalProjectSources>
+        https://nuget-modding.resonite.net/v3/index.json;
+    </RestoreAdditionalProjectSources>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.NET.CoreCLR" Version="6.0.0-be.*" IncludeAssets="compile" />
+        <PackageReference Include="BepInEx.ResonitePluginInfoProps" Version="3.*" />
+        <PackageReference Include="ResoniteModding.BepInExResoniteShim" Version="0.8.*" />
+        <PackageReference Include="ResoniteModding.BepisResoniteWrapper" Version="1.*" />
+    </ItemGroup>
+</Project>
