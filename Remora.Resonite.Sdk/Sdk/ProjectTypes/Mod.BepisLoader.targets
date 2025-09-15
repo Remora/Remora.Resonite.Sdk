@@ -4,8 +4,6 @@
         <BepInExPath>$(ResoniteTargetPath)BepInEx/</BepInExPath>
         <_PluginsOutputDirectory>$(BepInExPath)plugins/</_PluginsOutputDirectory>
         <_PatchersOutputDirectory>$(BepInExPath)patchers/</_PatchersOutputDirectory>
-        
-        <_MainOutputDirectory>$(_PluginsOutputDirectory)</_MainOutputDirectory>
     </PropertyGroup>
     
     <PropertyGroup>

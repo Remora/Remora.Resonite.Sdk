@@ -2,8 +2,8 @@
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);RESONITE_BEPISLOADER_RENDERER</DefineConstants>
         <BepInExPath>$(ResoniteTargetPath)BepInEx/</BepInExPath>
-        <_PluginsOutputDirectory>$(BepInExPath)plugins</_PluginsOutputDirectory>
-        <_PatchersOutputDirectory>$(BepInExPath)patchers</_PatchersOutputDirectory>
+        <_PluginsOutputDirectory>$(BepInExPath)plugins/</_PluginsOutputDirectory>
+        <_PatchersOutputDirectory>$(BepInExPath)patchers/</_PatchersOutputDirectory>
     </PropertyGroup>
     
     <ItemGroup>
