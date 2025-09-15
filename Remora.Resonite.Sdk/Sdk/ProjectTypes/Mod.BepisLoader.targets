@@ -8,9 +8,11 @@
         <_MainOutputDirectory>$(_PluginsOutputDirectory)</_MainOutputDirectory>
     </PropertyGroup>
     
-    <RestoreAdditionalProjectSources>
-        https://nuget-modding.resonite.net/v3/index.json;
-    </RestoreAdditionalProjectSources>
+    <PropertyGroup>
+        <RestoreAdditionalProjectSources>
+            https://nuget-modding.resonite.net/v3/index.json;
+        </RestoreAdditionalProjectSources>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="BepInEx.NET.CoreCLR" Version="6.0.0-be.*" IncludeAssets="compile" />
