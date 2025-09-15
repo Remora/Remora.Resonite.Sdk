@@ -27,10 +27,16 @@
     <ItemGroup>
         <Reference Include="@(ResoniteReference)">
             <Name>%(ResoniteReference.Identity)</Name>
+
+            <!-- Real assemblies from an install -->
             <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).dll')">$(_ResoniteAssemblyPath)/%(Identity).dll</HintPath>
             <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).exe')">$(_ResoniteAssemblyPath)/%(Identity).exe</HintPath>
-            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).dll')">$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).dll</HintPath>
-            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).exe')">$(ResoniteReferencePath)/$(ResoniteTarget)/%(Identity).exe</HintPath>
+
+            <!-- Our bundled unpublicized reference assemblies -->
+            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteTargetReferencePath)%(Identity).dll')">$(ResoniteTargetReferencePath)%(Identity).dll</HintPath>
+            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteTargetReferencePath)%(Identity).exe')">$(ResoniteTargetReferencePath)%(Identity).exe</HintPath>
+            
+            <!-- Only copy them to the output for standalone applications -->
             <Private Condition="'$(ResoniteProjectType)' != 'standalone'">false</Private>
         </Reference>
     </ItemGroup>

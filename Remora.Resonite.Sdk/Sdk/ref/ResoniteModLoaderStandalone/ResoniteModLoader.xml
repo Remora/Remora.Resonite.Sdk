@@ -1,0 +1,800 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ResoniteModLoader</name>
+    </assembly>
+    <members>
+        <member name="F:ResoniteModLoader.AssemblyHider.knownDotNetCompanies">
+            <summary>
+            Companies that indicate an assembly is part of .NET
+            This list was found by debug logging the AssemblyCompany
+            for all loaded assemblies.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.AssemblyHider.knownDotNetProducts">
+            <summary>
+            Products that indicate an assembly is part of .NET.
+            This list was found by debug logging the AssemblyProductAttribute for all loaded assemblies.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.AssemblyHider.resoniteAssemblies">
+            <summary>
+            Assemblies that were already loaded when RML started up, minus a couple known non-assemblies.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.AssemblyHider.modAssemblies">
+            <summary>
+            Assemblies that 100% exist due to a mod
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.AssemblyHider.dotNetAssemblies">
+            <summary>
+            .NET assembiles we want to ignore in some cases, like the callee check for the AppDomain.GetAssemblies() patch
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.AssemblyHider.PatchResonite(HarmonyLib.Harmony,System.Collections.Generic.HashSet{System.Reflection.Assembly})">
+            <summary>
+            Patch Resonite's type lookup code to not see mod-related types. This is needed, because users can pass
+            arbitrary strings to TypeHelper.FindType(), which can be used to detect if someone is running mods.
+            </summary>
+            <param name="harmony">Our RML harmony instance</param>
+            <param name="initialAssemblies">Assemblies that were loaded when RML first started</param>
+        </member>
+        <member name="M:ResoniteModLoader.AssemblyHider.IsModAssembly(System.Reflection.Assembly,System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Checks if an <see cref="T:System.Reflection.Assembly"/> belongs to a mod or not.
+            </summary>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> to check.</param>
+            <param name="typeOrAssembly">Type of root check being performed. Should be "type" or "assembly". Used in logging.</param>
+            <param name="name">Name of the root check being performed. Used in logging.</param>
+            <param name="log">If `true`, this will emit logs. If `false`, this function will not log.</param>
+            <param name="forceShowLate">If `true`, then this function will always return `false` for late-loaded types</param>
+            <returns>`true` if this assembly belongs to a mod.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.AssemblyHider.IsModAssembly(System.Reflection.Assembly,System.Boolean)">
+            <summary>
+            Checks if an <see cref="T:System.Reflection.Assembly"/> belongs to a mod or not.
+            </summary>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> to check</param>
+            <param name="forceShowLate">If <c>true</c>, then this function will always return <c>false</c> for late-loaded types.</param>
+            <returns><c>true</c> if this <see cref="T:System.Reflection.Assembly"/> belongs to a mod.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.AssemblyHider.IsModType(System.Type)">
+            <summary>
+            Checks if a <see cref="T:System.Type"/> belongs to a mod or not.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/> to check.</param>
+            <returns><c>true</c> if this <see cref="T:System.Type"/> belongs to a mod.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.AssemblyHider.GetCallingAssembly(System.Diagnostics.StackTrace)">
+            <summary>
+            Get the calling <see cref="T:System.Reflection.Assembly"/> using stack trace analysis, ignoring .NET assemblies.
+            This implementation is SPECIFICALLY for the <see cref="M:System.AppDomain.GetAssemblies"/> patch and may not be valid for other use-cases.
+            </summary>
+            <param name="stackTrace">The stack trace captured by the callee.</param>
+            <returns>The calling <see cref="T:System.Reflection.Assembly"/>, or null if none was found.</returns>
+        </member>
+        <member name="T:ResoniteModLoader.Assets.RMLAssets">
+            <summary>
+            Provides asset URIs for the mod loader.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.AutoRegisterConfigKeyAttribute">
+            <summary>
+            Marks a field of type <see cref="T:ResoniteModLoader.ModConfigurationKey`1"/> on a class
+            deriving from <see cref="T:ResoniteModLoader.ResoniteMod"/> to be automatically included in that mod's configuration.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.ConfigurationChangedEvent">
+            <summary>
+            Represents the data for the <see cref="E:ResoniteModLoader.ModConfiguration.OnThisConfigurationChanged"/> and <see cref="E:ResoniteModLoader.ModConfiguration.OnAnyConfigurationChanged"/> events.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ConfigurationChangedEvent.Config">
+            <summary>
+            The <see cref="T:ResoniteModLoader.ModConfiguration"/> in which the change occured.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ConfigurationChangedEvent.Key">
+            <summary>
+            The specific <see cref="T:ResoniteModLoader.ModConfigurationKey`1"/> who's value changed.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ConfigurationChangedEvent.Label">
+            <summary>
+            A custom label that may be set by whoever changed the configuration.
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ExecutionHook.Init">
+            <summary>
+            One method that can start the static constructor of the mod loader.
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ExecutionHook.#cctor">
+            <summary>
+            Static constructor for <see cref="T:ResoniteModLoader.ExecutionHook"/>. This is called when the assembly is loaded and starts the mod loader initialization process.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.LoadProgressIndicator">
+            <summary>
+            Interfaces with Resonite's load progress indicator to set custom phases.
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.LoadProgressIndicator.SetSubphase(System.String)">
+            <summary>
+            Sets a custom subphase message on the loading progress indicator.
+            </summary>
+            <param name="text">The message to display on the indicator</param>
+            <returns>
+            <c>true</c> if the indicator was set successfully or if visuals are hidden with <see cref="P:ResoniteModLoader.ModLoaderConfiguration.HideVisuals"/> otherwise <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:ResoniteModLoader.IModConfigurationDefinition">
+            <summary>
+            Represents an interface for mod configurations.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.IModConfigurationDefinition.Owner">
+            <summary>
+            Gets the mod that owns this configuration definition.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.IModConfigurationDefinition.Version">
+            <summary>
+            Gets the semantic version for this configuration definition. This is used to check if the defined and saved configs are compatible.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.IModConfigurationDefinition.ConfigurationItemDefinitions">
+            <summary>
+            Gets the set of configuration keys defined in this configuration definition.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfigurationDefinition">
+            <summary>
+            Defines a mod configuration. This should be defined by a <see cref="T:ResoniteModLoader.ResoniteMod"/> using the <see cref="M:ResoniteModLoader.ResoniteMod.DefineConfiguration(ResoniteModLoader.ModConfigurationDefinitionBuilder)"/> method.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfigurationDefinition.Owner">
+            <inheritdoc/>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfigurationDefinition.Version">
+            <inheritdoc/>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfigurationDefinition.ConfigurationItemDefinitions">
+            <inheritdoc/>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfiguration">
+            <summary>
+            The configuration for a mod. Each mod has zero or one configuration. The configuration object will never be reassigned once initialized.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfiguration.Owner">
+            <inheritdoc/>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfiguration.Version">
+            <inheritdoc/>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfiguration.ConfigurationItemDefinitions">
+            <inheritdoc/>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfiguration.ConfigurationChangedHandler">
+            <summary>
+            The delegate that is called for configuration change events.
+            </summary>
+            <param name="configurationChangedEvent">The event containing details about the configuration change</param>
+        </member>
+        <member name="E:ResoniteModLoader.ModConfiguration.OnAnyConfigurationChanged">
+            <summary>
+            Called if any config value for any mod changed.
+            </summary>
+        </member>
+        <member name="E:ResoniteModLoader.ModConfiguration.OnThisConfigurationChanged">
+            <summary>
+            Called if one of the values in this mod's config changed.
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.IsKeyDefined(ResoniteModLoader.ModConfigurationKey)">
+            <summary>
+            Checks if the given key is defined in this config.
+            </summary>
+            <param name="key">The key to check.</param>
+            <returns><c>true</c> if the key is defined.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.IsKeyDefiningKey(ResoniteModLoader.ModConfigurationKey)">
+            <summary>
+            Checks if the given key is the defining key.
+            </summary>
+            <param name="key">The key to check.</param>
+            <returns><c>true</c> if the key is the defining key.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.GetValue(ResoniteModLoader.ModConfigurationKey)">
+            <summary>
+            Get a value, throwing a <see cref="T:System.Collections.Generic.KeyNotFoundException"/> if the key is not found.
+            </summary>
+            <param name="key">The key to get the value for.</param>
+            <returns>The value for the key.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key does not exist in the configuration.</exception>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.GetValue``1(ResoniteModLoader.ModConfigurationKey{``0})">
+            <summary>
+            Get a value, throwing a <see cref="T:System.Collections.Generic.KeyNotFoundException"/> if the key is not found.
+            </summary>
+            <typeparam name="T">The type of the key's value.</typeparam>
+            <param name="key">The key to get the value for.</param>
+            <returns>The value for the key.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key does not exist in the configuration.</exception>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.TryGetValue(ResoniteModLoader.ModConfigurationKey,System.Object@)">
+            <summary>
+            Tries to get a value, returning <c>default</c> if the key is not found.
+            </summary>
+            <param name="key">The key to get the value for.</param>
+            <param name="value">The value if the return value is <c>true</c>, or <c>default</c> if <c>false</c>.</param>
+            <returns><c>true</c> if the value was read successfully.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.TryGetValue``1(ResoniteModLoader.ModConfigurationKey{``0},``0@)">
+            <summary>
+            Tries to get a value, returning <c>default(<typeparamref name="T"/>)</c> if the key is not found.
+            </summary>
+            <param name="key">The key to get the value for.</param>
+            <param name="value">The value if the return value is <c>true</c>, or <c>default</c> if <c>false</c>.</param>
+            <returns><c>true</c> if the value was read successfully.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.Set(ResoniteModLoader.ModConfigurationKey,System.Object,System.String)">
+            <summary>
+            Sets a configuration value for the given key, throwing a <see cref="T:System.Collections.Generic.KeyNotFoundException"/> if the key is not found
+            or an <see cref="T:System.ArgumentException"/> if the value is not valid for it.
+            </summary>
+            <param name="key">The key to get the value for.</param>
+            <param name="value">The new value to set.</param>
+            <param name="eventLabel">A custom label you may assign to this change event.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key does not exist in the configuration.</exception>
+            <exception cref="T:System.ArgumentException">The new value is not valid for the given key.</exception>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.Set``1(ResoniteModLoader.ModConfigurationKey{``0},``0,System.String)">
+            <summary>
+            Sets a configuration value for the given key, throwing a <see cref="T:System.Collections.Generic.KeyNotFoundException"/> if the key is not found
+            or an <see cref="T:System.ArgumentException"/> if the value is not valid for it.
+            </summary>
+            <typeparam name="T">The type of the key's value.</typeparam>
+            <param name="key">The key to get the value for.</param>
+            <param name="value">The new value to set.</param>
+            <param name="eventLabel">A custom label you may assign to this change event.</param>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key does not exist in the configuration.</exception>
+            <exception cref="T:System.ArgumentException">The new value is not valid for the given key.</exception>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.Unset(ResoniteModLoader.ModConfigurationKey)">
+            <summary>
+            Removes a configuration value, throwing a <see cref="T:System.Collections.Generic.KeyNotFoundException"/> if the key is not found.
+            </summary>
+            <param name="key">The key to remove the value for.</param>
+            <returns><c>true</c> if a value was successfully found and removed, <c>false</c> if there was no value to remove.</returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException">The given key does not exist in the configuration.</exception>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.Save(System.Boolean)">
+            <summary>
+            Persist this configuration to disk.<br/>
+            This method is not called automatically.
+            </summary>
+            <param name="saveDefaultValues">If <c>true</c>, default values will also be persisted.</param>
+            <remarks>
+            Saving too often may result in save calls being debounced, with only the latest save call being used after a delay.
+            </remarks>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.SaveQueue(System.Boolean,System.Boolean)">
+            <summary>
+            Asynchronously persists this configuration to disk.
+            </summary>
+            <param name="saveDefaultValues">If <c>true</c>, default values will also be persisted.</param>
+            <param name="immediate">If <c>true</c>, skip the debouncing and save immediately.</param>
+            <remarks>
+            immediate isn't used anywhere nor exposed outside of internal, mods shouldn't be bypassing debounce.
+            </remarks>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfiguration.SaveInternal(System.Boolean)">
+            <summary>
+            Performs the actual, synchronous save
+            </summary>
+            <param name="saveDefaultValues">If true, default values will also be persisted</param>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfigurationException">
+            <summary>
+            Represents an <see cref="T:System.Exception"/> encountered while loading a mod's configuration file.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.IncompatibleConfigurationHandlingOption">
+            <summary>
+            Defines options for the handling of incompatible configuration versions.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.IncompatibleConfigurationHandlingOption.ERROR">
+            <summary>
+            Fail to read the config, and block saving over the config on disk.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.IncompatibleConfigurationHandlingOption.CLOBBER">
+            <summary>
+            Destroy the saved config and start over from scratch.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.IncompatibleConfigurationHandlingOption.FORCELOAD">
+            <summary>
+            Ignore the version number and attempt to load the config from disk.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfigurationDefinitionBuilder">
+            <summary>
+            Represents a fluent configuration interface to define mod configurations.
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationDefinitionBuilder.Version(System.Version)">
+            <summary>
+            Sets the semantic version of this configuration definition. Default is 1.0.0.
+            </summary>
+            <param name="version">The config's semantic version.</param>
+            <returns>This builder.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationDefinitionBuilder.Version(System.String)">
+            <summary>
+            Sets the semantic version of this configuration definition. Default is 1.0.0.
+            </summary>
+            <param name="version">The config's semantic version, as a string.</param>
+            <returns>This builder.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationDefinitionBuilder.Key(ResoniteModLoader.ModConfigurationKey)">
+            <summary>
+            Adds a new key to this configuration definition.
+            </summary>
+            <param name="key">A configuration key.</param>
+            <returns>This builder.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationDefinitionBuilder.AutoSave(System.Boolean)">
+            <summary>
+            Sets the AutoSave property of this configuration definition. Default is <c>true</c>.
+            </summary>
+            <param name="autoSave">If <c>false</c>, the config will not be autosaved on Resonite close.</param>
+            <returns>This builder.</returns>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfigurationKey">
+            <summary>
+            Represents an untyped mod configuration key.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfigurationKey.Name">
+            <summary>
+            Gets the mod-unique name of this config item. Must be present.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfigurationKey.Description">
+            <summary>
+            Gets the human-readable description of this config item. Should be specified by the defining mod.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfigurationKey.InternalAccessOnly">
+            <summary>
+            Gets whether only the owning mod should have access to this config item.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfigurationKey.OnChangedHandler">
+            <summary>
+            Delegate for handling configuration changes.
+            </summary>
+            <param name="newValue">The new value of the <see cref="T:ResoniteModLoader.ModConfigurationKey"/>.</param>
+        </member>
+        <member name="E:ResoniteModLoader.ModConfigurationKey.OnChanged">
+            <summary>
+            Called if this <see cref="T:ResoniteModLoader.ModConfigurationKey"/> changed. 
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey.ValueType">
+            <summary>
+            Get the <see cref="T:System.Type"/> of this key's value.
+            </summary>
+            <returns>The <see cref="T:System.Type"/> of this key's value.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey.Validate(System.Object)">
+            <summary>
+            Checks if a value is valid for this configuration item.
+            </summary>
+            <param name="value">The value to check.</param>
+            <returns><c>true</c> if the value is valid.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey.TryComputeDefault(System.Object@)">
+            <summary>
+            Tries to compute the default value for this key, if a default provider was set.
+            </summary>
+            <param name="defaultValue">The computed default value if the return value is <c>true</c>. Otherwise <c>default</c>.</param>
+            <returns><c>true</c> if the default value was successfully computed.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey.Equals(System.Object)">
+            <summary>
+            We only care about key name for non-defining keys.<br/>
+            For defining keys all of the other properties (default, validator, etc.) also matter.
+            </summary>
+            <param name="obj">The other object to compare against.</param>
+            <returns><c>true</c> if the other object is equal to this.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="F:ResoniteModLoader.ModConfigurationKey.HasValue">
+            <summary>
+            Set if this key has had a value assigned.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.ModConfigurationKey.DefiningKey">
+            <summary>
+            Each configuration item has exactly ONE defining key, and that is the key defined by the mod.
+            Duplicate keys can be created (they only need to share the same Name) and they'll still work
+            for reading configs.
+            <para/>
+            This is a non-null self-reference for the defining key itself as soon as the definition is done initializing.
+            </summary>
+        </member>
+        <member name="T:ResoniteModLoader.ModConfigurationKey`1">
+            <summary>
+            Represents a typed mod configuration key.
+            </summary>
+            <typeparam name="T">The type of this key's value.</typeparam>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey`1.#ctor(System.String,System.String,System.Func{`0},System.Boolean,System.Predicate{`0})">
+            <summary>
+            Creates a new instance of the <see cref="T:ResoniteModLoader.ModConfigurationKey`1"/> class with the given parameters.
+            </summary>
+            <param name="name">The mod-unique name of this config item.</param>
+            <param name="description">The human-readable description of this config item.</param>
+            <param name="computeDefault">The function that computes a default value for this key. Otherwise <c>default(<typeparamref name="T"/>)</c> will be used.</param>
+            <param name="internalAccessOnly">If <c>true</c>, only the owning mod should have access to this config item.</param>
+            <param name="valueValidator">The function that checks if the given value is valid for this configuration item. Otherwise everything will be accepted.</param>
+        </member>
+        <member name="P:ResoniteModLoader.ModConfigurationKey`1.Value">
+            <summary>
+            Gets or sets the value of this configuration key.
+            <para>
+            When getting, attempts to retrieve the current value assigned to this key, or <c>default(T)</c> if none is set.
+            When setting, assigns the provided value to this key and notifies any <see cref="!:OnChanged"/> subscribers.
+            </para>
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey`1.ValueType">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey`1.Validate(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey`1.ValidateTyped(`0)">
+            <summary>
+            Checks if a value is valid for this configuration item.
+            </summary>
+            <param name="value">The value to check.</param>
+            <returns><c>true</c> if the value is valid.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey`1.TryComputeDefault(System.Object@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.ModConfigurationKey`1.TryComputeDefaultTyped(`0@)">
+            <summary>
+            Tries to compute the default value for this key, if a default provider was set.
+            </summary>
+            <param name="defaultValue">The computed default value if the return value is <c>true</c>. Otherwise <c>default(T)</c>.</param>
+            <returns><c>true</c> if the default value was successfully computed.</returns>
+        </member>
+        <member name="T:ResoniteModLoader.ModLoader">
+            <summary>
+            Contains the actual mod loader.
+            </summary>
+        </member>
+        <member name="F:ResoniteModLoader.ModLoader.VERSION">
+            <summary>
+            ResoniteModLoader's version
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ModLoader.IsHeadless">
+            <summary>
+            Returns <c>true</c> if ResoniteModLoader was loaded by a headless
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ModLoader.Mods">
+            <summary>
+            Allows reading metadata for all loaded mods
+            </summary>
+            <returns>A new list containing each loaded mod</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ModLoader.RegisterMod(ResoniteModLoader.ResoniteMod)">
+            <summary>
+            Registers a successfully loaded mod, adding it to various lookup maps.
+            </summary>
+            <param name="mod">The successfully loaded mod to register</param>
+        </member>
+        <member name="M:ResoniteModLoader.ModLoader.InitializeMod(ResoniteModLoader.AssemblyFile)">
+            <summary>
+            Load the mod class and mod config for a given mod.
+            </summary>
+            <param name="mod">The <see cref="T:ResoniteModLoader.AssemblyFile"/> for an unloaded mod </param>
+        </member>
+        <member name="T:ResoniteModLoader.ResoniteMod">
+            <summary>
+            Base class for all mods.
+            Contains members that only the <see cref="T:ResoniteModLoader.ModLoader"/> or the Mod itself are intended to access.
+            </summary>
+            <remarks>
+            Inherit from this class when creating a new mod.
+            </remarks>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.IsDebugEnabled">
+            <summary>
+            Gets whether debug logging is enabled.
+            </summary>
+            <returns><c>true</c> if debug logging is enabled.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.DebugFunc(System.Func{System.Object})">
+            <summary>
+            Logs an object as a line in the log based on the value produced by the given function if debug logging is enabled..
+            <para/>
+            This is more efficient than passing an <see cref="T:System.Object"/> or a <see cref="T:System.String"/> directly,
+            as it won't be generated if debug logging is disabled.
+            </summary>
+            <param name="messageProducer">The function generating the object to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Debug(System.Object)">
+            <summary>
+            Logs the given object as a line in the log if debug logging is enabled.
+            </summary>
+            <param name="message">The object to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Debug(System.Object[])">
+            <summary>
+            Logs the given objects as lines in the log if debug logging is enabled.
+            </summary>
+            <param name="messages">The objects to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Msg(System.Object)">
+            <summary>
+            Logs the given object as a regular line in the log.
+            </summary>
+            <param name="message">The object to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Msg(System.Object[])">
+            <summary>
+            Logs the given objects as regular lines in the log.
+            </summary>
+            <param name="messages">The objects to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Warn(System.Object)">
+            <summary>
+            Logs the given object as a warning line in the log.
+            </summary>
+            <param name="message">The object to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Warn(System.Object[])">
+            <summary>
+            Logs the given objects as warning lines in the log.
+            </summary>
+            <param name="messages">The objects to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Error(System.Object)">
+            <summary>
+            Logs the given object as an error line in the log.
+            </summary>
+            <param name="message">The object to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.Error(System.Object[])">
+            <summary>
+            Logs the given objects as error lines in the log.
+            </summary>
+            <param name="messages">The objects to log.</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.OnEngineInit">
+            <summary>
+            Called once immediately after ResoniteModLoader begins execution
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.BuildConfigurationDefinition">
+            <summary>
+            Build the defined configuration for this mod.
+            </summary>
+            <returns>This mod's configuration definition.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.DefineConfiguration(ResoniteModLoader.ModConfigurationDefinitionBuilder)">
+            <summary>
+            Define this mod's configuration via a builder
+            </summary>
+            <param name="builder">A builder you can use to define the mod's configuration</param>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteMod.HandleIncompatibleConfigurationVersions(System.Version,System.Version)">
+            <summary>
+            Defines handling of incompatible configuration versions
+            </summary>
+            <param name="serializedVersion">Configuration version read from the config file</param>
+            <param name="definedVersion">Configuration version defined in the mod code</param>
+            <returns></returns>
+        </member>
+        <member name="T:ResoniteModLoader.ResoniteModBase">
+            <summary>
+            Contains public metadata about a mod.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ResoniteModBase.Name">
+            <summary>
+            Gets the mod's name. This must be unique.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ResoniteModBase.Author">
+            <summary>
+            Gets the mod's author.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ResoniteModBase.Version">
+            <summary>
+            Gets the mod's semantic version.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ResoniteModBase.Link">
+            <summary>
+            Gets an optional hyperlink to the mod's repo or homepage.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.ResoniteModBase.ModAssembly">
+            <summary>
+            A reference to the AssemblyFile that this mod was loaded from.
+            The reference is set once the mod is successfully loaded, and is null before that.
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.ResoniteModBase.GetConfiguration">
+            <summary>
+            Gets this mod's current <see cref="P:ResoniteModLoader.ResoniteModBase.ModConfiguration"/>.
+            <para/>
+            This will always be the same instance.
+            </summary>
+            <returns>This mod's current configuration.</returns>
+        </member>
+        <member name="P:ResoniteModLoader.ModLoaderSettings.UserspaceOnly">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.ModLoaderSettings.ResetToDefault">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.ModLoaderSettings.OnChanges">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.ModLoaderSettings.OnStart">
+            <inheritdoc/>
+        </member>
+        <member name="M:ResoniteModLoader.Util.ExecutingMod(System.Diagnostics.StackTrace)">
+            <summary>
+            Get the executing mod by stack trace analysis.
+            You may skip extra frames if you know your callers are guaranteed to be RML code.
+            </summary>
+            <param name="stackTrace">A stack trace captured by the callee</param>
+            <returns>The executing mod, or null if none found</returns>
+        </member>
+        <member name="M:ResoniteModLoader.Util.Debounce``1(System.Action{``0},System.Int32)">
+            <summary>
+            Used to debounce calls to a given method. The given method will be called after there have been no additional calls
+            for the given number of milliseconds.
+            <para/>
+            The <see cref="T:System.Action`1"/> returned by this method has internal state used for debouncing,
+            so you will need to store and reuse the Action for each call.
+            </summary>
+            <typeparam name="T">The type of the debounced method's input.</typeparam>
+            <param name="func">The method to be debounced.</param>
+            <param name="milliseconds">How long to wait before a call to the debounced method gets passed through.</param>
+            <returns>A debouncing wrapper for the given method.</returns>
+        </member>
+        <member name="T:ResoniteModLoader.Utility.EnumerableInjector`2">
+            <summary>
+            Provides the ability to inject actions into the execution of an enumeration while transforming it.<br/><br/>
+            This example shows how to apply the <see cref="T:ResoniteModLoader.Utility.EnumerableInjector`2"/> when patching a function.<br/>
+            Of course you typically wouldn't patch with a generic method, that's just for illustrating the Type usage.
+            <code>
+            private static void Postfix&lt;Original, Transformed&gt;(ref IEnumerable&lt;Original&gt; __result) where Transformed : Original
+            {
+                __result = new EnumerableInjector&lt;Original, Transformed&gt;(__result,
+                    item =&gt; { Msg("Change what the item is exactly"); return new Transformed(item); })
+                {
+                    Prefix = () =&gt; Msg("Before the first item is returned"),
+                    PreItem = item =&gt; { Msg("Decide if an item gets returned"); return true; },
+                    PostItem = (original, transformed, returned) =&gt; Msg("After control would come back to the generator after a yield return"),
+                    Postfix = () =&gt; Msg("When the generator stopped returning items")
+                };
+            }
+            </code>
+            </summary>
+            <typeparam name="TOriginal">The type of the original enumeration's items.</typeparam>
+            <typeparam name="TTransformed">The type of the transformed enumeration's items.<br/>Must be assignable to <c>TOriginal</c> for compatibility.</typeparam>
+        </member>
+        <member name="F:ResoniteModLoader.Utility.EnumerableInjector`2.enumerator">
+            <summary>
+            Internal enumerator for iteration.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.Utility.EnumerableInjector`2.Postfix">
+            <summary>
+            Gets called when the wrapped enumeration returned the last item.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.Utility.EnumerableInjector`2.PostItem">
+            <summary>
+            Gets called for each item, with the transformed item, and whether it was passed through.
+            First thing to be called after execution returns to the enumerator after a yield return.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.Utility.EnumerableInjector`2.Prefix">
+            <summary>
+            Gets called before the enumeration returns the first item.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.Utility.EnumerableInjector`2.PreItem">
+            <summary>
+            Gets called for each item to determine whether it should be passed through.
+            </summary>
+        </member>
+        <member name="P:ResoniteModLoader.Utility.EnumerableInjector`2.TransformItem">
+            <summary>
+            Gets called for each item to transform it, even if it won't be passed through.
+            </summary>
+        </member>
+        <member name="M:ResoniteModLoader.Utility.EnumerableInjector`2.#ctor(System.Collections.Generic.IEnumerable{`0},System.Func{`0,`1})">
+            <summary>
+            Creates a new instance of the <see cref="T:ResoniteModLoader.Utility.EnumerableInjector`2"/> class using the supplied input <see cref="T:System.Collections.Generic.IEnumerable`1"/> and transform function.
+            </summary>
+            <param name="enumerable">The enumerable to inject into and transform.</param>
+            <param name="transformItem">The transformation function.</param>
+        </member>
+        <member name="M:ResoniteModLoader.Utility.EnumerableInjector`2.#ctor(System.Collections.Generic.IEnumerator{`0},System.Func{`0,`1})">
+            <summary>
+            Creates a new instance of the <see cref="T:ResoniteModLoader.Utility.EnumerableInjector`2"/> class using the supplied input <see cref="T:System.Collections.Generic.IEnumerator`1"/> and transform function.
+            </summary>
+            <param name="enumerator">The enumerator to inject into and transform.</param>
+            <param name="transformItem">The transformation function.</param>
+        </member>
+        <member name="M:ResoniteModLoader.Utility.EnumerableInjector`2.GetEnumerator">
+            <summary>
+            Injects into and transforms the input enumeration.
+            </summary>
+            <returns>The injected and transformed enumeration.</returns>
+        </member>
+        <member name="M:ResoniteModLoader.Utility.EnumerableInjector`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Injects into and transforms the input enumeration without a generic type.
+            </summary>
+            <returns>The injected and transformed enumeration without a generic type.</returns>
+        </member>
+        <member name="T:ResoniteModLoader.Utility.EnumerableInjector`1">
+            <summary>
+            Provides the ability to inject actions into the execution of an enumeration without transforming it.<br/><br/>
+            This example shows how to apply the <see cref="T:ResoniteModLoader.Utility.EnumerableInjector`1"/> when patching a function.<br/>
+            Of course you typically wouldn't patch with a generic method, that's just for illustrating the Type usage.
+            <code>
+            static void Postfix&lt;T&gt;(ref IEnumerable&lt;T&gt; __result)
+            {
+                __result = new EnumerableInjector&lt;T&gt;(__result)
+                {
+                    Prefix = () => Msg("Before the first item is returned"),
+                    PreItem = item => { Msg("Decide if an item gets returned"); return true; },
+                    TransformItem = item => { Msg("Change what the item is exactly"); return item; },
+                    PostItem = (original, transformed, returned) => Msg("After control would come back to the generator after a yield return"),
+                    Postfix = () => Msg("When the generator stopped returning items")
+                };
+            }
+            </code>
+            </summary>
+            <typeparam name="T">The type of the enumeration's items.</typeparam>
+        </member>
+        <member name="M:ResoniteModLoader.Utility.EnumerableInjector`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Creates a new instance of the <see cref="T:ResoniteModLoader.Utility.EnumerableInjector`1"/> class using the supplied input <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+            <param name="enumerable">The enumerable to inject into.</param>
+        </member>
+        <member name="M:ResoniteModLoader.Utility.EnumerableInjector`1.#ctor(System.Collections.Generic.IEnumerator{`0})">
+            <summary>
+            Creates a new instance of the <see cref="T:ResoniteModLoader.Utility.EnumerableInjector`1"/> class using the supplied input <see cref="T:System.Collections.Generic.IEnumerator`1"/>.
+            </summary>
+            <param name="enumerator">The enumerator to inject into.</param>
+        </member>
+    </members>
+</doc>

@@ -5,6 +5,8 @@
 
         <ResoniteTargetPath>$(ResonitePath)Renderer/</ResoniteTargetPath>
         <_ResoniteAssemblyPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/</_ResoniteAssemblyPath>
+        
+        <ResoniteTargetReferencePath>$(ResoniteReferencePath)Renderite/</ResoniteTargetReferencePath>
     </PropertyGroup>
 
     <ItemGroup>

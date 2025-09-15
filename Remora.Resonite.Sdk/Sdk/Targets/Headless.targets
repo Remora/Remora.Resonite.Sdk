@@ -4,5 +4,7 @@
 
         <ResoniteTargetPath>$(ResonitePath)Headless/</ResoniteTargetPath>
         <_ResoniteAssemblyPath>$(ResoniteTargetPath)</_ResoniteAssemblyPath>
+        
+        <ResoniteTargetReferencePath>$(ResoniteReferencePath)Headless/</ResoniteTargetReferencePath>
     </PropertyGroup>
 </Project>

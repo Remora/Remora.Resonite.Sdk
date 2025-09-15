@@ -4,5 +4,7 @@
 
         <ResoniteTargetPath>$(ResonitePath)</ResoniteTargetPath>
         <_ResoniteAssemblyPath>$(ResonitePath)</_ResoniteAssemblyPath>
+        
+        <ResoniteTargetReferencePath>$(ResoniteReferencePath)Client/</ResoniteTargetReferencePath>
     </PropertyGroup>
 </Project>
