@@ -22,7 +22,7 @@
         <ResoniteTargetModLoader Condition="'$(ResoniteTargetModLoader)' == ''">MonkeyLoader</ResoniteTargetModLoader>
 
         <ResoniteInstallOnBuild Condition="'$(ResoniteInstallOnBuild)' == ''">false</ResoniteInstallOnBuild>
-        <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)/ref/</ResoniteReferencePath>
+        <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)ref/</ResoniteReferencePath>
         <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
 
         <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' And '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>

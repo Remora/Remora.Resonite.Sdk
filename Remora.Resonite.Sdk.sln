@@ -1,11 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Resonite.Sdk", "Remora.Resonite.Sdk\Remora.Resonite.Sdk.msbuildproj", "{A0E6A673-9B62-49EE-806B-D2B386F89403}"
-EndProject
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36408.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}"
 	ProjectSection(SolutionItems) = preProject
 		Tests\Directory.Build.props = Tests\Directory.Build.props
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "metadata", "metadata", "{B4CB3E4F-5F29-440D-AC41-0DBF64D00717}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remora.Resonite.Sdk", "Remora.Resonite.Sdk\Remora.Resonite.Sdk.msbuildproj", "{A0E6A673-9B62-49EE-806B-D2B386F89403}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResonitePluginWithPackageDependency", "Tests\ResonitePluginWithPackageDependency\ResonitePluginWithPackageDependency.csproj", "{7BB751AC-4851-442B-9693-F7C6E68185A4}"
 EndProject
@@ -16,14 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualSdkProject", "Tests\DualSdkProject\DualSdkProject.csproj", "{9F927878-5FAF-4761-9D6B-D77795D29B8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResoniteHeadlessPlugin", "Tests\ResoniteHeadlessPlugin\ResoniteHeadlessPlugin.csproj", "{389BFD41-7D5C-4B05-84B3-4A8781F9CC52}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "metadata", "metadata", "{B4CB3E4F-5F29-440D-AC41-0DBF64D00717}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
-		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Tests\Library\Library.csproj", "{11FFC3A1-F466-4832-A881-E0D0DD3FA018}"
 EndProject
@@ -206,6 +209,9 @@ Global
 		{53BBAFCB-40D0-4FE1-836C-2BACBF8AE3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53BBAFCB-40D0-4FE1-836C-2BACBF8AE3D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7BB751AC-4851-442B-9693-F7C6E68185A4} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
 		{F4FE81B4-9DC4-440C-A343-CC6BE71C4B75} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
@@ -237,5 +243,8 @@ Global
 		{8A844B77-D90F-470B-8BAB-ECBB57240AE0} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
 		{0515B87E-FC26-40ED-86B7-5128A9D34CC0} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
 		{53BBAFCB-40D0-4FE1-836C-2BACBF8AE3D1} = {065750DA-54B9-4A52-BCBF-4CE7B8D22C7C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {483E52BF-BBBF-4651-9DB3-0E824EDF2DA6}
 	EndGlobalSection
 EndGlobal
