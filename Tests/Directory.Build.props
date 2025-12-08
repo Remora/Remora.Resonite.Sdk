@@ -1,5 +1,6 @@
 <Project>
-    <PropertyGroup>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
 </Project>

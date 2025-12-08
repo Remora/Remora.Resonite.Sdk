@@ -1,7 +1,7 @@
 <Project>
-    <Import Project="Shared.ResoniteModLoader.targets" />
+  <Import Project="Shared.ResoniteModLoader.targets" />
 
-    <ItemGroup>
-        <PackageReference Include="MonkeyLoader.GamePacks.ResoniteModLoader" Version="*" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonkeyLoader.GamePacks.ResoniteModLoader" Version="*" />
+  </ItemGroup>
 </Project>
