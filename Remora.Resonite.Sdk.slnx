@@ -1,0 +1,40 @@
+<Solution>
+  <Folder Name="/metadata/">
+    <File Path=".github/workflows/dotnet.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <File Path="Tests/Directory.Build.props" />
+    <Project Path="Tests/DualSdkProject/DualSdkProject.csproj" />
+    <Project Path="Tests/Library/Library.csproj" />
+    <Project Path="Tests/ModernResoniteExecutable/ModernResoniteExecutable.csproj" />
+    <Project Path="Tests/ModernResoniteExecutableWithResoniteReference/ModernResoniteExecutableWithResoniteReference.csproj" />
+    <Project Path="Tests/ResoniteHeadlessLibrary/ResoniteHeadlessLibrary.csproj" />
+    <Project Path="Tests/ResoniteHeadlessLibraryWithPackageReference/ResoniteHeadlessLibraryWithPackageReference.csproj" />
+    <Project Path="Tests/ResoniteHeadlessLibraryWithProjectReference/ResoniteHeadlessLibraryWithProjectReference.csproj" />
+    <Project Path="Tests/ResoniteHeadlessLibraryWithResoniteReference/ResoniteHeadlessLibraryWithResoniteReference.csproj" />
+    <Project Path="Tests/ResoniteHeadlessMod/ResoniteHeadlessMod.csproj" />
+    <Project Path="Tests/ResoniteHeadlessModWithPackageDependency/ResoniteHeadlessModWithPackageDependency.csproj" />
+    <Project Path="Tests/ResoniteHeadlessModWithProjectDependency/ResoniteHeadlessModWithProjectDependency.csproj" />
+    <Project Path="Tests/ResoniteHeadlessModWithResoniteReference/ResoniteHeadlessModWithResoniteReference.csproj" />
+    <Project Path="Tests/ResoniteHeadlessPlugin/ResoniteHeadlessPlugin.csproj" />
+    <Project Path="Tests/ResoniteHeadlessPluginWithPackageDependency/ResoniteHeadlessPluginWithPackageDependency.csproj" />
+    <Project Path="Tests/ResoniteHeadlessPluginWithProjectDependency/ResoniteHeadlessPluginWithProjectDependency.csproj" />
+    <Project Path="Tests/ResoniteHeadlessPluginWithResoniteReference/ResoniteHeadlessPluginWithResoniteReference.csproj" />
+    <Project Path="Tests/ResoniteLibrary/ResoniteLibrary.csproj" />
+    <Project Path="Tests/ResoniteLibraryWithPackageReference/ResoniteLibraryWithPackageReference.csproj" />
+    <Project Path="Tests/ResoniteLibraryWithProjectReference/ResoniteLibraryWithProjectReference.csproj" />
+    <Project Path="Tests/ResoniteLibraryWithResoniteReference/ResoniteLibraryWithResoniteReference.csproj" />
+    <Project Path="Tests/ResoniteMod/ResoniteMod.csproj" />
+    <Project Path="Tests/ResoniteModWithPackageDependency/ResoniteModWithPackageDependency.csproj" />
+    <Project Path="Tests/ResoniteModWithProjectDependency/ResoniteModWithProjectDependency.csproj" />
+    <Project Path="Tests/ResoniteModWithResoniteReference/ResoniteModWithResoniteReference.csproj" />
+    <Project Path="Tests/ResonitePlugin/ResonitePlugin.csproj" />
+    <Project Path="Tests/ResonitePluginWithPackageDependency/ResonitePluginWithPackageDependency.csproj" />
+    <Project Path="Tests/ResonitePluginWithProjectDependency/ResonitePluginWithProjectDependency.csproj" />
+    <Project Path="Tests/ResonitePluginWithResoniteReference/ResonitePluginWithResoniteReference.csproj" />
+  </Folder>
+  <Project Path="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" Type="C#" />
+</Solution>

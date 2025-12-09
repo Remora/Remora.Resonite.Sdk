@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);RESONITE_RENDERITE</DefineConstants>
-    <TargetFramework Condition="'$(TargetFramework)' == 'net10.0'">net462</TargetFramework>
+    <TargetFramework Condition="'$(_TargetFrameworkSetFromProps)' == 'true'">net472</TargetFramework>
 
     <ResoniteTargetPath>$(ResonitePath)Renderer/</ResoniteTargetPath>
     <_ResoniteAssemblyPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/</_ResoniteAssemblyPath>

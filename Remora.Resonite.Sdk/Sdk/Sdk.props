@@ -11,8 +11,9 @@
   <!-- Overridable defaults -->
 
   <!-- Targeting properties -->
-  <PropertyGroup>
-    <TargetFramework Condition="'$(TargetFramework)' == ''">net10.0</TargetFramework>
+  <PropertyGroup Condition="'$(TargetFramework)' == ''">
+    <TargetFramework>net10.0</TargetFramework>
+    <_TargetFrameworkSetFromProps>true</_TargetFrameworkSetFromProps>
   </PropertyGroup>
 
   <!-- Remora.Resonite.Sdk-specific properties -->

@@ -2,5 +2,9 @@
   <PropertyGroup>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
     <Deterministic>true</Deterministic>
+    
+    <RestoreAdditionalProjectSources>
+      $(MSBuildThisFileDirectory)../nuget
+    </RestoreAdditionalProjectSources>
   </PropertyGroup>
 </Project>

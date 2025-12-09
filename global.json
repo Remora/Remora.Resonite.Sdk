@@ -1,0 +1,5 @@
+{
+    "msbuild-sdks": {
+        "Remora.Resonite.Sdk": "1.3.14"
+    }
+}
