@@ -3,7 +3,7 @@
     <DefineConstants>$(DefineConstants);RESONITE_MONKEYLOADER</DefineConstants>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">true</IsMonkeyLoaderGamePack>
+    <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">false</IsMonkeyLoaderGamePack>
 
     <MonkeyLoaderPath>$(ResoniteTargetPath)MonkeyLoader/</MonkeyLoaderPath>
     <_MonkeyLoaderLibraryDirectory>MonkeyLoader/Libs/</_MonkeyLoaderLibraryDirectory>

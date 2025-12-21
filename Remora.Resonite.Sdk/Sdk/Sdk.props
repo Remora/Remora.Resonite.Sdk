@@ -16,6 +16,26 @@
     <_TargetFrameworkSetFromProps>true</_TargetFrameworkSetFromProps>
   </PropertyGroup>
 
+  <!-- General Build Defaults -->
+  <PropertyGroup>
+    <GenerateDocumentationFile Condition="'$(GenerateDocumentationFile)' == ''">true</GenerateDocumentationFile>
+    <LangVersion Condition="'$(LangVersion)' == ''">14.0</LangVersion>
+    <Nullable Condition="'$(Nullable)' == ''">enable</Nullable>
+    <Deterministic Condition="'$(Deterministic)' == ''">true</Deterministic>
+    <DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
+  </PropertyGroup>
+
+  <!-- NuGet Packaging Defaults -->
+  <PropertyGroup>
+    <RepositoryType Condition="'$(RepositoryType)' == ''">git</RepositoryType>
+
+    <IncludeSymbols Condition="'$(IncludeSymbols)' == ''">False</IncludeSymbols>
+    <EmbedAllSources Condition="'$(EmbedAllSources)' == ''">True</EmbedAllSources>
+    <EmbedUntrackedSources Condition="'$(EmbedUntrackedSources)' == ''">True</EmbedUntrackedSources>
+    <SymbolPackageFormat Condition="'$(SymbolPackageFormat)' == ''">snupkg</SymbolPackageFormat>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
   <!-- Remora.Resonite.Sdk-specific properties -->
   <PropertyGroup>
     <ResoniteTarget Condition="'$(ResoniteTarget)' == ''">client</ResoniteTarget>
@@ -26,7 +46,7 @@
     <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)ref/</ResoniteReferencePath>
     <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
 
-    <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' And '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>
+    <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' AND '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>
     <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == ''">false</ResoniteGenerateReleaseArchive>
   </PropertyGroup>
 
