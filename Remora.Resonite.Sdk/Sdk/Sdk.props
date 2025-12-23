@@ -1,4 +1,4 @@
-<Project>
+<Project InitialTargets="Resonite_SDK_Version">
   <!-- Defaults for centrally managed package versions -->
   <Import Project="Sdk.Packages.props" />
 
@@ -55,4 +55,8 @@
     <ResonitePath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/Resonite/')">C:/Program Files (x86)/Steam/steamapps/common/Resonite/</ResonitePath>
     <ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
   </PropertyGroup>
+
+  <Target Name="Resonite_SDK_Version">
+    <Message Importance="high" Text="Using Resonite SDK version 1.3.22" />
+  </Target>
 </Project>

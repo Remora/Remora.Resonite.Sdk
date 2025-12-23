@@ -3,13 +3,16 @@
     <DefineConstants>$(DefineConstants);RESONITE_MONKEYLOADER</DefineConstants>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">false</IsMonkeyLoaderGamePack>
 
-    <MonkeyLoaderPath>$(ResoniteTargetPath)MonkeyLoader/</MonkeyLoaderPath>
+    <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">false</IsMonkeyLoaderGamePack>
+    <MonkeyLoaderPackageType>Mod</MonkeyLoaderPackageType>
+    <MonkeyLoaderPackageType Condition="'$(IsMonkeyLoaderGamePack)' == 'true'">GamePack</MonkeyLoaderPackageType>
+
+    <_MonkeyLoaderMainDirectory>MonkeyLoader/$(MonkeyLoaderPackageType)s/</_MonkeyLoaderMainDirectory>
     <_MonkeyLoaderLibraryDirectory>MonkeyLoader/Libs/</_MonkeyLoaderLibraryDirectory>
 
-    <_MonkeyLoaderMainDirectory>MonkeyLoader/Mods/</_MonkeyLoaderMainDirectory>
-    <_MonkeyLoaderMainDirectory Condition="'$(IsMonkeyLoaderGamePack)' == 'true'">MonkeyLoader/GamePacks/</_MonkeyLoaderMainDirectory>
+    <ResoniteMonkeyLoaderPath>$(ResoniteTargetPath)MonkeyLoader/</ResoniteMonkeyLoaderPath>
+    <ResoniteMonkeyLoaderOutputPath>$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)</ResoniteMonkeyLoaderOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,13 +21,13 @@
   </ItemGroup>
 
   <!-- Install the project to the right MonkeyLoader directory -->
-  <Target Name="_MonkeyLoaderInstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
-    <ItemGroup>
-      <ResoniteModFiles Include="$(PackageOutputPath)/*.nupkg" />
-      <!-- <ResoniteDependencyFiles Include="/*.nupkg" /> -->
-    </ItemGroup>
+  <Target Name="_MonkeyLoaderInstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="Pack">
+    <!-- Copy generated nupkg file for mod -->
+    <Message Importance="high" Text="Copying MonkeyLoader $(MonkeyLoaderPackageType) package from $(PackageOutputPath) to $(ResonitePackageOutputPath)" />
+    <Copy SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(ResonitePackageOutputPath)$(PackageId).nupkg" />
 
-    <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)" />
+    <!-- <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)" /> -->
+    <!-- Todo: Handle dependencies not provided by Resonite somehow? -->
     <!-- <Copy SourceFiles="@(ResoniteDependencyFiles)" DestinationFolder="$(ResoniteTargetPath)/$(_MonkeyLoaderLibraryDirectory)" />-->
   </Target>
 </Project>

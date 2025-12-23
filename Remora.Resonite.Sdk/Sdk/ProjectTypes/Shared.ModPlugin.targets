@@ -5,10 +5,21 @@
     <_RootPublishDir>bin/publish/$(ResoniteProjectType)/$(ResoniteTarget)/</_RootPublishDir>
     <_RootOutDir>bin/$(Configuration)/$(ResoniteProjectType)/$(ResoniteTarget)/</_RootOutDir>
 
-    <OutDir>$(_RootOutDir)/$(_MainOutputDirectory)/</OutDir>
-    <PublishDir>$(_RootPublishDir)/$(_MainOutputDirectory)/</PublishDir>
+    <_UseDefaultInstallProject>false</_UseDefaultInstallProject>
+    <_UseDefaultInstallProject Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true' AND ('$(ResoniteProjectType)' == 'plugin' OR '$(ResoniteTargetModLoader)' != 'MonkeyLoader')">true</_UseDefaultInstallProject>
 
-    <PackageOutputPath Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">$(_RootPublishDir)MonkeyLoader/Mods/</PackageOutputPath>
+    <OutDir>$(_RootOutDir)$(_MainOutputDirectory)</OutDir>
+    <ResoniteOutDir Condition="'$(_UseDefaultInstallProject)' == 'true'">$(ResoniteTargetPath)$(_MainOutputDirectory)</ResoniteOutDir>
+
+    <_LibraryOutputDirectory Condition="'$(_LibraryOutputDirectory)' == ''">$(_MainOutputDirectory)</_LibraryOutputDirectory>
+    <LibraryOutDir>$(_RootOutDir)$(_LibraryOutputDirectory)</LibraryOutDir>
+    <ResoniteLibrayOutDir Condition="'$(_UseDefaultInstallProject)' == 'true'">$(ResoniteTargetPath)$(_LibraryOutputDirectory)"</ResoniteLibrayOutDir>
+
+    <PublishDir>$(_RootPublishDir)$(_MainOutputDirectory)</PublishDir>
+    <LibraryPublishDir>$(_RootPublishDir)$(_LibraryOutputDirectory)</LibraryPublishDir>
+
+    <PackageOutputPath Condition="'$(_MonkeyLoaderMainDirectory)' != ''">$(_RootPublishDir)$(_MonkeyLoaderMainDirectory)</PackageOutputPath>
+    <ResonitePackageOutputPath Condition="'$(ResoniteMonkeyLoaderOutputPath)' != ''">$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)</ResonitePackageOutputPath>
   </PropertyGroup>
 
   <!-- Filter out non-nuget dependency assemblies from the output -->
@@ -25,27 +36,30 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_MoveAfterPublish" AfterTargets="Publish" Condition="'$(_MainOutputDirectory)' != '$(_LibraryOutputDirectory)'">
-    <Move SourceFiles="@(_ResolvedCopyLocalPublishAssets->'$(PublishDir)/%(Filename)%(Extension)')" DestinationFolder="$(_RootPublishDir)/$(_LibraryOutputDirectory)" />
+  <Target Name="_MoveAfterPublish" AfterTargets="Publish" Condition="'$(PublishDir)' != '$(LibraryPublishDir)'">
+    <Move SourceFiles="@(_ResolvedCopyLocalPublishAssets->'$(PublishDir)/%(Filename)%(Extension)')" DestinationFolder="$(LibraryPublishDir)" />
   </Target>
 
   <Target Name="_ZipResults" Condition="'$(ResoniteGenerateReleaseArchive)' == 'true'" AfterTargets="_MoveAfterPublish">
-    <ZipDirectory DestinationFile="$(_ReleaseArchiveDir)/$(MSBuildProjectName)-$(Version).zip" SourceDirectory="$(PublishDir)/../" Overwrite="true" />
+    <ZipDirectory DestinationFile="$(_ReleaseArchiveDir)/$(MSBuildProjectName)-$(Version)-$(Configuration).zip" SourceDirectory="$(_RootPublishDir)" Overwrite="true" />
   </Target>
 
   <!-- Install the project to the Resonite directory -->
-  <Target Name="_InstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true' AND ('$(ResoniteProjectType)' == 'plugin' OR '$(ResoniteTargetModLoader)' != 'MonkeyLoader')" AfterTargets="CopyFilesToOutputDirectory;Publish">
+  <Target Name="_InstallResoniteProject" Condition="'$(_UseDefaultInstallProject)' == 'true'" AfterTargets="CopyFilesToOutputDirectory;Publish">
     <ItemGroup>
-      <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.dll" />
-      <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.pdb" />
-      <ResoniteModFiles Include="$(_RootOutDir)/$(_MainOutputDirectory)/*.xml" />
+      <ResoniteModFiles Include="$(OutDir)/*.dll" />
+      <ResoniteModFiles Include="$(OutDir)/*.pdb" />
+      <ResoniteModFiles Include="$(OutDir)/*.xml" />
 
-      <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.dll" />
-      <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.pdb" />
-      <ResoniteDependencyFiles Include="$(_RootOutDir)/$(_LibraryOutputDirectory)/*.xml" />
+      <ResoniteDependencyFiles Include="$(LibraryOutDir)/*.dll" />
+      <ResoniteDependencyFiles Include="$(LibraryOutDir)/*.pdb" />
+      <ResoniteDependencyFiles Include="$(LibraryOutDir)/*.xml" />
     </ItemGroup>
 
-    <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResonitePath)/$(_MainOutputDirectory)" />
-    <Copy SourceFiles="@(ResoniteDependencyFiles)" DestinationFolder="$(ResonitePath)/$(_LibraryOutputDirectory)" />
+    <Message Importance="high" Text="Copying $(ResoniteProjectType) files to $(ResoniteOutDir)" />
+    <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResoniteOutDir)" SkipUnchangedFiles="true" />
+
+    <Message Importance="high" Text="Copying $(ResoniteProjectType) dependencies to $(ResoniteLibrayOutDir)" />
+    <Copy SourceFiles="@(ResoniteDependencyFiles)" DestinationFolder="$(ResoniteLibrayOutDir)" SkipUnchangedFiles="true" />
   </Target>
 </Project>
