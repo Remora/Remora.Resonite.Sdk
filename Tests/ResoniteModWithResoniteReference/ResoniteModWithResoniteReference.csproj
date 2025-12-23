@@ -1,15 +1,15 @@
 <Project>
-    <Import Project="Sdk.props" Sdk="Remora.Resonite.Sdk" />
+  <Import Project="Sdk.props" Sdk="Remora.Resonite.Sdk" />
 
-    <PropertyGroup>
-        <ResoniteProjectType>mod</ResoniteProjectType>
-        <ResoniteTarget>client</ResoniteTarget>
-        <RootNamespace>ResoniteModWithResoniteReference</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <ResoniteProjectType>mod</ResoniteProjectType>
+    <ResoniteTarget>client</ResoniteTarget>
+    <RootNamespace>ResoniteModWithResoniteReference</RootNamespace>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ResoniteReference Include="FrooxEngine" />
-    </ItemGroup>
+  <ItemGroup>
+    <ResoniteReference Include="FrooxEngine" />
+  </ItemGroup>
 
-    <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />
+  <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />
 </Project>

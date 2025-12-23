@@ -5,6 +5,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">false</IsMonkeyLoaderGamePack>
+    <IsResoniteGamePack Condition="'$(IsResoniteGamePack)' == ''">false</IsResoniteGamePack>
+
     <MonkeyLoaderPackageType>Mod</MonkeyLoaderPackageType>
     <MonkeyLoaderPackageType Condition="'$(IsMonkeyLoaderGamePack)' == 'true'">GamePack</MonkeyLoaderPackageType>
 
@@ -17,7 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.7.0-beta" Condition="'$(ResoniteTarget)' == 'renderite'" />
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.28.1-beta" Condition="'$(ResoniteTarget)' != 'renderite'" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.28.1-beta" Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'" />
   </ItemGroup>
 
   <!-- Install the project to the right MonkeyLoader directory -->
