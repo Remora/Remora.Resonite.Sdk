@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.Build.NoTargets/3.5.6">
+﻿<Project Sdk="Microsoft.Build.NoTargets/3.5.6">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <NoWarn>NU5128;NU5100</NoWarn>
@@ -8,9 +8,7 @@
         <Title>Remora.Resonite.Sdk</Title>
         <Description>A .NET SDK for developing Resonite mods and plugins.</Description>
         <VersionPrefix>1.3.46</VersionPrefix>
-        <PackageReleaseNotes>
-            Update reference assemblies to Resonite 2024.9.4.357.
-        </PackageReleaseNotes>
+        <PackageReleaseNotes>Update reference assemblies to Resonite 2025.12.16.1424.</PackageReleaseNotes>
         <IsPackable>true</IsPackable>
         <PackageTags>MSBuild;MSBuildSdk;Remora;Resonite;Renderite;RML;MonkeyLoader;Mod;Mods;BepisLoader;BepInEx;Plugin;Plugins</PackageTags>
         <PackageType>MSBuildSdk</PackageType>

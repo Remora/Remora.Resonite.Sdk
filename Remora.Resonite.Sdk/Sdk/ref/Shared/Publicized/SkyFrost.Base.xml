@@ -1,0 +1,974 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SkyFrost.Base</name>
+    </assembly>
+    <members>
+        <member name="P:SkyFrost.Base.AssetUtil.COMPUTE_VERSION">
+            <summary>
+            This represents the current version of the asset variant system. Incrementing this will make sure that any old systems
+            will not receive any jobs generated with this version, since they do not support the latest changes made and could corrupt the
+            system if they attempted to process those new variants.
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.IHubClient">
+            <summary>
+            This interface collects all the individual clients that use the SignalR service
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.IHubDebugClient">
+            <summary>
+            This interface is used for debugging the system and isn't normally used in production.
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.IHubDebugClient.Pong(System.Int32)">
+            <summary>
+            Is called as response to the Ping call. Used for debugging purposes
+            </summary>
+            <param name="index">Matches the index passed to the Ping call</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubDebugClient.Debug(System.String)">
+            <summary>
+            Used for debugging. Called on client to receive a debug message.
+            </summary>
+            <param name="message">Debug message that is being received</param>
+            <returns></returns>
+        </member>
+        <member name="T:SkyFrost.Base.IHubMessagingClient">
+            <summary>
+            This interface handles the messaging system - sending and receiving messages
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.IHubMessagingClient.ReceiveMessage(SkyFrost.Base.Message)">
+            <summary>
+            Called on client when they should receive a message from another user.
+            </summary>
+            <param name="message">The message to be received</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubMessagingClient.MessageSent(SkyFrost.Base.Message)">
+            <summary>
+            Called on client when they send a message. This is so the message can be added to history on other signed sessions.
+            </summary>
+            <param name="message">The message that was sent</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubMessagingClient.MessagesRead(SkyFrost.Base.ReadMessageBatch)">
+            <summary>
+            Called on client when one or more messages have been read by users
+            </summary>
+            <param name="readBatch">Batch of the messages that were read (can be one or more)</param>
+            <returns></returns>
+        </member>
+        <member name="T:SkyFrost.Base.IModerationClient">
+            <summary>
+            This interface is for receiving any global moderation messages that clients might need to react to.
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.IModerationClient.UserPublicBanned(System.String)">
+            <summary>
+            Called on client when an user has been public banned
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IModerationClient.UserMuteBanned(System.String)">
+            <summary>
+            Called on client when user has been mute banned
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IModerationClient.UserSpectatorBanned(System.String)">
+            <summary>
+            Called on client when user has been spectator banned
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SkyFrost.Base.IHubStatusClient">
+            <summary>
+            This interface is used for clients to exchange their current status - profile, online status, sessions and such
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.IHubStatusClient.ReceiveStatusUpdate(SkyFrost.Base.UserStatus)">
+            <summary>
+            Called on client when user's status has been updated
+            </summary>
+            <param name="status">The updated user status</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubStatusClient.SendStatusToUser(System.String)">
+            <summary>
+            Called on client when a given user should receive full status update (e.g. they just logged in)
+            </summary>
+            <param name="userId">User who to send the status update to</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubStatusClient.ContactAddedOrUpdated(SkyFrost.Base.Contact)">
+            <summary>
+            Called on client when one of their contacts has been updated. Used to sync status between active sessions.
+            E.g. when user adds a new contact or accepts/ignores them. Also called when they receive a contact request.
+            </summary>
+            <param name="contact">New or Updated contact</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubStatusClient.ReceiveSessionUpdate(SkyFrost.Base.SessionInfo)">
+            <summary>
+            Called on the client when the session info has been added or created.
+            </summary>
+            <param name="info">Data of the new/updated session</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubStatusClient.RemoveSession(System.String,System.DateTime)">
+            <summary>
+            Called when session is to be removed (e.g. when it ends)
+            </summary>
+            <param name="sessionId">The id of the session that is to be removed</param>
+            <param name="timestamp">Timestamp of the removal</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubStatusClient.KeyListenerAdded(System.String,System.String)">
+            <summary>
+            Called when a new listener is registered on particular broadcast key
+            </summary>
+            <param name="broadcastKey"></param>
+            <param name="connectionId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IHubNetworkingClient.PokeOverLNL(System.String,System.String,System.Int32)">
+            <summary>
+            This instructs the target to poke the target over LNL. This can be useful to help establish LNL
+            connections, particularly within corporate networks.
+            </summary>
+            <param name="connectionUrl">Which connection is expected to poke</param>
+            <param name="address">The target address to poke</param>
+            <param name="port">Target port to poke</param>
+            <returns></returns>
+        </member>
+        <member name="T:SkyFrost.Base.ISessionListingSettings">
+            <summary>
+            Used to expose Host configuration to SkyFrost.Base. 
+            </summary>
+            <seealso cref="T:SkyFrost.Base.IUserStatusSource"/>
+        </member>
+        <member name="P:SkyFrost.Base.ISessionListingSettings.UniverseId">
+            <summary>
+            A universe ID to filter the session list by
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.IUserStatusSource.UpdateSessions(SkyFrost.Base.UserStatus,System.Boolean)">
+            <summary>
+            Fills the UserStatus with user's currently active sessions
+            </summary>
+            <param name="status"></param>
+        </member>
+        <member name="M:SkyFrost.Base.NetworkNodeManager.GetNetworkNodes(System.String)">
+            <summary>
+            Submits a request to the cloud to obtain the network nodes for relays, bridges, etc.
+            </summary>
+            <param name="universeId">
+            Universe ID to obtain nodes against.
+            </param>
+            <param name="nodePreference">
+            What nodes are preferred for retrieval.
+            </param>
+            <returns>
+            Nodes that are specified for the universe, and given node preference.
+            </returns>
+        </member>
+        <member name="M:SkyFrost.Base.SessionManager.Login(System.String,SkyFrost.Base.LoginAuthentication,System.String,System.Boolean,System.String)">
+            <summary>
+            Login user and create new UserSession for authenticating further requests.
+            To authenticate self, either password, session token or recover code should be provided.
+            </summary>
+            <param name="credential">User's credential. Typically username or email</param>
+            <param name="authentication">Entity containing authentication information for given user</param>
+            <param name="secretMachineId">Secret machine ID used to identity the machine that the login is from</param>
+            <param name="rememberMe">Whether this session should be saved and reused. This keeps the validity of the session token for longer</param>
+            <param name="totp">TOTP code when user has 2FA enabled</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.SessionManager.ActivateSession(SkyFrost.Base.UserSession,SkyFrost.Base.CryptoData)">
+            <summary>
+            This can be used to activate/continue an existing session, without explicit Login process.
+            This method is useful in scenarios where the session needs to be continued without invalidating
+            the existing session token. However it should be used ONLY in those circumstances, when it's absolutely necessary.
+            Generally it's recommened to create new UserSession with the old token for security reasons, as it keeps the lifetime
+            of those tokens pretty short.
+            </summary>
+            <param name="session">Existing session to activate</param>
+            <param name="cryptoData">Crypto data for digital signing</param>
+            <returns></returns>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.InviteRequestId">
+            <summary>
+            Unique ID for the invite request. This is done for validation to prevent abuse.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.UserIdToInvite">
+            <summary>
+            This is the user who is requesting UserId. We store it explicitly, because the invite request can be
+            forwarded to the host - meaning the message the host receives won't be coming from the user who wants
+            to be invited.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.UsernameToInvite">
+            <summary>
+            The username of the user to be invited. This is so it doesn't need to be fetched from the cloud
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.RequestingFromUserId">
+            <summary>
+            This is the user that the invite was original requested from. This is for when this is forwarded, so the
+            system can show who is the originator of the forwarding
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.RequestingFromUsername">
+            <summary>
+            Username of the user who the invite was originally requested from. This is so it doesn't need to be re-fetched
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.ForSessionId">
+            <summary>
+            This is the session ID that this is being requested for. This is added when a user forwards this request.
+            It's important to include this explicitly, because the user this is forwarded to might not be in the same
+            session at the time they receive it.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.ForSessionName">
+            <summary>
+            The name of the session at the time of the request. This should be used as fallback to display the session
+            name when it cannot be found based on the session ID, but when it can that should be preferred as it will
+            have more up to date name of the session.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.IsContactWithHost">
+            <summary>
+            This indicates if the user who wants to be invited is currently contact with the host of the session.
+            When the invite request is forwarded by the headless host, it'll fill this, so the user handling the
+            request can get proper UI to add them as a host or no
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.Response">
+            <summary>
+            This indicates what type of response is given to the invite request. This comes into play when the response
+            is forwarded, because the action might need to be done on the different account than the one doing the
+            actual resopnse - e.g. when headless forwards message to admin - the headless needs to know how to handle that  
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.InviteRequest.Invite">
+            <summary>
+            When the invite request is granted and needs to be forwarded, this contains the session info for the invite
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.AccountMigrationConfig">
+            <summary>
+            Configuration of account migration task, determining what should be migrated.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateUserProfile">
+            <summary>
+            Should user profile be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateFundingEvents">
+            <summary>
+            Should funding events be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateExitMessages">
+            <summary>
+            Should exit messages be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateContacts">
+            <summary>
+            Should contacts be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateMessageHistory">
+            <summary>
+            Should contact message history be migrated? 
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateCloudVariables">
+            <summary>
+            Should cloud variables be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateCloudVariableDefinitions">
+            <summary>
+            Should cloud variables be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateUserRecords">
+            <summary>
+            Should records beloning to user be migrated?
+            Doesn't affect group migration
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateRecordAuditLog">
+            <summary>
+            Should the record audit record be migrated? This is shared for both user and groups (if they migrate)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.PreserveOldHome">
+            <summary>
+            Should the old cloud home be preserved? Homes migrate under a different RecordId to avoid conflicts
+            When this is true, the migration system will force a favorite to the old home
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.RecordsToMigrate">
+            <summary>
+            Optional list of records to migrate
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.VariablesToMigrate">
+            <summary>
+            Optional list of variables to migrate
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.OnlyNewRecords">
+            <summary>
+            Should only the latest records be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.ForceOverwrite">
+            <summary>
+            Force overwrite synced records even if there's a conflict
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.MigrateGroups">
+            <summary>
+            Should groups be migrated?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.GroupsToMigrate">
+            <summary>
+            Optional list of groups to migrate. If empty, all of them will be migrated.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationConfig.IsMigratingSomething">
+            <summary>
+            True if this migration config has at least one migration option checked.
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.AccountMigrationStatus">
+            <summary>
+            Status of the migration task
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.Phase">
+            <summary>
+            Represents the "phase" of the transfer E.g. Contacts, User Records etc
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.StartedOn">
+            <summary>
+            When was the migration started on
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.CompletedOn">
+            <summary>
+            When was the migration completed
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.UserRecordsStatus">
+            <summary>
+            Migration status of the records of the user
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.UserVariablesStatus">
+            <summary>
+            Migration status of the variables of the user
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.RecordsPerMinute">
+            <summary>
+            Average number of records that are migrated per minute
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.CurrentlyMigratingName">
+            <summary>
+            Name of the entity that's being currently migrated (either the username or group name)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.CurrentlyMigratingItem">
+            <summary>
+            Name of the individual item that's being currently migrated
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.TotalContactCount">
+            <summary>
+            Total number of contacts (and their messages) to migrate
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.MigratedContactCount">
+            <summary>
+            Number of contacts that have already been fully migrated (including their message history)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.MigratedMessageCount">
+            <summary>
+            Total number of messages that have been already migrated.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.TotalGroupCount">
+            <summary>
+            Number of groups to migrate for given user
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.MigratedGroupCount">
+            <summary>
+            Number of groups that were completely migrated (including their records transferred)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.MissingAssets">
+            <summary>
+            Assets that for some reason were missing on the source and could not be uploaded.
+            Mainly for diagnostic purposes, but could be used in the future to try to relocate those.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.Error">
+            <summary>
+            If the migration failed
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.MessagesFailed">
+            <summary>
+            Indicates if the messages have failed to migrate
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.Abort">
+            <summary>
+            Indicates if the migration should be aborted
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationStatus.GroupStatuses">
+            <summary>
+            Migration statuses of the groups
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.AccountMigrationTask">
+            <summary>
+            Task for a cloud-based account migration, representing its configuration and current status
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.OwnerId">
+            <summary>
+            Owner of the migration task (must be the user)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.TaskId">
+            <summary>
+            Unique id of the migration task
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.Name">
+            <summary>
+            Name of the migratoin task
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.Description">
+            <summary>
+            Description of the account migration task
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.State">
+            <summary>
+            Current state of the migration task
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.EstimatedQueuePosition">
+            <summary>
+            A rough estimate of where is this migration task in the queue (how many other tasks are in front of it)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.CreatedOn">
+            <summary>
+            When was this migration task created
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.StartCount">
+            <summary>
+            How many times has the migration started. Values larger than 1 indicate failures
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.LastError">
+            <summary>
+            Last main error that's been logged for this whole task. Only for debugging purposes
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.Config">
+            <summary>
+            Current status of the migration job
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.Status">
+            <summary>
+            Current status of the migration job. This is a composite of all the run statuses, to provide a complete information
+            in case the migration fails due to a bug. Statuses of the individual runs are in the RunStatuses
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.ContactsCompleted">
+            <summary>
+            Indicates if contacts completed migration
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.UserOwnedCompleted">
+            <summary>
+            Indicates if user owned entities have completed migration
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.GroupsCompleted">
+            <summary>
+            Indicates which groups completed migration
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.AccountMigrationTask.RunStatuses">
+            <summary>
+            Statuses of all the runs/attempts
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.GroupMigrationStatus">
+            <summary>
+            Represents current status of a group to migrate
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.GroupMigrationStatus.OwnerId">
+            <summary>
+            OwnerID of the group
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.GroupMigrationStatus.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.GroupMigrationStatus.MigratedMemberCount">
+            <summary>
+            Were members already migrated? It doesn't make sense to have progress indicator for this,
+            because there's barely any data to go with this.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.GroupMigrationStatus.RecordsStatus">
+            <summary>
+            Status of the migrated records
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.GroupMigrationStatus.VariablesStatus">
+            <summary>
+            Migration status of the variables of the group
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.MigrationInitialization">
+            <summary>
+            Contains all necessary data to initialize a migration process from a source infrastructure
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.MigrationInitialization.SourceCloudConfig">
+            <summary>
+            Configuration for the source cloud
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.MigrationInitialization.SourceLogin">
+            <summary>
+            Login credentials for the source infrastructure
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.MigrationInitialization.SourceTOTP">
+            <summary>
+            TOTP code for the source infrastructure
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.MigrationInitialization.SourceSession">
+            <summary>
+            Session for the source infrastructure
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.MigrationInitialization.SourceUID">
+            <summary>
+            The UID used to generate this data. This is explicitly stored, so it can be used by the cloud during
+            the migration process. The session tokens can be verified against the UID, to prevent leaked tokens
+            from being abused. Since the cloud is handling the actual migration, we'll need to provide it explicitly
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.MigrationInitialization.SourceSecretMachineID">
+            <summary>
+            The secret machine ID generated specifically for this migration. This is necessary for the migration to
+            function, because the cloud verifies if the session token matches the SecretMachineID. We just generate
+            a random one for the purposes of migration, so it cannot be used for anything else.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.MigrationInitialization.Config">
+            <summary>
+            The actual migration task to be performed
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.TotalRecordCount">
+            <summary>
+            Total number of records to be migrated
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.MigratedRecordCount">
+            <summary>
+            Total number of records that were migrated
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.AlreadyMigratedRecordCount">
+            <summary>
+            Total number of records that were already migrated and were skipped
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.ConflictedRecordCount">
+            <summary>
+            How many records have conflicted
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.TotalProcessedRecordCount">
+            <summary>
+            Total number of records that were processed
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.RecordSearchPhase">
+            <summary>
+            Debug description of the current search phase for the records
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.BytesToUpload">
+            <summary>
+            How many bytes need to be uploaded
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.BytesUploaded">
+            <summary>
+            How many bytes were already uploaded
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.AssetsToUpload">
+            <summary>
+            How many assets need to be uplaoded
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.AssetsUploaded">
+            <summary>
+            How many assets were uploaded
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.LastUpdated">
+            <summary>
+            How many assets were uploaded
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.CurrentlyMigratingRecords">
+            <summary>
+            Which records are currently being migrated
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RecordMigrationStatus.FailedRecords">
+            <summary>
+            Records that failed to migrate
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SessionInfo.AwayKickEnabled">
+            <summary>
+            Represents if users in the session will get auto-kicked wheb they have been away from the session for longer than the time period listed in AwayKickMinutes.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SessionInfo.AwayKickMinutes">
+            <summary>
+            Represents how long a user must be away from the session before they are auto-kicked, represented in total minutes.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.Platform">
+            <summary>
+            Profile of the entire platform, containing common names, ID's, schemes and accounts
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.UserAgentProduct">
+            <summary>
+            How will the client identity itself to the API.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.UserAgentVersion">
+            <summary>
+            Version of the product that it will identify as.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.GZip">
+            <summary>
+            Enable GZip compression for requests and responses. This can decrease latency and
+            signififcantly decreate the bandwidth necessary to communicate with the API.
+            On some platforms it causes trouble though (e.g. Linux) so must be disabled.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.ProxyConfig">
+            <summary>
+            Proxy settings to use when initializing SkyFrost.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.ApiEndpoint">
+            <summary>
+            URL of the main endpoint for API calls
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.SignalREndpoint">
+            <summary>
+            Endpoint where SignalR hub is located
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.ForceSignalRLongPolling">
+            <summary>
+            Force the use of long polling for SignalR. This can be useful if the connection is having issues
+            with websockets for some reason
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.ServerStatusEndpoint">
+            <summary>
+            Endpoint that can be checked for current status of the API. This generally should be different from
+            the ApiEndpoint, because if that one is down, then requests to this one would fail as well.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.SecretClientAccessKey">
+            <summary>
+            If the target endpoint is hidden under a secret access key, it needs to be provided there
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.Saml2Endpoint">
+            <summary>
+            URL for initiating SAML 2.0 login
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.DefaultTimeout">
+            <summary>
+            Default timeout for the web requests. Should be reasonably low, so if there are transient errors,
+            the request doesn't hang for too long, but also not too short that network glitches would cause
+            requests to fail.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.AssetInterface">
+            <summary>
+            The interface used to communicate with the cloud asset system for downloading and uploading assets.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.NetworkNodes">
+            <summary>
+            Manager for gathering network node information - e.g. matchmaker and relays
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.ContactPath">
+            <summary>
+            Name of the URL path for contacts. This is to support legacy API which used "friends"
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.UseLegacyLogin">
+            <summary>
+            Indicates if needs to use the legacy login method
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.UniverseID">
+            <summary>
+            The current universe the client is using to interact with SkyFrost. Gets used for various requests.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SkyFrostConfig.NodePreference">
+            <summary>
+            The current universe the client is using to interact with SkyFrost. Gets used for various requests.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSessionMetadata.SessionHash">
+            <summary>
+            Hash of the session ID (+ salt from the user status) that the user is in
+            This field uses hash so only users who already have data of given session can determine that the user
+            is in this session, but other users cannot.
+            The session hash might be null if the user is present in a session that is private, to completely hide its identity.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSessionMetadata.AccessLevel">
+            <summary>
+            Access level of this session
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSessionMetadata.SessionHidden">
+            <summary>
+            Indicates if this session is hidden from listing
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSessionMetadata.IsHost">
+            <summary>
+            Is the user owning this status the host of the session this represents?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSessionMetadata.BroadcastKey">
+            <summary>
+            BroadcastKey under which updates for this session can be received.
+            This is used for certain types of sessions, like Contacts+, so anyone who becomes aware
+            of the broadcast key can actually receive updates on this session
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.UserId">
+            <summary>
+            UserID that this status belongs to
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.UserSessionId">
+            <summary>
+            Unique identifier of the user's current status session. User can have multiple concurrent sessions,
+            e.g. being logged in the graphical client, while at the same time running headless and chat client.
+            This allows those sessions from being distinguished from each other.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.SessionType">
+            <summary>
+            Identifies the type of session this represents
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.OutputDevice">
+            <summary>
+            Current output device for graphical client. This can be used to tell if the user is in VR, screen, using camera or something else.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.IsMobile">
+            <summary>
+            Is this session running on a mobile device?
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.OnlineStatus">
+            <summary>
+            The online status of this particular session, if applicable.
+            Certain session types might be missing a status, e.g. Headless
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.IsPresent">
+            <summary>
+            Indicates if the user is currently present at this session
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.LastPresenceTimestamp">
+            <summary>
+            When is the last time that user was recorded as present in this session? Used to determine
+            which of the statuses is the most "fresh"
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.LastStatusChange">
+            <summary>
+            Timestamp of the last time this session info has changed
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.HashSalt">
+            <summary>
+            Randomized salt used to compute the session hashes. This is to prevent people from determining which users
+            are in the same session by matching their hashes.
+            This salt can change frequently, potentially with every single update of user status, to help obfuscate which
+            sessions is the user present in and how they change their status.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.AppVersion">
+            <summary>
+            Version string of the app that the user is currently running on
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.CompatibilityHash">
+            <summary>
+            The compatibility hash of the client that the user is running on. Can be null if not applicable.
+            The future is now! This is deprecated now - compatibility is determined on per-session basis,
+            instead of globally.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.PublicRSAKey">
+            <summary>
+            Public RSA parameters for authenticating user owning this status. The user generates private and public key pair
+            when they start up the app. The public key can be fetched from the cloud under the user's ID and then used to verify
+            any data signed by the user owning this, to ensure that they are who they claim to be.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.Sessions">
+            <summary>
+            Metadata of sessions that the user is currently present in. This requires having the actual session data
+            to fully decode, as the session ID's are hashed with the user's salt
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.CurrentSessionIndex">
+            <summary>
+            Index of the session (in the session metadata list) that the user is currently present in
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserStatus.CurrentSession">
+            <summary>
+            Helper to fetch the metadata of the session that the user is currently in
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.UserStatus.InitializeSessionList">
+            <summary>
+            Initializes the list of sessions to be filled, by generating new salt and ensuring there's a clear list
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.UserStatus.AddSession(SkyFrost.Base.SessionInfo,System.Boolean)">
+            <summary>
+            Adds metadata of given session to the list. Assumes that rest of the data have been properly initialized
+            </summary>
+            <param name="info">Info of the session to add</param>
+            <param name="isFocused">Indicates if given session is currently focused world</param>
+            <returns>Generated metadata for given sesesion</returns>
+        </member>
+        <member name="M:SkyFrost.Base.UserStatus.MatchSessionInfo(System.Collections.Generic.IEnumerable{SkyFrost.Base.SessionInfo},SkyFrost.Base.UserSessionMetadata)">
+            <summary>
+            Given a list of session infos, this will try to find the session info corresponding to a given session metadata
+            </summary>
+            <param name="infos">List of the session info's to try to match</param>
+            <param name="metadata">Metadata for which the match is being searched for</param>
+            <returns>Matched session info if found, null otherwise</returns>
+        </member>
+        <member name="M:SkyFrost.Base.UserStatus.IsMatchingSession(SkyFrost.Base.SessionInfo,SkyFrost.Base.UserSessionMetadata)">
+            <summary>
+            Determines if given session matches the session metadata for this user status.
+            </summary>
+            <param name="info">The session information to match</param>
+            <param name="metadata">Metadata of the session to match against</param>
+            <returns>True if matches, False if not</returns>
+        </member>
+        <member name="M:SkyFrost.Base.UserStatus.CreateSessionMap(System.Collections.Generic.IEnumerable{SkyFrost.Base.SessionInfo},System.Collections.Generic.Dictionary{System.String,SkyFrost.Base.SessionInfo})">
+            <summary>
+            Fills dictionary that maps session hashes represented by this status to their correspodning session infos
+            </summary>
+            <param name="infos">List of session infos to generate the map for</param>
+            <param name="map">Dictionary to fill in with the matched data</param>
+        </member>
+        <member name="M:SkyFrost.Base.UserStatus.IsDominantOver(SkyFrost.Base.UserStatus)">
+            <summary>
+            Determines if this status is dominant over another user status - that is if this one
+            should be displayed as their primary status instead of the other status or not,
+            </summary>
+            <param name="status">The status to compare this one to</param>
+            <returns>Whether the current status is dominant over the other status</returns>
+        </member>
+        <member name="F:SkyFrost.Base.SkyFrostInterface.SignalRTransports">
+            <summary>
+            The HttpTransports that SkyFrost will instruct SignalR to use.
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.WebProxyUtility.CreateProxy(SkyFrost.Base.ProxyConfig,SkyFrost.Base.IPlatformProfile)">
+            <summary>
+            Given a ProxyConfig, usually sourced from <see cref="T:SkyFrost.Base.AppConfig"/> creates an instance of <see cref="T:System.Net.WebProxy"/>.
+            </summary>
+            <param name="config">ProxyConfig from <see cref="T:SkyFrost.Base.AppConfig"/></param>
+            <returns>A setup WebProxy, or null if the proxy is invalid.</returns>
+        </member>
+        <member name="M:SkyFrost.Base.WebProxyUtility.HydrateProxyConfiguration(SkyFrost.Base.ProxyConfig)">
+            <summary>
+            Augments, an initial config with additional properties that might be avilable from other sources
+            </summary>
+            <param name="initialConfig">Initial config which should be hydrated with additional data from other sources</param>
+            <returns>Hydrated config</returns>
+        </member>
+        <member name="M:SkyFrost.Base.WebProxyUtility.GenerateProxyConfigFromRegistry(System.Nullable{SkyFrost.Base.RegistryProxyConfiguration})">
+            <summary>
+            Given some registry values in the form of a struct, parses them into valid proxy definitions.
+            </summary>
+            <param name="registryValues">Registry values, found in the windows registry.</param>
+            <returns>A proxy Configuration, sourced from the registry</returns>
+        </member>
+    </members>
+</doc>

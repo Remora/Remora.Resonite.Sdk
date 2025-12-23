@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Resonite</name>
+    </assembly>
+    <members>
+        <member name="T:FrooxEngine.Headless.HeadlessConfig">
+            <summary>
+            Options used to configure a Headless server. Read in from a JSON file on Headless start.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.Schema">
+             <summary>
+             JSONSchema for this file, used for external users to validate and test this file.
+             </summary>
+            
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.Comment">
+            <summary>
+            An optional free form comment for this file. Used for identification for your configuration.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.UniverseID">
+            <summary>
+            Optionally, specifies which universe this Headless Server will be in. See <see href="https://wiki.resonite.com/Universes">our wiki article on Universes</see> for more info.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.TickRate">
+            <summary>
+            Configures how many ticks(updates), should occur per second. Default is 60.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.MaxConcurrentAssetTransfers">
+            <summary>
+            Specifies the maximum concurrent asset transfers for this headless server. Default is 4.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.UsernameOverride">
+            <summary>
+            Configures a username which will override <see cref="P:FrooxEngine.Headless.HeadlessConfig.LoginCredential"/>, within the world browser etc.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.LoginCredential">
+            <summary>
+            Username for this Headless Server to use.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.LoginPassword">
+            <summary>
+            User password for the Headless Server to use.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.LoginRequired">
+            <summary>
+            When set to true, halt Headless start-up if the supplied login credentials fail.
+            </summary>
+            <remarks>This can be used in scenarios where the headless, needs a logged in user to function.
+            For example if it accesses private worlds or content. Or in Security minded installations.</remarks>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.StartWorlds">
+            <summary>
+            A list of worlds/sessions to start/create when this Headless Server starts.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.DataFolder">
+            <summary>
+            Optionally, override the folder which will be used to store data for this Headless Server.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.CacheFolder">
+            <summary>
+            Optionally, override the folder which will be used to store cache for this Headless Server.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.LogsFolder">
+            <summary>
+            Optionally, override the folder which will be used to store logs for this Headless Server.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.AllowedUrlHosts">
+            <summary>
+            A list of hosts which will automatically be allowed for HTTP/WebSocket operations
+            </summary>
+            <example>
+            <code>
+             ...
+             "allowedUrlHosts":[
+             "google.com",
+             "localhost:3000"
+             ]
+            </code>
+            </example>
+        </member>
+        <member name="P:FrooxEngine.Headless.HeadlessConfig.AutoSpawnItems">
+            <summary>
+            A list of item URIs to spawn in when a world starts.
+            </summary>
+        </member>
+    </members>
+</doc>

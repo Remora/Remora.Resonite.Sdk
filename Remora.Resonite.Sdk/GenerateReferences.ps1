@@ -1,0 +1,1 @@
+./ReferenceGeneration/Generator/ReferencePackageGenerator.exe ReferenceGeneration/Client.json ReferenceGeneration/Headless.json ReferenceGeneration/Renderite.json ReferenceGeneration/Shared.json

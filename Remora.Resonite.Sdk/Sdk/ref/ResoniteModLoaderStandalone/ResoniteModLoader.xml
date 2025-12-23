@@ -4,76 +4,6 @@
         <name>ResoniteModLoader</name>
     </assembly>
     <members>
-        <member name="F:ResoniteModLoader.AssemblyHider.knownDotNetCompanies">
-            <summary>
-            Companies that indicate an assembly is part of .NET
-            This list was found by debug logging the AssemblyCompany
-            for all loaded assemblies.
-            </summary>
-        </member>
-        <member name="F:ResoniteModLoader.AssemblyHider.knownDotNetProducts">
-            <summary>
-            Products that indicate an assembly is part of .NET.
-            This list was found by debug logging the AssemblyProductAttribute for all loaded assemblies.
-            </summary>
-        </member>
-        <member name="F:ResoniteModLoader.AssemblyHider.resoniteAssemblies">
-            <summary>
-            Assemblies that were already loaded when RML started up, minus a couple known non-assemblies.
-            </summary>
-        </member>
-        <member name="F:ResoniteModLoader.AssemblyHider.modAssemblies">
-            <summary>
-            Assemblies that 100% exist due to a mod
-            </summary>
-        </member>
-        <member name="F:ResoniteModLoader.AssemblyHider.dotNetAssemblies">
-            <summary>
-            .NET assembiles we want to ignore in some cases, like the callee check for the AppDomain.GetAssemblies() patch
-            </summary>
-        </member>
-        <member name="M:ResoniteModLoader.AssemblyHider.PatchResonite(HarmonyLib.Harmony,System.Collections.Generic.HashSet{System.Reflection.Assembly})">
-            <summary>
-            Patch Resonite's type lookup code to not see mod-related types. This is needed, because users can pass
-            arbitrary strings to TypeHelper.FindType(), which can be used to detect if someone is running mods.
-            </summary>
-            <param name="harmony">Our RML harmony instance</param>
-            <param name="initialAssemblies">Assemblies that were loaded when RML first started</param>
-        </member>
-        <member name="M:ResoniteModLoader.AssemblyHider.IsModAssembly(System.Reflection.Assembly,System.String,System.String,System.Boolean,System.Boolean)">
-            <summary>
-            Checks if an <see cref="T:System.Reflection.Assembly"/> belongs to a mod or not.
-            </summary>
-            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> to check.</param>
-            <param name="typeOrAssembly">Type of root check being performed. Should be "type" or "assembly". Used in logging.</param>
-            <param name="name">Name of the root check being performed. Used in logging.</param>
-            <param name="log">If `true`, this will emit logs. If `false`, this function will not log.</param>
-            <param name="forceShowLate">If `true`, then this function will always return `false` for late-loaded types</param>
-            <returns>`true` if this assembly belongs to a mod.</returns>
-        </member>
-        <member name="M:ResoniteModLoader.AssemblyHider.IsModAssembly(System.Reflection.Assembly,System.Boolean)">
-            <summary>
-            Checks if an <see cref="T:System.Reflection.Assembly"/> belongs to a mod or not.
-            </summary>
-            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> to check</param>
-            <param name="forceShowLate">If <c>true</c>, then this function will always return <c>false</c> for late-loaded types.</param>
-            <returns><c>true</c> if this <see cref="T:System.Reflection.Assembly"/> belongs to a mod.</returns>
-        </member>
-        <member name="M:ResoniteModLoader.AssemblyHider.IsModType(System.Type)">
-            <summary>
-            Checks if a <see cref="T:System.Type"/> belongs to a mod or not.
-            </summary>
-            <param name="type">The <see cref="T:System.Type"/> to check.</param>
-            <returns><c>true</c> if this <see cref="T:System.Type"/> belongs to a mod.</returns>
-        </member>
-        <member name="M:ResoniteModLoader.AssemblyHider.GetCallingAssembly(System.Diagnostics.StackTrace)">
-            <summary>
-            Get the calling <see cref="T:System.Reflection.Assembly"/> using stack trace analysis, ignoring .NET assemblies.
-            This implementation is SPECIFICALLY for the <see cref="M:System.AppDomain.GetAssemblies"/> patch and may not be valid for other use-cases.
-            </summary>
-            <param name="stackTrace">The stack trace captured by the callee.</param>
-            <returns>The calling <see cref="T:System.Reflection.Assembly"/>, or null if none was found.</returns>
-        </member>
         <member name="T:ResoniteModLoader.Assets.RMLAssets">
             <summary>
             Provides asset URIs for the mod loader.
@@ -128,6 +58,13 @@
             <returns>
             <c>true</c> if the indicator was set successfully or if visuals are hidden with <see cref="P:ResoniteModLoader.ModLoaderConfiguration.HideVisuals"/> otherwise <c>false</c>.
             </returns>
+        </member>
+        <member name="M:ResoniteModLoader.Locale.LocaleLoader.InitLocales">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            //async Task
         </member>
         <member name="T:ResoniteModLoader.IModConfigurationDefinition">
             <summary>
@@ -383,7 +320,7 @@
         </member>
         <member name="E:ResoniteModLoader.ModConfigurationKey.OnChanged">
             <summary>
-            Called if this <see cref="T:ResoniteModLoader.ModConfigurationKey"/> changed. 
+            Called if this <see cref="T:ResoniteModLoader.ModConfigurationKey"/> changed.
             </summary>
         </member>
         <member name="M:ResoniteModLoader.ModConfigurationKey.ValueType">
@@ -453,10 +390,11 @@
         <member name="P:ResoniteModLoader.ModConfigurationKey`1.Value">
             <summary>
             Gets or sets the value of this configuration key.
-            <para>
-            When getting, attempts to retrieve the current value assigned to this key, or <c>default(T)</c> if none is set.
-            When setting, assigns the provided value to this key and notifies any <see cref="!:OnChanged"/> subscribers.
-            </para>
+            <value>
+            <para><b>Get:</b> Attempts to retrieve the current value assigned to this key.
+            If no value is set, uses <see cref="M:ResoniteModLoader.ModConfigurationKey`1.TryComputeDefaultTyped(`0@)"/> if that fails, returns <c>default(T?)</c>.</para>
+            <para><b>Set:</b> Assigns the provided value to this key and notifies any <see cref="E:ResoniteModLoader.ModConfigurationKey.OnChanged"/> subscribers.</para>
+            </value>
             </summary>
         </member>
         <member name="M:ResoniteModLoader.ModConfigurationKey`1.ValueType">
@@ -658,9 +596,6 @@
             <inheritdoc/>
         </member>
         <member name="M:ResoniteModLoader.ModLoaderSettings.OnChanges">
-            <inheritdoc/>
-        </member>
-        <member name="M:ResoniteModLoader.ModLoaderSettings.OnStart">
             <inheritdoc/>
         </member>
         <member name="M:ResoniteModLoader.Util.ExecutingMod(System.Diagnostics.StackTrace)">

@@ -1,0 +1,19 @@
+{
+  "SourcePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite",
+  "DocumentationPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite\\Headless",
+  "Recursive": false,
+  "StrippedAssembliesTargetPath": "Sdk/ref/Shared/Stripped/",
+  "PublicizedAssembliesTargetPath": "Sdk/ref/Shared/Publicized/",
+  "IgnoreAccessChecksToPath": "Sdk/ref/IgnoreAccessChecksTo/",
+  "NupkgTargetPath": null,
+  "IncludePatterns": [
+    "Awwdio\\.dll$",
+    "Elements.*?\\.dll$",
+    "FrooxEngine.*?\\.dll$",
+    "PhotonDust\\.dll$",
+    "ProtoFlux.*?\\.dll$",
+    "SkyFrost.*?\\.dll$",
+    "YellowDogMan.*?\\.dll$"
+  ],
+  "ExcludePatterns": []
+}

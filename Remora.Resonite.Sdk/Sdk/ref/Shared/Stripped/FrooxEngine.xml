@@ -1,0 +1,3673 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FrooxEngine</name>
+    </assembly>
+    <members>
+        <member name="T:FrooxEngine.AssetProvider`1">
+            <summary>
+            A base class for all components that provide Assets, either static or dynamic.
+            It provides common behavior, such as tracking whether the asset is referenced and informing derived classes
+            when the load or free the asset from the memory.
+            </summary>
+            <typeparam name="A">The type of the asset that is provided</typeparam>
+        </member>
+        <member name="P:FrooxEngine.AssetProvider`1.AssetReferenceCount">
+            <summary>
+            Number of references to this asset in the world
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AssetProvider`1.Asset">
+            <summary>
+            Instance of the asset if loaded
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AssetProvider`1.IsAssetAvailable">
+            <summary>
+            Determines if the asset is currently loaded and available for use
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.AdjustHDRInverseGamma22">
+            <summary>
+            This adapter will adjust HDR values over 1 against an inverse 2.2 gamma curve.
+            This is useful for various situations where an HDR color exceeds 1, and a shader is expecting Unity to apply its own HDR conversion.
+            Given we do these conversions ourselves, this ensures scenarios where we want a corrected color - particularly on legacy assets.
+            This also avoids the creation of "fake" color spaces that have no real world basis.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.UniversalImporter.SpawnInventoryLink(FrooxEngine.Slot,System.Uri,SkyFrost.Base.IRecord)">
+            <summary>
+            Spawns an in-world representation of a folder or link to a folder.
+            </summary>
+            <param name="s">Slot to spawn the link on</param>
+            <param name="url">The original URL used to retrieve the folder</param>
+            <param name="record">Record loaded from the URL</param>
+        </member>
+        <member name="F:FrooxEngine.AssetManager.ForceGenerateVariants">
+            <summary>
+            Will force asset variants to be generated locally. This is mostly useful for debugging and should NOT
+            be used for production, as it will create load on systems and not work on certain platforms (e.g. Android)
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.IEngineAssetVariantDescriptor`1.CanConvertTo(`0)">
+            <summary>
+            This indicates whether already loaded asset with this descriptor can be converted to an asset with a new descriptor.
+            This is used so the engine doesn't have to fully load the asset from scratch again when a new variant is requested.
+            - E.g. texture is loaded with bilinear filtering and trilinear is requested. This change doesn't require a new binary
+            - version to be loaded, just updating GPU flags, so it can be converted.
+            - Alternatively if texture is loaded with BC3 compression, but RawRGBA is requested, this requires full reload and 
+            - different binary data, so the asset cannot be converted and the function will return false.
+            Note: The actual conversion from one descriptor to another is responsibility of the engine, not the descriptors.
+            Descriptors only say whether it's possible to do so.
+            </summary>
+            <param name="descriptor">Target descriptor to convert this one to.</param>
+            <returns>Whether already loaded asset with this descriptor can be converted to the new descriptor.</returns>
+        </member>
+        <member name="M:FrooxEngine.IEngineAssetVariantDescriptor`1.CombineWith(`0)">
+            <summary>
+            When asset providers request different variants to be loaded from the engine, the asset system will 
+            attempt to combine those descriptors into as few as possible, to avoid having to load multiple versions
+            of the same asset.
+            
+            This function will try to combine two descriptors into a single one.
+            - If the descriptors are mutually exclusive, it MUST return null, which will tell the engine they can't be merged.
+            - Otherwise it should generate a new descriptor, that's best possible combination of them both.
+            -- E.g. if one request if for texture with size 512 and one with size 1024, then the final descriptor will be for 1024
+            -- E.g. if one request if for bilinear filtering and another for trilinear, the result will use trilinear, since it's 
+            -- superior and trilinear is considered a suitable "upgrade" for bilinear. That is unless the descriptor says that it
+            -- needs an exact variant if it specifically really wants bilinear.
+            </summary>
+            <param name="descriptor">The descriptor to combine this descriptor with.</param>
+            <returns>Null if descriptors are mutually exclusive or a new descriptor that's a superset of current one and provided.</returns>
+        </member>
+        <member name="T:FrooxEngine.OVRLipSyncInterface.Frame">
+            NOTE: Opaque typedef for lip-sync context is an unsigned int (uint)
+            Current phoneme frame results
+        </member>
+        <member name="M:FrooxEngine.OVRLipSyncInterface.CreateContext(System.UInt32@,FrooxEngine.OVRLipSyncInterface.ContextProviders,System.Int32,System.Boolean)">
+            <summary>
+            Creates a lip-sync context.
+            </summary>
+            <returns>error code</returns>
+            <param name="context">Context.</param>
+            <param name="provider">Provider.</param>
+            <param name="enableAcceleration">Enable DSP Acceleration.</param>
+        </member>
+        <member name="M:FrooxEngine.OVRLipSyncInterface.CreateContextWithModelFile(System.UInt32@,FrooxEngine.OVRLipSyncInterface.ContextProviders,System.String,System.Int32,System.Boolean)">
+            <summary>
+            Creates a lip-sync context with specified model file.
+            </summary>
+            <returns>error code</returns>
+            <param name="context">Context.</param>
+            <param name="provider">Provider.</param>
+            <param name="modelPath">Model Dir.</param>
+            <param name="sampleRate">Sampling Rate.</param>
+            <param name="enableAcceleration">Enable DSP Acceleration.</param>
+        </member>
+        <member name="M:FrooxEngine.OVRLipSyncInterface.DestroyContext(System.UInt32)">
+            <summary>
+            Destroy a lip-sync context.
+            </summary>
+            <returns>The context.</returns>
+            <param name="context">Context.</param>
+        </member>
+        <member name="M:FrooxEngine.OVRLipSyncInterface.ResetContext(System.UInt32)">
+            <summary>
+            Resets the context.
+            </summary>
+            <returns>error code</returns>
+            <param name="context">Context.</param>
+        </member>
+        <member name="M:FrooxEngine.OVRLipSyncInterface.SendSignal(System.UInt32,FrooxEngine.OVRLipSyncInterface.Signals,System.Int32,System.Int32)">
+            <summary>
+            Sends a signal to the lip-sync engine.
+            </summary>
+            <returns>error code</returns>
+            <param name="context">Context.</param>
+            <param name="signal">Signal.</param>
+            <param name="arg1">Arg1.</param>
+            <param name="arg2">Arg2.</param>
+        </member>
+        <member name="M:FrooxEngine.OVRLipSyncInterface.ProcessFrame(System.UInt32,System.Single[],FrooxEngine.OVRLipSyncInterface.Frame,System.Boolean)">
+            <summary>
+             Process float[] audio buffer by lip-sync engine.
+            </summary>
+            <returns>error code</returns>
+            <param name="context">Context.</param>
+            <param name="audioBuffer"> PCM audio buffer.</param>
+            <param name="frame">Lip-sync Frame.</param>
+            <param name="stereo">Whether buffer is part of stereo or mono stream.</param>
+        </member>
+        <member name="M:FrooxEngine.OVRLipSyncInterface.ProcessFrame(System.UInt32,System.Int16[],FrooxEngine.OVRLipSyncInterface.Frame,System.Boolean)">
+            <summary>
+             Process short[] audio buffer by lip-sync engine.
+            </summary>
+            <returns>error code</returns>
+            <param name="context">Context.</param>
+            <param name="audioBuffer"> PCM audio buffer.</param>
+            <param name="frame">Lip-sync Frame.</param>
+            <param name="stereo">Whether buffer is part of stereo or mono stream.</param>
+        </member>
+        <member name="M:FrooxEngine.EngineSkyFrostInterface.#ctor(FrooxEngine.Engine,System.String,SkyFrost.Base.SkyFrostConfig)">
+            <summary>
+            Use <see cref="M:FrooxEngine.EngineSkyFrostInterface.Create(FrooxEngine.Engine,System.String,SkyFrost.Base.SkyFrostConfig)"/>, to instantiate.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.InviteRequestManager.ForwardInviteRequest(SkyFrost.Base.InviteRequest,System.String,System.String,System.String[])">
+            <summary>
+            This forwards invite request to given contacts and registers it as forwarded.
+            </summary>
+            <param name="request">The invite request to forward</param>
+            <param name="forSessionId">Which session is this invite request for</param>
+            <param name="forSessionName">The corresponding name of the session</param>
+            <param name="contactIds">List of contacts to forward it to. Typically host or admins</param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:FrooxEngine.InviteRequestManager.ForwardInviteRequest(SkyFrost.Base.InviteRequest,System.Boolean,System.String[])">
+            <summary>
+            This forwards invite request to given contacts and registers it as forwarded.
+            </summary>
+            <param name="request">The invite request to forward</param>
+            <param name="isContactOfHost">Indicates of the user who wants invite is contact of the host</param>
+            <param name="contactIds">List of contacts to forward it to. Typically host or admins</param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:FrooxEngine.InviteRequestManager.ForwardInviteRequest(SkyFrost.Base.InviteRequest,System.Func{SkyFrost.Base.InviteRequest,SkyFrost.Base.UserMessages,SkyFrost.Base.Message},System.String[])">
+            <summary>
+            This forwards invite request to given contacts and registers it as forwarded.
+            </summary>
+            <param name="request">The invite request to forward</param>
+            <param name="convertor">Method that converts the invite request into a forwarded message</param>
+            <param name="contactIds">List of contacts to forward it to. Typically host or admins</param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="F:FrooxEngine.LocomotionAnimationFeetMetrics.DEFAULT_FOOT_HEIGHT">
+            <summary>
+            We use a 3D model based reference for calibrating feet, taken from the Y-bot mixamo model.
+            The foot has its pivot at the ankle (which matches how bones are generally mapped).
+            This means that the actual position of the foot pivot is off the ground. So in order to position
+            the foot correctly at the ground, we need to know how much above the ground it is located.
+            This value is measured from the model itself in-game.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.GrabbableUserVoiceModifier">
+            <summary>
+            Reconfigures the audio output of the user who grabs and releases object with this component on.
+            It must be placed on the same slot as the Grabbable component.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.GrabbableUserVoiceModifier.VoiceState">
+            <summary>
+            A preset for the voice audio output.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GrabbableUserVoiceModifier.StateOnGrabbed">
+            <summary>
+            Preset to set the voice to when the object is grabbed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GrabbableUserVoiceModifier.StateOnReleased">
+            <summary>
+            Preset to set the voice to when the component is released
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.LegacyReverbHelper.UpgradeReverb(SharpPipe.IZitaFilter,Elements.Core.DataTreeNode,FrooxEngine.LoadControl)">
+            <summary>
+            Upgrades legacy reverb to the new ZitaReverb implementation
+            </summary>
+            <param name="reverbZone">The reverb zone to upgrade</param>
+            <param name="node"></param>
+            <param name="control"></param>
+        </member>
+        <member name="T:FrooxEngine.DroneCamera">
+            <summary>
+            Makes the object fly around the scene in a drone-like manner, pointing it at the active users.
+            The component will follow one or more users and try to keep them entirely in the frame, while
+            alternating height and relative position to them.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CameraUser">
+            <summary>
+            The user who updates the object position in the world.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.ManualControl">
+            <summary>
+            Determines whether the camera is flying around autonomously or whether it's controlled manually via an operator
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.FieldOfViewSource">
+            <summary>
+            Reference to a field with field of view of the camera, used for proper framing.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.FieldOfView">
+            <summary>
+            An explicit field of view value in case the FieldOfViewSource is null
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.AspectRatioSource">
+            <summary>
+            Reference to a field with the aspect ratio of the camera.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.AspectRatio">
+            <summary>
+            Explicit aspect ratio value in case the AspectRatioSource is set to null.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.FollowUser">
+            <summary>
+            A reference to a specific user the camera should follow. Will pick an user automatically if null
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.ControllerRejectDistance">
+            <summary>
+            Distance above which the user's controllers are excluded from the framing
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.GroupSearchRadius">
+            <summary>
+            Radius around each user in which it searches for more users to include in a group for framing.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.BiggestGroupSearchInterval">
+            <summary>
+            Number of seconds between checks for the biggest group of users in the scene.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.IgnoreOtherCameras">
+            <summary>
+            Whether it should ignore users who are also running in the camera mode.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.HeadForwardPointDistance">
+            <summary>
+            Distance of a framing point in front of the user's head
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.HeadBackwardPointDistance">
+            <summary>
+            Distance of a framing point in the back of user's head
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.HeadUpPointDistance">
+            <summary>
+            Distance of a framing point above the user's head
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.HeadDownPointDistance">
+            <summary>
+            Distance of a framing point below user's head
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.HeightOffset">
+            <summary>
+            Offset along the vertical axis from the user's head
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CircleOffset">
+            <summary>
+            Anglular offset around a circle, with zero being in front of the current user (or average front direction of a group)
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.DistanceOffset">
+            <summary>
+            Additional distance offset to the distance computed by the framing, which fits all the control points in the view.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CircleSpeed">
+            <summary>
+            How fast the camera moves in a circle around the user(s)
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.PositionSpeed">
+            <summary>
+            How fast the camera moves towards the center of the user or a group framing
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.LookSpeed">
+            <summary>
+            How fast the camera rotates at the center of the user or the group
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.DistanceSpeed">
+            <summary>
+            How fast the camera changes the distance from the user/group
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.UserInfluenceSpeed">
+            <summary>
+            How fast do user movements influence the framing points of the camera
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.HeightAmplitude">
+            <summary>
+            Amplitude of the height oscillation of the camera
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.DistanceAmplitude">
+            <summary>
+            Amplitude of the distance oscillation of the camera
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CircleAmplitude">
+            <summary>
+            Angle amplitude of the circle offset oscillation of the camera
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.HeightPeriod">
+            <summary>
+            Period of the height oscillation of the camera
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.DistancePeriod">
+            <summary>
+            Period of the distance oscillation of the camera
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CirclePeriod">
+            <summary>
+            Period of the circle offset oscillation of the camera
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CirclePeriodNoiseSpeed">
+            <summary>
+            Speed of change of the noise function used to modulate the oscillation speed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CirclePeriodNoiseInfluence">
+            <summary>
+            Influence of the noise function on the oscillation speed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.CheckOcclusion">
+            <summary>
+            Whether the camera should check for an occlusion between the user and the itself and adjust accordingly
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.AdjustHeightOnOcclusion">
+            <summary>
+            Whether the camera should adjust height first if it helps resolving the occlusion
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.TeleportWaitTime">
+            <summary>
+            How long has the camera to be out of range before it teleports to reset the framing
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.TeleportTriggerRelativeDistance">
+            <summary>
+            Distance ratio relative to the computed target distance, above which the camera will trigger teleport to reset framing
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.TeleportTriggerAngle">
+            <summary>
+            An angle between the front direction of the camera and the target center of the framing, above which the camera will trigger teleport
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.MinRandomizeFovInterval">
+            <summary>
+            Minimum interval before Fov is changed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.MaxRandomizeFovInterval">
+            <summary>
+             Maximum interval before Fov is changed. If set to zero, Fov randomization is disabled.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.MinFov">
+            <summary>
+            Lower bound for the randomized field of view angle
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.MaxFov">
+            <summary>
+            Upper bound for the randomized field of view angle
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.MinChangeFovTime">
+            <summary>
+            Miminum length of the field of view transition
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DroneCamera.MaxChangeFovTime">
+            <summary>
+            Maximum length of the field of view transition
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.DroneCamera.PresetBiggestGroup">
+            <summary>
+            A preset that tries to follow and frame the biggest group in the scene.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.DroneCamera.PresetTimelapse">
+            <summary>
+            Preset with a very slow gradual movements, ideal for speeding up the footage for a timelapse.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.DroneCamera.PresetBehind">
+            <summary>
+            Preset which makes the camera stay behind the host (or selected user)
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.DroneCamera.PresetInFront">
+            <summary>
+            Preset which makes the camera fly in front of the host (or selected user) at varying distances.
+            Useful for public events, like when presenting in front of an virtual audience.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.DroneCamera.PresetManual">
+            <summary>
+            Enables manual control of the camera by an operator or by grabbing it.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.ButtonEditColorX">
+            <summary>
+            Will spawn a color editor dialog for a specified field when the button it is attached to is pressed.
+            </summary>
+            <remarks>
+            Our color dialog only supports ColorX these days so there is no Color(no X) variant.
+            </remarks>
+        </member>
+        <member name="T:FrooxEngine.DelegateTag`1">
+            <summary>
+            A component which holds a delegate reference without any additional information.
+            </summary>
+            <typeparam name="T">Type of the delegate the componet holds</typeparam>
+        </member>
+        <member name="F:FrooxEngine.DelegateTag`1.Delegate">
+            <summary>
+            Reference to the delegate.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DelegateTag`1.DelegateType">
+            <summary>
+            The type of the delegate
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicVariableWriteResult.Success">
+            <summary>
+            The variable was written successfully
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicVariableWriteResult.NotFound">
+            <summary>
+            Corresponding variable or space wasn't found. This can be resolved by creating one.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicVariableWriteResult.Failed">
+            <summary>
+            The writing failed and is unrecoverable. This can happen when the value or other parameters are invalid
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.ReferenceTag`1">
+            <summary>
+            A component which holds a reference without any additional information.
+            </summary>
+            <typeparam name="T">Type of the referenced object</typeparam>
+        </member>
+        <member name="F:FrooxEngine.ReferenceTag`1.Reference">
+            <summary>
+            Reference to the object
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.ReferenceTag`1.ReferenceType">
+            <summary>
+            Type of the referenced object
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.ValueTag`1">
+            <summary>
+            A component which holds an arbitrary value without any additional information.
+            </summary>
+            <typeparam name="T">Type of the value that is held</typeparam>
+        </member>
+        <member name="F:FrooxEngine.ValueTag`1.Value">
+            <summary>
+            The value that is held
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.ValueTag`1.ValueType">
+            <summary>
+            Type of the value
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.SyncMemberEditorBuilder.BuildField(FrooxEngine.IField,System.Reflection.FieldInfo,FrooxEngine.Slot,FrooxEngine.UIX.LayoutElement)">
+            <summary>
+            This method builds a specific field in the editor.
+            </summary>
+            <param name="field"></param>
+            <param name="fieldInfo"></param>
+            <param name="root"></param>
+            <param name="layoutElement"></param>
+        </member>
+        <member name="M:FrooxEngine.SyncMemberEditorBuilder.BuildMemberEditors(FrooxEngine.IField,System.Type,System.String,FrooxEngine.UIX.UIBuilder,System.Reflection.FieldInfo,FrooxEngine.UIX.LayoutElement,System.Boolean)">
+            <summary>
+            This method builds out a member editor for a given field of a specified type.
+            </summary>
+            <param name="field"></param>
+            <param name="type"></param>
+            <param name="path"></param>
+            <param name="ui"></param>
+            <param name="fieldInfo"></param>
+            <param name="layoutElement"></param>
+            <param name="generateName"></param>
+        </member>
+        <member name="M:FrooxEngine.SyncMemberEditorBuilder.AttachReceivers(FrooxEngine.Slot,FrooxEngine.ISyncRef)">
+            <summary>
+            Attaches a ReferenceDriveReceiver component for the given reference field to a slot
+            </summary>
+            <param name="slot"></param>
+            <param name="fieldRef"></param>
+        </member>
+        <member name="M:FrooxEngine.SyncMemberEditorBuilder.AttachReceivers(FrooxEngine.Slot,FrooxEngine.IField)">
+            <summary>
+            Attaches FieldDriveReceiver and ValueReceiver components for the given member field to a slot
+            </summary>
+            <param name="slot"></param>
+            <param name="fieldMember"></param>
+        </member>
+        <member name="T:FrooxEngine.UIX.OverlappingLayout">
+            <summary>
+                Allows multiple vertical and horizontal layouts to exist in the same place with a custom alignment.
+            </summary>
+            <remarks>
+            Copied from the changelog:
+                - This allows to overlap multiple vertical and horizontal layout in the same place with a custom alignment
+                - This layout will compute metrics based on the largest height/width of its individual layout.
+                - This means that you can for example overlap two VerticalLayouts on top of each other and size the whole based on the largest of the overlapped layouts
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.UIX.ModalOverlay.CloseOnClick">
+            <summary>
+            True if this overlay should be closed when clicked
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.UIX.UIStyle.ChildAlignment">
+            <summary>
+            Used by <see cref="T:FrooxEngine.UIX.UIBuilder"/> to determine the default alignment settings for Layout Children.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.UIX.UIStyle.TextAlignment">
+            <summary>
+            Used by <see cref="T:FrooxEngine.UIX.UIBuilder"/> to determine the default alignment settings for basic Text.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.UIX.UIStyle.ButtonTextAlignment">
+            <summary>
+            Used by <see cref="T:FrooxEngine.UIX.UIBuilder"/> to determine the default alignment settings for text found within buttons.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.UIX.UIStyle.TextColor">
+            <summary>
+            The default text color of this UI style.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.UIX.UIBuilder.Panel">
+            <summary>
+            Creates a panel which will nest subsequent UI elements until a matching NestOut call is made.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.UIX.UIBuilder.HorizontalLayout(System.Single,System.Single,System.Nullable{Elements.Core.Alignment})">
+            <summary>
+            Creates a horizontal layout for UI elements.  Will automatically nest subsequent UI elements until a matching NestOut call is made.
+            </summary>
+            <param name="spacing"></param>
+            <param name="padding"></param>
+            <param name="childAlignment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.UIX.UIBuilder.VerticalLayout(System.Single,System.Single,System.Nullable{Elements.Core.Alignment},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+            <summary>
+            Creates a vertical layout for UI elements.  Will automatically nest subsequent UI elements until a matching NestOut call is made.
+            </summary>
+            <param name="spacing"></param>
+            <param name="padding"></param>
+            <param name="childAlignment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.UIX.UIBuilder.GridLayout">
+            <summary>
+            Creates a grid layout for UI elements.  Will automatically nest subsequent UI elements until a matching NestOut call is made.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.UIX.UIBuilder.ScrollArea(System.Nullable{Elements.Core.Alignment})">
+            <summary>
+            Creates a scroll area for UI elements.  Will automatically nest subsequent UI elements until a matching NestOut call is made.
+            </summary>
+            <param name="alignment"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.Axis">
+            <summary>
+            The Cartesian axes.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.AxisTools">
+            <summary>
+            Contains tools for working with Axes that have no positive/negative directions.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.AxisTools.Tofloat3(FrooxEngine.FinalIK.Axis)">
+            <summary>
+            Converts an Axis to float3.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.AxisTools.ToAxis(Elements.Core.float3@)">
+            <summary>
+            Converts a float3 to Axis.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.AxisTools.GetAxisToPoint(FrooxEngine.Slot,Elements.Core.float3@)">
+            <summary>
+            Returns the Axis of the Transform towards a world space position.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.AxisTools.GetAxisToDirection(FrooxEngine.Slot,Elements.Core.float3@)">
+            <summary>
+            Returns the Axis of the Transform towards a world space direction.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.AxisTools.GetAxisVectorToPoint(FrooxEngine.Slot,Elements.Core.float3@)">
+            <summary>
+            Returns the local axis of the Transform towards a world space position.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.AxisTools.GetAxisVectorToDirection(FrooxEngine.Slot,Elements.Core.float3)">
+            <summary>
+            Returns the local axis of the Transform that aligns the most with a direction.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolver">
+            <summary>
+            The base abstract class for all %IK solvers
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolver.IsValid">
+            <summary>
+            Determines whether this instance is valid or not.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolver.IsValid(System.String@)">
+            <summary>
+            Determines whether this instance is valid or not. If returns false, also fills in an error message.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolver.Initiate(FrooxEngine.Slot)">
+            <summary>
+            Initiate the solver with specified root Transform. Use only if this %IKSolver is not a member of an %IK component.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolver.Update">
+            <summary>
+            Updates the %IK solver. Use only if this %IKSolver is not a member of an %IK component or the %IK component has been disabled and you intend to manually control the updating.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolver.IKPosition">
+            <summary>
+            The %IK position.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolver.IKPositionWeight">
+            <summary>
+            The %IK position weight or the master weight of the solver.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.FinalIK.IKSolver.Initiated">
+            <summary>
+            Gets a value indicating whether this <see cref="T:FrooxEngine.FinalIK.IKSolver"/> has successfully initiated.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolver.FixTransforms">
+            <summary>
+            Fixes all the Transforms used by the solver to their initial state.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolver.StoreDefaultLocalState">
+            <summary>
+            Stores the default local state for the bones used by the solver.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolver.UpdateDelegate">
+            <summary>
+            Delegates solver update events.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolver.IterationDelegate">
+            <summary>
+            Delegates solver iteration events.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolver.OnPreInitiate">
+            <summary>
+            Called before initiating the solver.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolver.OnPostInitiate">
+            <summary>
+            Called after initiating the solver.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolver.OnPreUpdate">
+            <summary>
+            Called before updating.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolver.OnPostUpdate">
+            <summary>
+            Called after writing the solved pose
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolverVR">
+            <summary>
+            Hybrid %IK solver designed for mapping a character to a VR headset and 2 hand controllers 
+            </summary>
+            <summary>
+            Hybrid %IK solver designed for mapping a character to a VR headset and 2 hand controllers 
+            </summary>
+            <summary>
+            Hybrid %IK solver designed for mapping a character to a VR headset and 2 hand controllers 
+            </summary>
+            <summary>
+            Hybrid %IK solver designed for mapping a character to a VR headset and 2 hand controllers 
+            </summary>
+            <summary>
+            Hybrid %IK solver designed for mapping a character to a VR headset and 2 hand controllers 
+            </summary>
+            <summary>
+            Hybrid %IK solver designed for mapping a character to a VR headset and 2 hand controllers 
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.FinalIK.IKSolverVR.References.isFilled">
+            <summary>
+            Returns true if all required Transforms have been assigned (shoulder, toe and neck bones are optional).
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.FinalIK.IKSolverVR.References.isEmpty">
+            <summary>
+            Returns true if none of the Transforms have been assigned.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.GuessHandOrientations(System.Boolean)">
+            <summary>
+            Guesses the hand bones orientations ('Wrist To Palm Axis' and "Palm To Thumb Axis" of the arms) based on the provided references. if onlyIfZero is true, will only guess an orientation axis if it is float3.zero.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.DefaultAnimationCurves">
+            <summary>
+            Set default values for the animation curves if they have no keys.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.AddPositionOffset(FrooxEngine.FinalIK.IKSolverVR.PositionOffset,Elements.Core.float3@)">
+            <summary>
+            Adds position offset to a body part. Position offsets add to the targets in VRIK.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.AddRotationOffset(FrooxEngine.FinalIK.IKSolverVR.RotationOffset,Elements.Core.float3@)">
+            <summary>
+            Adds rotation offset to a body part. Rotation offsets add to the targets in VRIK
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.AddRotationOffset(FrooxEngine.FinalIK.IKSolverVR.RotationOffset,Elements.Core.floatQ@)">
+            <summary>
+            Adds rotation offset to a body part. Rotation offsets add to the targets in VRIK
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.AddPlatformMotion(Elements.Core.float3@,Elements.Core.floatQ@,Elements.Core.float3@)">
+            <summary>
+            Call this in each Update if your avatar is standing on a moving platform
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.Reset">
+            <summary>
+            Resets all tweens, blendings and lerps. Call this after you have teleported the character.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.PlantFeet">
+            <summary>
+            If true, will keep the toes planted even if head target is out of reach.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.rootBone">
+            <summary>
+            Gets the root bone.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.spine">
+            <summary>
+            The spine solver.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.leftArm">
+            <summary>
+            The left arm solver.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.rightArm">
+            <summary>
+            The right arm solver.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.leftLeg">
+            <summary>
+            The left leg solver.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.rightLeg">
+            <summary>
+            The right leg solver.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.locomotion">
+            <summary>
+            The procedural locomotion solver.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolverVR.Arm">
+            <summary>
+            4-segmented analytic arm chain.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.Target">
+            <summary>
+            The hand target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.BendGoal">
+            <summary>
+            The elbow will be bent towards this Transform if 'Bend Goal Weight' > 0.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.PositionWeight">
+            <summary>
+            Positional weight of the hand target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.RotationWeight">
+            <summary>
+            Rotational weight of the hand target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.ShoulderRotationModeSetting">
+            <summary>
+            Different techniques for shoulder bone rotation.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.ShoulderRotationWeight">
+            <summary>
+            The weight of shoulder rotation
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.BendGoalWeight">
+            <summary>
+            If greater than 0, will bend the elbow towards the 'Bend Goal' Transform.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.SwivelOffset">
+            <summary>
+            Angular offset of the elbow bending direction.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.WristToPalmAxis">
+            <summary>
+            Local axis of the hand bone that points from the wrist towards the palm. Used for defining hand bone orientation.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.PalmToThumbAxis">
+            <summary>
+            Local axis of the hand bone that points from the palm towards the thumb. Used for defining hand bone orientation.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.ArmLengthMlp">
+            <summary>
+            Use this to make the arm shorter/longer.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.StretchCurve">
+            <summary>
+            Evaluates stretching of the arm by target distance relative to arm length. Value at time 1 represents stretching amount at the point where distance to the target is equal to arm length. Value at time 2 represents stretching amount at the point where distance to the target is double the arm length. Value represents the amount of stretching. Linear stretching would be achieved with a linear curve going up by 45 degrees. Increase the range of stretching by moving the last key up and right at the same amount. Smoothing in the curve can help reduce elbow snapping (start stretching the arm slightly before target distance reaches arm length).
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.IKPosition">
+            <summary>
+            Target position of the hand. Will be overriden if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.IKRotation">
+            <summary>
+            Target rotation of the hand. Will be overwritten if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.BendGoalPosition">
+            <summary>
+            The bending position of the limb. Will be used if bendGoalWeight is greater than 0. Will be overwritten if bendGoal is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.TwistRelaxWeight">
+            <summary>
+            The wight of the relaxing the twist of the forearm and hand
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.TwistCrossfade">
+            <summary>
+            If 0.5, this Transform will be twisted half way from parent to child. If 1, the twist angle will be locked to the child and will rotate with along with it.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.TwistAngleOffset">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Arm.handPositionOffset">
+            <summary>
+            Position offset of the hand. Will be applied on top of hand target position and reset to float3.zero after each update.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolverVR.BodyPart">
+            <summary>
+            A base class for limbs of all types.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolverVR.Leg">
+            <summary>
+            4-segmented analytic leg chain.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.Target">
+            <summary>
+            The toe/foot target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.BendGoal">
+            <summary>
+            The knee will be bent towards this Transform if 'Bend Goal Weight' > 0.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.PositionWeight">
+            <summary>
+            Positional weight of the toe/foot target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.RotationWeight">
+            <summary>
+            Rotational weight of the toe/foot target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.BendGoalWeight">
+            <summary>
+            If greater than 0, will bend the knee towards the 'Bend Goal' Transform.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.SwivelOffset">
+            <summary>
+            Angular offset of the knee bending direction.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.CalfBendNormal">
+            <summary>
+            Directional vector in calf's coordinate space along which to bend the knee
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.IKPosition">
+            <summary>
+            Target position of the toe/foot. Will be overwritten if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.IKRotation">
+            <summary>
+            Target rotation of the toe/foot. Will be overwritten if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.footPositionOffset">
+            <summary>
+            Position offset of the toe/foot. Will be applied on top of target position and reset to float3.zero after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.heelPositionOffset">
+            <summary>
+            Position offset of the heel. Will be reset to float3.zero after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.footRotationOffset">
+            <summary>
+            Rotation offset of the toe/foot. Will be reset to floatQ.identity after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Leg.currentMag">
+            <summary>
+            The length of the leg (calculated in last read).
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.Weight">
+            <summary>
+            Used for blending in/out of procedural locomotion.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.FootDistance">
+            <summary>
+            Tries to maintain this distance between the legs.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.StepThreshold">
+            <summary>
+            Makes a step only if step target position is at least this far from the current footstep or the foot does not reach the current footstep anymore or footstep angle is past the 'Angle Threshold'.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.AngleThreshold">
+            <summary>
+            Makes a step only if step target position is at least 'Step Threshold' far from the current footstep or the foot does not reach the current footstep anymore or footstep angle is past this value.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.ComAngleMlp">
+            <summary>
+            Multiplies angle of the center of mass - center of pressure vector. Larger value makes the character step sooner if losing balance.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.MaxVelocity">
+            <summary>
+            Maximum magnitude of head/hand target velocity used in prediction.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.VelocityFactor">
+            <summary>
+            The amount of head/hand target velocity prediction.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.MaxLegStretch">
+            <summary>
+            How much can a leg be extended before it is forced to step to another position? 1 means fully stretched.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.RootSpeed">
+            <summary>
+            The speed of lerping the root of the character towards the horizontal mid-point of the footsteps.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.StepSpeed">
+            <summary>
+            The speed of steps
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.StepHeight">
+            <summary>
+            The height of the foot by normalized step progress (0 - 1).
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.HeelHeight">
+            <summary>
+            The height offset of the heel by normalized step progress (0 - 1).
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.RelaxLegTwistMinAngle">
+            <summary>
+            Rotates the foot while the leg is not stepping to relax the twist rotation of the leg if ideal rotation is past this angle.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.RelaxLegTwistSpeed">
+            <summary>
+            The speed of rotating the foot while the leg is not stepping to relax the twist rotation of the leg.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.StepInterpolation">
+            <summary>
+            Interpolation mode of the step.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.Offset">
+            <summary>
+            Offset for the approximated center of mass.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.OnLeftFootstep">
+            <summary>
+            Called when the left foot has finished a step.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Locomotion.OnRightFootstep">
+            <summary>
+            Called when the right foot has finished a step
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.FinalIK.IKSolverVR.Locomotion.centerOfMass">
+            <summary>
+            Gets the approximated center of mass.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.IKSolverVR.Spine">
+            <summary>
+            Spine solver for IKSolverVR.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.HeadTarget">
+            <summary>
+            The head target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.PelvisTarget">
+            <summary>
+            The pelvis target, useful with seated rigs.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.PositionWeight">
+            <summary>
+            Positional weight of the head target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.RotationWeight">
+            <summary>
+            Rotational weight of the head target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.PelvisPositionWeight">
+            <summary>
+            Positional weight of the pelvis target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.PelvisRotationWeight">
+            <summary>
+            Rotational weight of the pelvis target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.ChestGoal">
+            <summary>
+            If chestGoalWeight is greater than 0, the chest will be turned towards this Transform.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.ChestGoalWeight">
+            <summary>
+            Rotational weight of the chest target.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.MinHeadHeight">
+            <summary>
+            Minimum height of the head from the root of the character.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.BodyPosStiffness">
+            <summary>
+            Determines how much the body will follow the position of the head.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.BodyRotStiffness">
+            <summary>
+            Determines how much the body will follow the rotation of the head.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.NeckStiffness">
+            <summary>
+            Determines how much the chest will rotate to the rotation of the head.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.RotateChestByHands">
+            <summary>
+            The amount of rotation applied to the chest based on hand positions.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.ChestClampWeight">
+            <summary>
+            Clamps chest rotation.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.HeadClampWeight">
+            <summary>
+            Clamps head rotation.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.MoveBodyBackWhenCrouching">
+            <summary>
+            Moves the body horizontally along -character.forward axis by that value when the player is crouching.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.MaintainPelvisPosition">
+            <summary>
+            How much will the pelvis maintain it's animated position?
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.MaxRootAngle">
+            <summary>
+            Will automatically rotate the root of the character if the head target has turned past this angle.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.IKPositionHead">
+            <summary>
+            Target position of the head. Will be overwritten if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.IKRotationHead">
+            <summary>
+            Target rotation of the head. Will be overwritten if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.IKPositionPelvis">
+            <summary>
+            Target position of the pelvis. Will be overwritten if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.IKRotationPelvis">
+            <summary>
+            Target rotation of the pelvis. Will be overwritten if target is assigned.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.GoalPositionChest">
+            <summary>
+            The goal position for the chest. If chestGoalWeight > 0, the chest will be turned towards this position.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.pelvisPositionOffset">
+            <summary>
+            Position offset of the pelvis. Will be applied on top of pelvis target position and reset to float3.zero after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.chestPositionOffset">
+            <summary>
+            Position offset of the chest. Will be reset to float3.zero after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.headPositionOffset">
+            <summary>
+            Position offset of the head. Will be applied on top of head target position and reset to float3.zero after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.pelvisRotationOffset">
+            <summary>
+            Rotation offset of the pelvis. Will be reset to floatQ.identity after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.chestRotationOffset">
+            <summary>
+            Rotation offset of the chest. Will be reset to floatQ.identity after each update.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FinalIK.IKSolverVR.Spine.headRotationOffset">
+            <summary>
+            Rotation offset of the head. Will be applied on top of head target rotation and reset to floatQ.identity after each update.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.IKSolverVR.VirtualBone.SolveTrigonometric(System.Span{FrooxEngine.FinalIK.IKSolverVR.VirtualBone},System.Int32,System.Int32,System.Int32,Elements.Core.float3,Elements.Core.float3@,System.Single)">
+            <summary>
+            Solve the bone chain virtually using both solverPositions and SolverRotations. This will work the same as IKSolverTrigonometric.Solve.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.InterpolationMode">
+            <summary>
+            Interpolation mode.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.Interp">
+            <summary>
+            Class for various interpolation methods.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.Interp.Float(System.Single,FrooxEngine.FinalIK.InterpolationMode)">
+            <summary>
+            Interpolate the specified t by InterpolationMode mode.
+            </summary>
+            <param name='t'>
+            T.
+            </param>
+            <param name='mode'>
+            InterpolationMode.
+            </param>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.Interp.V3(Elements.Core.float3,Elements.Core.float3,System.Single,FrooxEngine.FinalIK.InterpolationMode)">
+            <summary>
+            Interpolate between two verctors by InterpolationMode mode
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.Interp.LerpValue(System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Linear interpolation of value towards target.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.QuaTools">
+            <summary>
+            Helper methods for dealing with floatQs.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.QuaTools.ClampRotation(Elements.Core.floatQ@,System.Single,System.Int32)">
+            <summary>
+            Clamps the rotation similar to V3Tools.ClampDirection.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FinalIK.V3Tools">
+            <summary>
+            Helper methods for dealing with 3-dimensional vectors.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.Lerp(Elements.Core.float3@,Elements.Core.float3@,System.Single)">
+            <summary>
+            Optimized float3.Lerp
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.Slerp(Elements.Core.float3@,Elements.Core.float3@,System.Single)">
+            <summary>
+            Optimized float3.Slerp
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.ExtractVertical(Elements.Core.float3@,Elements.Core.float3@,System.Single)">
+            <summary>
+            Returns vector projection on axis multiplied by weight.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.ExtractHorizontal(Elements.Core.float3@,Elements.Core.float3,System.Single)">
+            <summary>
+            Returns vector projected to a plane and multiplied by weight.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.ClampDirection(Elements.Core.float3@,Elements.Core.float3@,System.Single,System.Int32,System.Boolean@)">
+            <summary>
+            Clamps the direction to clampWeight from normalDirection, clampSmoothing is the number of sine smoothing iterations applied on the result.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.ClampDirection(Elements.Core.float3@,Elements.Core.float3@,System.Single,System.Int32,System.Single@)">
+            <summary>
+            Clamps the direction to clampWeight from normalDirection, clampSmoothing is the number of sine smoothing iterations applied on the result.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.LineToPlane(Elements.Core.float3@,Elements.Core.float3@,Elements.Core.float3@,Elements.Core.float3@)">
+            <summary>
+            Get the intersection point of line and plane
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.FinalIK.V3Tools.PointToPlane(Elements.Core.float3@,Elements.Core.float3@,Elements.Core.float3@)">
+            <summary>
+            Projects a point to a plane.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.IGrabbableSaveBlock">
+            <summary>
+            Used to prevent users from saving an item to their inventory, from their context menu or inventory window.
+            </summary>
+            <remarks>This is not designed as a security feature. Inspectors/Tools can easily bypass it,
+            it is recommended for game mechanics/items where users are not necessarily
+            builders and you want to block the non-builder saving options.</remarks>
+        </member>
+        <member name="T:FrooxEngine.GrabbableSaveBlock">
+            <inheritdoc cref="T:FrooxEngine.IGrabbableSaveBlock"/>
+        </member>
+        <member name="T:FrooxEngine.IInteractionBlock">
+            <summary>
+            Represents a generic "Block" for a specific action
+            </summary>
+            <remarks>Forms the root of an inheritance tree of action blocks. Which is handy for code searching,
+            automation and potential future features.</remarks>
+        </member>
+        <member name="F:FrooxEngine.NoclipLocomotion.MaxSpeed">
+            <summary>
+            The maximum flying speed in world units per second. Relative to the current user scale.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.NoclipLocomotion.MinimumFlySpeedRatio">
+            <summary>
+            When using fly speed modulation with trigger (or other 1D analog input) this is the minimal flying speed
+            ratio (relative to the MaxSpeed) when the modulation is zero
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.TeleportLocomotion.HitType">
+            <summary>
+            Represents the type of hit that the teleport locomotion sees after searching
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.TeleportLocomotion.HitType.None">
+            <summary>
+            Not a valid hit, but allows the teleporter to continue searching.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.TeleportLocomotion.HitType.Small">
+            <summary>
+            A small hit, teleport locomotion prefers <see cref="F:FrooxEngine.TeleportLocomotion.HitType.Big"/>
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.TeleportLocomotion.HitType.Big">
+            <summary>
+            A big hit, usually represents a very valid and safe teleport destination.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:FrooxEngine.TeleportLocomotion.HitType.Blocked" -->
+        <member name="T:FrooxEngine.LegacyAudioPlayer">
+            <summary>
+            An audio player UI, that provides interface for common audio playback actions. It holds a reference
+            to an audio clip, shows a waveform, play/stop/pause/loop controls, seeking control, volume adjustment,
+            and spatialization option.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.LegacyAudioPlayer.AudioClip">
+            <summary>
+            Reference to the audio clip that this player will play and control.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.CharacterControllerData">
+            <summary>
+            Raw data for a dynamic character controller instance.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.ViewDirection">
+            <summary>
+            Direction the character is looking in world space. Defines the forward direction for movement.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.TargetDirection">
+            <summary>
+            Target horizontal velocity. 
+            X component refers to desired velocity along the strafing direction (perpendicular to the view direction projected down to the surface), 
+            Y component refers to the desired velocity along the forward direction (aligned with the view direction projected down to the surface).
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.TryJump">
+            <summary>
+            If true, the character will try to jump on the next time step. Will be reset to false after being processed.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.ClearSupport">
+            <summary>
+            If true, any existing support contact will be cleared
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.BodyHandle">
+            <summary>
+            Handle of the body associated with the character.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.LocalUp">
+            <summary>
+            Character's up direction in the local space of the character's body.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.JumpVelocity">
+            <summary>
+            Velocity at which the character pushes off the support during a jump.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.MaximumHorizontalForce">
+            <summary>
+            Maximum force the character can apply tangent to the supporting surface to move.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.MaximumVerticalForce">
+            <summary>
+            Maximum force the character can apply to glue itself to the supporting surface.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.CosMaximumSupportSlope">
+            <summary>
+            Cosine of the maximum slope angle that the character can treat as a support.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.CosMaximumTractionSlope">
+            <summary>
+            Cosine of the maximum slope angle that the character has traction on.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.MinimumSupportDepth">
+            <summary>
+            Depth threshold beyond which a contact is considered a support if it the normal allows it.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.MinimumSupportContinuationDepth">
+            <summary>
+            Depth threshold beyond which a contact is considered a support if the previous frame had support, even if it isn't deep enough to meet the MinimumSupportDepth.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.Supported">
+            <summary>
+            Whether the character is currently supported.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.Traction">
+            <summary>
+            Whether the character has traction
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:FrooxEngine.CharacterControllerData.SteppingUp" -->
+        <member name="F:FrooxEngine.CharacterControllerData.Support">
+            <summary>
+            Collidable supporting the character, if any. Only valid if Supported is true.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.MotionConstraintHandle">
+            <summary>
+            Handle of the character's motion constraint, if any. Only valid if Supported is true.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.LastJump">
+            <summary>
+            The last collidable used for jump, which can be used to reject generating traction with the same body
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CharacterControllerData.DebugVisualDuration">
+            <summary>
+            Render contact debug visuals
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.CharacterControllerManager">
+            <summary>
+            System that manages all the characters in a simulation. Responsible for updating movement constraints based on character goals and contact states.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.CharacterControllerManager.PrepareForContacts(System.Single,BepuUtilities.IThreadDispatcher)">
+            <summary>
+            Preallocates space for support data collected during the narrow phase. Should be called before the narrow phase executes.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.CharacterControllerManager.AnalyzeContacts(System.Single,BepuUtilities.IThreadDispatcher)">
+            <summary>
+            Updates all character support states and motion constraints based on the current character goals and all the contacts collected since the last call to AnalyzeContacts. 
+            Attach to a simulation callback where the most recent contact is available and before the solver executes.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.CharacterControllerManager.Dispose">
+            <summary>
+            Returns pool-allocated resources.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.StaticCharacterMotionConstraint">
+            <summary>
+            Description of a character motion constraint where the support is static.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.StaticCharacterMotionConstraint.MaximumHorizontalForce">
+            <summary>
+            Maximum force that the horizontal motion constraint can apply to reach the current velocity goal.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.StaticCharacterMotionConstraint.MaximumVerticalForce">
+            <summary>
+            Maximum force that the vertical motion constraint can apply to fight separation.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.StaticCharacterMotionConstraint.TargetVelocity">
+            <summary>
+            Target horizontal velocity in terms of the basis X and -Z axes.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.StaticCharacterMotionConstraint.Depth">
+            <summary>
+            Depth of the supporting contact. The vertical motion constraint permits separating velocity if, after a frame, the objects will still be touching.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.StaticCharacterMotionConstraint.SurfaceBasis">
+            <summary>
+            Stores the quaternion-packed orthonormal basis for the motion constraint. When expanded into a matrix, X and Z will represent the Right and Backward directions respectively. Y will represent Up.
+            In other words, a target tangential velocity of (4, 2) will result in a goal velocity of 4 along the (1, 0, 0) * Basis direction and a goal velocity of 2 along the (0, 0, -1) * Basis direction.
+            All motion moving along the (0, 1, 0) * Basis axis will be fought against by the vertical motion constraint.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.StaticCharacterMotionConstraint.OffsetFromCharacterToSupportPoint">
+            <summary>
+            World space offset from the character's center to apply impulses at.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.StaticCharacterMotionConstraint.ConstraintTypeId">
+            <summary>
+            Gets the constraint type id that this description is associated with. 
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.StaticCharacterMotionConstraint.TypeProcessorType">
+            <summary>
+            Gets the TypeProcessor type that is associated with this description.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.StaticCharacterMotionPrestep">
+            <summary>
+            AOSOA formatted bundle of prestep data for multiple static-supported character motion constraints.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.StaticCharacterMotionTypeProcessor.BatchTypeId">
+            <summary>
+            Simulation-wide unique id for the character motion constraint. Every type has needs a unique compile time id; this is a little bit annoying to guarantee given that there is no central
+            registry of all types that can exist (custom ones, like this one, can always be created), but having it be constant helps simplify and optimize its internal usage.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.DynamicCharacterMotionConstraint">
+            <summary>
+            Description of a character motion constraint where the support is dynamic.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionConstraint.MaximumHorizontalForce">
+            <summary>
+            Maximum force that the horizontal motion constraint can apply to reach the current velocity goal.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionConstraint.MaximumVerticalForce">
+            <summary>
+            Maximum force that the vertical motion constraint can apply to fight separation.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionConstraint.TargetVelocity">
+            <summary>
+            Target horizontal velocity in terms of the basis X and -Z axes.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionConstraint.Depth">
+            <summary>
+            Depth of the supporting contact. The vertical motion constraint permits separating velocity if, after a frame, the objects will still be touching.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionConstraint.SurfaceBasis">
+            <summary>
+            Stores the quaternion-packed orthonormal basis for the motion constraint. When expanded into a matrix, X and Z will represent the Right and Backward directions respectively. Y will represent Up.
+            In other words, a target tangential velocity of (4, 2) will result in a goal velocity of 4 along the (1, 0, 0) * Basis direction and a goal velocity of 2 along the (0, 0, -1) * Basis direction.
+            All motion moving along the (0, 1, 0) * Basis axis will be fought against by the vertical motion constraint.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionConstraint.OffsetFromCharacterToSupportPoint">
+            <summary>
+            World space offset from the character's center to apply impulses at.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionConstraint.OffsetFromSupportToSupportPoint">
+            <summary>
+            World space offset from the support's center to apply impulses at.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DynamicCharacterMotionConstraint.ConstraintTypeId">
+            <summary>
+            Gets the constraint type id that this description is associated with. 
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DynamicCharacterMotionConstraint.TypeProcessorType">
+            <summary>
+            Gets the TypeProcessor type that is associated with this description.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.DynamicCharacterMotionPrestep">
+            <summary>
+            AOSOA formatted bundle of prestep data for multiple dynamic-supported character motion constraints.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DynamicCharacterMotionTypeProcessor.BatchTypeId">
+            <summary>
+            Simulation-wide unique id for the character motion constraint. Every type has needs a unique compile time id; this is a little bit annoying to guarantee given that there is no central
+            registry of all types that can exist (custom ones, like this one, can always be created), but having it be constant helps simplify and optimize its internal usage.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.BaseInteractionCursorFactory">
+            <summary>
+            Used to create Cursors that are appropriate for the engine based on a user's settings.
+            </summary>
+            <remarks>
+            Does not determine how/where/why icons for cursors are sourced, you can find a default implementation here: <see cref="T:FrooxEngine.DefaultInteractionCursorFactory"/>.
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.BaseInteractionCursorFactory.POINTER_MULTIPLIER">
+            <summary>
+            Used in <see cref="M:FrooxEngine.BaseInteractionCursorFactory.Pointer(Elements.Core.colorX)"/>, as this type of Cursor is used on the dash which has a different UI Scale
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.BaseInteractionCursorFactory.GetMultiplier(FrooxEngine.InteractionCursorType,System.Boolean,FrooxEngine.CursorSettings)">
+            <summary>
+            Returns an appropriate multiplier for an interaction type.
+            </summary>
+            <param name="active">Is this interaction active? Examples of active are: Button Held, Grabbing etc. Inactive would be "hover"</param>
+        </member>
+        <member name="M:FrooxEngine.IInteractionCursorFactory.Default(System.Single,System.Nullable{Elements.Core.colorX})">
+            <summary>
+            Returns a suitable cursor for any miscelaneous interactions
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.IInteractionCursorFactory.Grab(System.Boolean)">
+            <summary>
+            Returns a suitable cursor for use with Grab based interactions
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.IInteractionCursorFactory.Interact">
+            <summary>
+            Returns a suitable cursor for use with interactions such as buttons.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.IInteractionCursorFactory.Pointer(Elements.Core.colorX)">
+            <summary>
+            Returns a suitable cursor for use in Screen Mode Overlay UIs such as the Dash.
+            </summary>
+            <remarks>See <see cref="T:FrooxEngine.PointerInteractionController"/> for more on the differences.</remarks>
+        </member>
+        <member name="M:FrooxEngine.IInteractionCursorFactory.Slide(FrooxEngine.InteractionDirection)">
+            <summary>
+            Returns a suitable cursor for use with Slider based interactions
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.IInteractionCursorFactory.Text">
+            <summary>
+            Returns a suitable cursor for use with Text editing/interactions
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.IInteractionCursorFactory.IsDirectCursorEnabled">
+            <summary>
+            Is the direct cursor enabled?
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.InteractionCursor.DEFAULT_CURSOR_SIZE">
+            <summary>
+            The default cursor base size, without any modifications
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.InteractionCursor.DEFAULT_QUAD_IMAGE_SIZE">
+            <summary>
+            Determines the size of quads that have the cursor image drawn to them.
+            </summary>
+            <remarks>Be careful changing this as it will mess with everyone's cursor settings</remarks>
+        </member>
+        <member name="P:FrooxEngine.DataFeedCategory.OverrideSubpath">
+            <summary>
+            In case the category links deeper than one subcategory, this can be 
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.ItemKey">
+            <summary>
+            A string key that uniquely identifies this item and forms a part of the path.
+            This is never shown to the user and is only for internal use
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.Path">
+            <summary>
+            This is the path that the item is located at. It will be empty/null for root items. For all others,
+            each element of the list represents ItemKey of the category that it's in.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.IsRootItem">
+            <summary>
+            Indicates if this item is at the root of the data feed
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.GroupingParameters">
+            <summary>
+            This indicates which group does this item belong to based on the grouping key that was requested.
+            Normally when items are generated they will be generated right after the group that they belong to,
+            however with events they can also be added and removed dynamically, so this helps route them into the
+            right group.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.Label">
+            <summary>
+            This is human readable label of given item that will be displayed to the user.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.Description">
+            <summary>
+            A human readable optional description of this item, that can be shown to the users. This can be
+            useful for providing additional details about given item in UI, such us when expanding a help option.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.Icon">
+            <summary>
+            This is an optional URL for an icon texture representing the given item which can be
+            displayed to the user by views that support it
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.SetupVisible">
+            <summary>
+            Any generated UI item can be potentially dynamically hidden and shown. This allows field that controls the
+            visibility of the generated UI to be setup properly, so it can be shown and hidden when needed without regenerating
+            the whole of UI.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.SetupEnabled">
+            <summary>
+            Any generated UI item has potentially an enabled and disabled state. This allows that field to be setup
+            properly, so the UI item can be enabled and disabled based on whatever logic it needs to use
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.SortingOrder">
+            <summary>
+            This gets a pre-computed sorting order for this item, which the data feed should use to actually sort the item
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.HasSubItems">
+            <summary>
+            Indicates if this item has any subitems
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.SubItems">
+            <summary>
+            Each item can have a number of subitems, which can be other items or categories. This provides mechanism
+            for grouping items together. When sorting, grouping or filtering, this item and all its subitems will be
+            treated as one unit and will never be split apart
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.DataFeedItem.CustomEntity">
+            <summary>
+            This can be arbitrary entity associated with this item. This can be utilized by views that are made for
+            specific types of items, for additional custom rendering, visuals, interactions and so on.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DataFeedItemChange.Added">
+            <summary>
+            A new item has been added to the list
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DataFeedItemChange.Updated">
+            <summary>
+            Existing item was updated. This item was already provided in previous enumeration and just
+            needs its data to be updated
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DataFeedItemChange.Removed">
+            <summary>
+            Item has been removed from the path and should be cleared.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DataFeedItemChange.PathItemsInvalidated">
+            <summary>
+            This indicates that the entire path has been invalidated and all items should be regenerated.
+            This should be used sparingly, as it's more expensive, but is useful when tracking items being added
+            or removed is too expensive or too complicated, compared to just regenerating the list fresh
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DataFeedItemChange.PathSortingInvalidated">
+            <summary>
+            This indicates that the sorting order in the path has been changed. This doesn't require the items
+            to be necessarily regenerated, but they just need to be sorted again. In some cases this will require
+            regeneration for feeds that rely on this, but if all items are already generated and shown, it is fine
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.DataFeedItemChange.Unchanged">
+            <summary>
+            In some cases systems expect a return value for this, but the item might be unchanged, meaning that
+            no action should be taken. This value covers those cases.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FeedItemInterface.ParentContainer">
+            <summary>
+            If set, this will instantiate the parent container first and put this item inside of it.
+            This can be used for compositing UI from multiple modular pieces on the fly.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FeedItemInterface.ChildContainer">
+            <summary>
+            This indicates where any nested children for this element will go. This can happen in two cases:
+            1) When a child instantiates this instance using ParentContainer, this indicates where the child
+            should go in the hierarchy
+            2) When this is used as a group container for other elements
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FeedItemInterface.NestedItems">
+            <summary>
+            When this item is spawned, it can spawn a number of nested items as well. This is a complementary
+            mechanism to allow building generic UI using composition.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.WorldFilterFacetPreset.AddHiddenSearchButton(FrooxEngine.UIX.UIBuilder,System.String,System.Uri,System.String,FrooxEngine.Slot[])">
+            <summary>
+            Creates an Item within the filter preset, which includes a HiddenSearchTerm.
+            </summary>
+            <param name="ui">Builder for the current set of filters in the facet.</param>
+            <param name="presetName">Name of the preset, also used as a Locale Key.</param>
+            <param name="presetIcon">Icon for the preset, displayed to the left of the name in game.</param>
+            <param name="hiddenSearch">Hidden search term for this button</param>
+            <param name="presetRoots">List of preset roots to apply when this option is pressed.</param>
+            <returns>A created preset button</returns>
+        </member>
+        <member name="M:FrooxEngine.WorldFilterFacetPreset.AddPresetButton(FrooxEngine.UIX.UIBuilder,System.String,System.Uri,FrooxEngine.Slot[])">
+            <summary>
+            Creates a preset button in the World Filter Facet.
+            </summary>
+            <param name="ui">Builder for the current set of filters in the facet.</param>
+            <param name="presetName">Name of the preset, also used as a Locale Key.</param>
+            <param name="presetIcon">Icon for the preset, displayed to the left of the name in game.</param>
+            <param name="presetRoots">List of preset roots to apply when this option is pressed.</param>
+            <returns></returns>
+        </member>
+        <member name="P:FrooxEngine.Facet.ReplacementFacet">
+            <summary>
+            This is used in case the facet itself needs to be replaced during placement.
+            This can happen with the template facets. It's a bit dirty way of going about it, but
+            we're in a bit of a time crunch right now and it should work.
+            We should probably revisit this a bit later and how template facets are handled, the system
+            overall needs more work and perhaps use a prefab system instead of this mechanism, which loads
+            the whole facet.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.InteractionLaser.DIRECT_CURSOR_ALPHA">
+            <summary>
+            Alpha adjustment applied to the direct cursor's colors.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.InteractionLaser.DIRECT_CURSOR_VISIBILITY_THRESHOLD">
+            <summary>
+            The direct cursor must be a minimum of this value's distance away from the primary cursor before it will be visible.
+            </summary>
+            <remarks>
+            This prevents some ghosting issues that occur when these two are within close proximity.
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.InteractionLaser._cursorRoot">
+            <summary>
+            A reference to the root slot of the regular Cursor.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.InteractionLaser._cursorImageRoot">
+            <summary>
+            A reference to the Regular Cursor's Image Slot
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.InteractionLaser._directCursorRoot">
+            <summary>
+            A reference to the root slot of the Direct Cursor
+            </summary>
+            <remarks>The direct cursor is a second copy of the cursor, which is displayed at the "true" location of the cursor. The regular cursor can be affected by a user's laser smoothing settings.</remarks>
+        </member>
+        <member name="F:FrooxEngine.InteractionLaser._directCursorImageRoot">
+            <summary>
+            A reference to the Direct Cursor's Image Slot
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AmbientLightSH2.ActiveAmbientLight">
+            <summary>
+            Determines whether the component is currently the active source of ambient light in the world
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.AmbientLightSH2.IsActive">
+            <summary>
+            A read-only bool which shows if this instance of the component is the currently active one
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.Bounds">
+            <summary>
+            Provides explicit bounds data in the hierarchy
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Bounds.Available">
+            <summary>
+            Determines if the bounding box is currently available for encapsulating
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Bounds.LocalBounds">
+            <summary>
+            Boudning box in local coordinates that will be provided to bounds queries
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.FontMaterial">
+            <summary>
+            Provides additonal font style for text renderer
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.Light">
+            <summary>
+            Renders a light source in the world
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.LightType">
+            <summary>
+            The type of the light source to render
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.Intensity">
+            <summary>
+            Intensity of the light source
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.Color">
+            <summary>
+            Color of the light source
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.ShadowType">
+            <summary>
+            Type of the shadow the light source casts
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.ShadowStrength">
+            <summary>
+            Intensity of the cast shadow from this light source
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.ShadowNearPlane">
+            <summary>
+            The near clip plane for the shadow's camera itself.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.ShadowMapResolution">
+            <summary>
+            Override for the shadow map's resolution.  0 is automatic.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.ShadowBias">
+            <summary>
+            Bias for shadows.  Offsets the shadow map's depth buffer.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.ShadowNormalBias">
+            <summary>
+            Bias for shadows.  Offsets the shadow map's depth buffer using the receiving surface's angle.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.Range">
+            <summary>
+            Used by point and spot light sources, determines the maximum distance the light reaches
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.SpotAngle">
+            <summary>
+            Anglular size in degrees of a spot light type
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Light.Cookie">
+            <summary>
+            Texture whose alpha channel is used to modulate the intensity of the light
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.MeshRenderer">
+            <summary>
+            Renders a mesh with given set of materials in the world.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.MeshRenderer.Mesh">
+            <summary>
+            Reference to the mesh asset to be rendered
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.MeshRenderer.Materials">
+            <summary>
+            List of references to the materials to be rendered
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.MeshRenderer.ShadowCastMode">
+            <summary>
+            ShadowCasting mode for rendering the mesh.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.MeshRenderer.Material">
+            <summary>s
+            Shortcut for the first material in the list of materials.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.Rig">
+            <summary>
+            Contains metadata of rigged 3D model composed of one or more SkinnedMeshRenderers
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Rig.Bones">
+            <summary>
+            List of references to slots representing the bones
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.SkinnedMeshRenderer">
+            <summary>
+            Renders a skinned mesh in the world, deformed by a set of bones.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.SkinnedMeshRenderer.Bones">
+            <summary>
+            List of references to slots in the world representing the mesh bones
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.SkinnedMeshRenderer.BlendShapeWeights">
+            <summary>
+            List of weights of the blend shapes contained in the skinned mesh
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.SkinnedMeshRenderer.BlendShapeIndex(System.String)">
+            <summary>
+            Finds the index of a blend shape with given name in the currently associated mesh asset.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.SkinnedMeshRenderer.BlendShapeName(System.Int32)">
+            <summary>
+            Returns a name of a blend shape with given index in the currently associated mesh asset
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.SkinnedMeshRenderer.HasBlendshape(System.String)">
+            <summary>
+            Returns whether a blendshape exists in the currently associated mesh asset
+            </summary>
+            <param name="name">The blendshape name to check</param>
+            <returns>True if the blendshape exists, otherwise false</returns>
+        </member>
+        <member name="M:FrooxEngine.SkinnedMeshRenderer.TryGetBlendShape(System.String)">
+            <summary>
+            Tries to get a blendshape from the currently associated mesh asset
+            </summary>
+            <param name="name">The blendshape name to search for</param>
+            <returns>The IField of the blendshape, otherwise null</returns>
+        </member>
+        <member name="P:FrooxEngine.SkinnedMeshRenderer.MeshBlendshapeCount">
+            <summary>
+            Returns the number of blend shapes in the currently associated mesh asset
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.SkinnedMeshRenderer.GetBlendShapeWeight(System.String)">
+            <summary>
+            Returns the current blend shape weight for the currently associated mesh asset
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.SkinnedMeshRenderer.SetBlendShapeWeight(System.String,System.Single)">
+            <summary>
+            Sets the blend shape weight for the currently associated mesh asset
+            </summary>
+            <param name="name"></param>
+            <param name="weight"></param>
+        </member>
+        <member name="T:FrooxEngine.Skybox">
+            <summary>
+            Renders a skybox in the world using a material asset
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Skybox.Material">
+            <summary>
+            Reference to the material asset to be used for skybox rendering
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Skybox.IsActive">
+            <summary>
+            A read-only bool which shows if this instance of the component is the currently active one
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Skybox.ActiveSkybox">
+            <summary>
+            Determines whether the component is currently rendering skybox in the world
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.BipedRig.FixChain(Renderite.Shared.BodyNode,Renderite.Shared.BodyNode)">
+            <summary>
+            Corrects ambiguous matches within chains(such as legs and arms) by examining the parent bone's type.
+            </summary>
+            <param name="childNode">A child that you're trying to fix</param>
+            <param name="parentNode">The immediate parent of that child node</param>
+            <returns>A fixed BodyNode if a match could be found</returns>
+            <example>
+            Given a child LeftUpperArm, whose parent is also LeftUpperArm, we know that the child should actually be LeftLowerArm
+            <code>
+            BodyNode child = BodyNode.LeftUpperArm;
+            BodyNode parent = BodyNode.LeftUpperArm;
+            BodyNode fixed = BipedRig.FixChain(child, parent); // Will be LeftLowerArm
+            </code>
+            </example>
+        </member>
+        <member name="M:FrooxEngine.IFingerPoseSource.GetFingerData(Renderite.Shared.BodyNode,Elements.Core.float3@,Elements.Core.floatQ@)">
+            <summary>
+            Gets position and rotation data for a single finger.
+            </summary>
+            <param name="node">Finger node to get the data for.</param>
+            <param name="position">Finger position relative to its root space.</param>
+            <param name="rotation">Finger rotation relative to its root space.</param>
+        </member>
+        <member name="M:FrooxEngine.IFingerPoseSource.GetFingerData(System.Collections.Generic.List{Renderite.Shared.BodyNode},System.Collections.Generic.List{Elements.Core.float3},System.Collections.Generic.List{Elements.Core.floatQ})">
+            <summary>
+            Gets finger positions for specified body nodes. The order corresponds to the provided order.
+            </summary>
+            <param name="nodes">Finger nodes for which to get the finger data.</param>
+            <param name="positions">List to be filled with finger positions. Pass null if not interested.</param>
+            <param name="rotations">List to be filled with finger rotations. Pass null if not interested.</param>
+        </member>
+        <member name="M:FrooxEngine.IFingerPoseSource.GetFingerData(Renderite.Shared.Chirality,System.Collections.Generic.List{Elements.Core.float3},System.Collections.Generic.List{Elements.Core.floatQ})">
+            <summary>
+            Gets all finger positions and rotations for given hand. The order of the coordinates corresponds
+            to the order of the finger nodes in the BodyNode enumeration
+            </summary>
+            <param name="chirality">Which side to get the finger data for</param>
+            <param name="positions">List to be filled with finger positions. Pass null if not interested.</param>
+            <param name="rotations">List to be filled with finger rotations. Pass null if not interested.</param>
+        </member>
+        <member name="T:FrooxEngine.MaterialApplyPolicy">
+            <summary>
+            Used to tag a slot with a material policy, when the CanApply property is set to false. It will prevent material applications.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.MaterialApplyPolicy.CanApply">
+            <summary>
+            Used to determine if a material can be applied. true will allow a material to apply and false will not.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.OrbCartridgeTool.HasOrb">
+            <summary>
+            True if the tip contains an orb.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.OrbCartridgeTool.EjectOrb(FrooxEngine.IButton,FrooxEngine.ButtonEventData)">
+            <summary>
+            Parents the orb inside the tool into the user's local space.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.BuilderActionTool">
+            <summary>
+            Provides a framework around the base tooltip interactions for tooltips which carry out some "action" on the world as a builder.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.BuilderActionTool.ApplyToObjectRoot">
+            <summary>
+            Controls if the tip will apply, edit grabbables on the object root slot OR on the directly hit slot.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.BuilderActionTool.GetHitTarget(FrooxEngine.RaycastHit)">
+            <summary>
+            Given a raycase hit from a tooltip, decide if the action should be applied to the objectroot or the collider that's hit.
+            </summary>
+            <param name="hit">The <see cref="T:FrooxEngine.RaycastHit"/> from the ToolTip.</param>
+            <returns></returns>
+        </member>
+        <member name="T:FrooxEngine.GrabbableSetterTool">
+            <summary>
+            GrabbleSetterTip modifies a hit object by adding/enabling/disabling the grabbable component on the hit object.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GrabbableSetterTool.SetScalable">
+            <summary>
+            Controls if this tip will set the Grabbable to true or false.
+            </summary>
+            <see cref="F:FrooxEngine.Grabbable.Scalable"></see>
+        </member>
+        <member name="M:FrooxEngine.GrabbableSetterTool.ChangeGrabbable(System.Boolean)">
+            <summary>
+            Modifies the grabbable state of the hit object.
+            </summary>
+            <param name="enable">True if the hit grabable should be enabled</param>
+        </member>
+        <member name="M:FrooxEngine.Grabber.IsHoldingInteractionBlock``1(System.Boolean)">
+            <summary>
+            Returns true if the grabber is holding ANY item that has a <typeparamref name="T"/>
+            </summary>
+            <typeparam name="T">The type of action to check, must inherit from <see cref="T:FrooxEngine.IInteractionBlock"/></typeparam>
+            <param name="excludeDisabled">True, if disabled copies of <typeparamref name="T"/> should be excluded</param>
+            <returns>true if the action block was found, false otherwise.</returns>
+        </member>
+        <member name="M:FrooxEngine.Grabber.ItemHasInteractionBlock``1(FrooxEngine.Slot,System.Boolean)">
+            <summary>
+            Checks if a Grabbed Item has a <typeparamref name="T"/>
+            </summary>
+            <param name="itemRoot">Root Slot of the item</param>
+            <inheritdoc cref="M:FrooxEngine.Grabber.IsHoldingInteractionBlock``1(System.Boolean)"/>
+        </member>
+        <member name="M:FrooxEngine.InteractionHandler.CanEquip(FrooxEngine.ITool)">
+            <summary>
+            Checks if a tool can be equipped by this InteractionHandler.
+            </summary>
+            <param name="tool"></param>
+            <remarks>See Remarks on <see cref="M:FrooxEngine.InteractionHandler.CanKeepEquipped(FrooxEngine.ITool)"/></remarks>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.InteractionHandler.CanKeepEquipped(FrooxEngine.ITool)">
+            <summary>
+            Checks if an InteractionHandler can continue to have a tool equipped.
+            </summary>
+            <remarks>
+            The difference from <see cref="M:FrooxEngine.InteractionHandler.CanEquip(FrooxEngine.ITool)">CanEquip</see> is that here we don't care about if the tool is already equipped.
+            It is used in permission related systems which check if a user can continue having this tool equipped.
+            A good example is in <see cref="M:FrooxEngine.InteractionHandler.OnInputUpdate"/> where we de-equip the tool if it cannot continue to be equipped.
+            </remarks>
+            <param name="tool"></param>
+            <returns></returns>
+        </member>
+        <member name="F:FrooxEngine.MeterTool.FormatNumber">
+            <summary>
+            Specifies the FormatNumber for the the resultant meter's DistanceMeter Component.
+            </summary>
+            <remarks>
+            This is designed to allow for more fine grain control over the resultant Label on the meter tip. 
+            
+            By default the meter tip provides a huge amount of decimal places which is usually not needed. This let's a user create and edit MeterTips for specific situations.
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.MeterTool.FormatUnit">
+            <summary>
+            Specifies the FormatUnit for the the resultant meter's DistanceMeter Component.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.BooleanValueDriverExtensions.DriveInverted(FrooxEngine.IField{System.Boolean},FrooxEngine.IField{System.Boolean},FrooxEngine.Slot)">
+            <summary>
+            Drives an <see cref="!:IField&lt;bool&gt;"/> to the inverse(NOT) of a given <paramref name="state"/> field.
+            </summary>
+            <param name="field">Field to drive.</param>
+            <param name="state">Boolean field to base this setup on.</param>
+            <param name="slot">An optional location to place the <see cref="!:BooleanValueDriver&lt;bool&gt;"/> on.</param>
+            <returns>The created <see cref="!:BooleanValueDriver&lt;bool&gt;"/></returns>
+        </member>
+        <member name="M:FrooxEngine.BooleanValueDriverExtensions.DriveFromBool``1(FrooxEngine.IField{``0},FrooxEngine.IField{System.Boolean},``0,``0,FrooxEngine.Slot)">
+            <summary>
+            Convinient shortcut to setup a field to have its value driven by a <see cref="T:FrooxEngine.BooleanValueDriver`1"/> and a given <paramref name="state"/>.
+            </summary>
+            <typeparam name="T">Type of field to drive</typeparam>
+            <param name="field">Field to drive with this setup.</param>
+            <param name="state">A boolean field to base this setup on.</param>
+            <param name="onTrue">A <typeparamref name="T"/> value to be used when <paramref name="state"/>'s value is true.</param>
+            <param name="onFalse">A <typeparamref name="T"/> value to be used when <paramref name="state"/>'s value is false.</param>
+            <param name="slot">An optional, location to place the BooleanValueDriver on.</param>
+            <returns>The created <see cref="T:FrooxEngine.BooleanValueDriver`1"/></returns>
+        </member>
+        <member name="M:FrooxEngine.BooleanValueDriverExtensions.DriveFromBool(FrooxEngine.IField{System.String},FrooxEngine.IField{System.Boolean},Elements.Core.LocaleString,Elements.Core.LocaleString)">
+            <summary>
+            Shortcut to setup a <b>Localized string</b> field, to be driven by a <see cref="!:BooleanValueDriver&lt;string&gt;"/> and a given <paramref name="state"/>.
+            </summary>
+            <param name="field">Field to drive with this setup.</param>
+            <param name="state">A boolean field to base this setup on.</param>
+            <param name="onTrue">Locale key to be used when <paramref name="state"/> is True</param>
+            <param name="onFalse">Locale key to be used when <paramref name="state"/> is False</param>
+            <returns>The created <see cref="!:BooleanValueDriver&lt;string&gt;"/></returns>
+        </member>
+        <member name="T:FrooxEngine.SearchBlock">
+            <summary>
+            Indicates at which component should be recursive searched stopped (for example when grabbing, touching)
+            This is exclusive, meaning components on the slot with SearchBlock will still be returned
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.ObjectRootBlockExtensions.GetComponentsInParentsUntilBlock``1(FrooxEngine.Slot,System.Collections.Generic.List{``0},System.Predicate{``0})">
+            <summary>
+            Finds all components of type T in parents (including current slot), stopping after SearchBlock component is encountered.
+            </summary>
+            <typeparam name="T">The type of the component to find</typeparam>
+            <param name="slot">The slot to begin the search on</param>
+            <param name="results">A list to which to add found components</param>
+            <param name="filter">Optional predicate to filter the found components</param>
+        </member>
+        <member name="M:FrooxEngine.ObjectRootBlockExtensions.GetComponentsInParentsUntilBlock``1(FrooxEngine.Slot,System.Predicate{``0})">
+            <summary>
+            Finds all components of type T in parents (including current slot), stopping after SearchBlock component is encountered.
+            </summary>
+            <typeparam name="T">The type of the component to find</typeparam>
+            <param name="slot">The slot to begin the search on</param>
+            <param name="filter">Optional predicate to filter the found components</param>
+            <returns>List of all found components</returns>
+        </member>
+        <member name="M:FrooxEngine.ObjectRootBlockExtensions.GetComponentInParentsUntilBlock``1(FrooxEngine.Slot,System.Predicate{``0})">
+            <summary>
+            Finds the first component of type T in parents, searching until SearchBlock component is encountered
+            </summary>
+            <typeparam name="T">The type of the component to find</typeparam>
+            <param name="slot">The slot to start the search on</param>
+            <param name="filter">Optional predicate to filter the  found components.</param>
+            <returns>First found component or null if no component is found</returns>
+        </member>
+        <member name="T:FrooxEngine.TeleportBlock">
+            <summary>
+            When added to a Slot, blocks teleportation attempts that hit this slot's colliders
+            </summary>
+            <seealso cref="T:FrooxEngine.TeleportLocomotion"/>
+            <seealso cref="T:FrooxEngine.TeleportSurface"/>
+            <seealso cref="T:FrooxEngine.TeleportBlock"/>
+        </member>
+        <member name="T:FrooxEngine.TeleportPassthrough">
+            <summary>
+            Marks a slot allowing teleport locomotion to search for destinations that are "through" this slot's colliders
+            </summary>
+            <seealso cref="T:FrooxEngine.TeleportLocomotion"/>
+            <seealso cref="T:FrooxEngine.TeleportSurface"/>
+            <seealso cref="T:FrooxEngine.TeleportBlock"/>
+        </member>
+        <member name="T:FrooxEngine.TeleportSurface">
+            <summary>
+            Marks a Slot's colliders as being a good candidate for a teleport destination.
+            </summary>
+            <seealso cref="T:FrooxEngine.TeleportLocomotion"/>
+            <seealso cref="T:FrooxEngine.TeleportPassthrough"/>
+            <seealso cref="T:FrooxEngine.TeleportSurface"/>
+        </member>
+        <member name="T:FrooxEngine.CommonAvatar.AvatarObjectComponentProxy">
+            <summary>
+            This component fill forward avatar object component (d)equip events to another part of the slot hierarchy.
+            This is useful for cases where the object components are placed outside the child hierachy of the object slot.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CommonAvatar.AvatarObjectComponentProxy.Target">
+            <summary>
+            The root of the target hierarchy for which to invoke the events.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Hyperlink.Reason">
+            <summary>
+            A reason, displayed to the user when the Hyperlink warning dialog is shown.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.ComponentBase`1.OnDestroy">
+            <remarks>
+            Not guarenteed to be called. Use <see cref="M:FrooxEngine.Worker.OnDispose"/> to run actions that must be guarenteed to run.
+            </remarks>
+        </member>
+        <member name="T:FrooxEngine.Slot">
+            <summary>
+            Slot is an empty hiearchy element that forms the base data tree of the World scene.
+            It has a few basic properties, such as transform and name, but majority of functionality is provided
+            by attaching various components on the slot.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.IsRootSlot">
+            <summary>
+            Indicates whether this slot is the root slot of the World, under which all other slots are parented.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Name">
+            <summary>
+            The name of the slot
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Tag">
+            <summary>
+            Optional tag of the slot, which allows finding or classifying slots in the scene by a string
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Parent">
+            <summary>
+            Reference to the parent slot. Assigning a new parent automatically preserves world transform
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.RawParent">
+            <summary>
+            Raw reference to the parent slot. This one will return the previous parent slot if it has been already removed from the hierarchy.
+            It's not guaranteed to be consistent across the clients.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.HierachyDepth">
+            <summary>
+            Indicates the hiearchy depth of the slot relative to the root slot of the world
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.ComputeHierarchyDepth(FrooxEngine.Slot)">
+            <summary>
+            Computes hierchy depth relative to another slot. This indicates a number of slots required to travel upwards
+            in the hiearrchy to reach the target slot.
+            </summary>
+            <param name="root">The slot relative to which the depth is computed</param>
+            <returns>Hierarchy depth relative to the root slot, -1 if the root isn't a parent of this slot</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.SetParent(FrooxEngine.Slot,System.Boolean)">
+            <summary>
+            Sets a new parent to the slot, while optionally not preserving the global transform
+            </summary>
+            <param name="newParent">Reference to the new parent slot</param>
+            <param name="keepGlobalTransform">Whether to preserve the global transform (position, rotation and scale) of the slot</param>
+        </member>
+        <member name="P:FrooxEngine.Slot.ActiveSelf">
+            <summary>
+            Determines whether the Slot itself is active or not, regardless of the parent hierarchy's active state.
+            Inactive slots deactivate their whole children hierarchy.
+            <para>
+            See <see cref="P:FrooxEngine.Slot.IsActive"/> to query if the slot has been made active or inactive by it's parent hierarchy.
+            </para>
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Slot.Position_Field">
+            <summary>
+            Field that holds the local position of the slot
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Slot.Rotation_Field">
+            <summary>
+            Field that holds the local rotation of the slot
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Slot.Scale_Field">
+            <summary>
+            Field that holds the local scale of the slot
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.ChildIndex">
+            <summary>
+            Ordered index of the slot among all children of its parent. This order is ensured to stay consistent among clients.
+            Assigning a new value will swap it with the child that's currently at given index.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.InsertAtIndex(System.Int32)">
+            <summary>
+            Inserts this slot at specific index in the list of children of the parent slot, shifting other children around.
+            </summary>
+            <param name="index">Index at which this slot should be inserted</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.AddSlot(System.String,System.Boolean)">
+            <summary>
+            Creates a new slot in the scene as a child of this one.
+            </summary>
+            <param name="name">The name of the newly created slot</param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.InsertSlot(System.Int32,System.String)">
+            <summary>
+            Creates a new slot in the scene as a child of this one and inserts it at specific index among the other children.
+            </summary>
+            <param name="index">The index of the new child</param>
+            <param name="name">The name of the newly created slot</param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.Destroy(FrooxEngine.Slot,System.Boolean)">
+            <summary>
+            Destroys the Slot, removing it from the world, while parenting all its children under a different slot.
+            </summary>
+            <param name="moveChildren">The slot under which all current children will be parented</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.Destroy(System.Boolean)">
+            <summary>
+            Destroys the Slot and its entire children hierarchy, removing them from the scene.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.DestroyChildren(System.Boolean,System.Boolean,System.Boolean,System.Predicate{FrooxEngine.Slot})">
+            <summary>
+            Destroys the entire children hiearchy of this slot, but keeps the slot itself.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.DestroyPreservingAssets(FrooxEngine.Slot,System.Boolean)">
+            <summary>
+            Destroys the slot, but preserves all AssetProviders in its hiearchy that are referenced outside of the destroyed hierachy.
+            This technically preserves all slots with asset provider components, but destroys all other components on them.
+            </summary>
+            <param name="relocateAssets">Optional slot under which to relocate all the assets. If null, it'll be automatically created.</param>
+        </member>
+        <member name="P:FrooxEngine.Slot.IsActive">
+            <summary>
+            Indicates whether this slot is Active within the hierachy. Slot can be inactive in hierarchy if one of its parent
+            slots are not active, even if it's active itself.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.IsPersistent">
+            <summary>
+            Indicates if the slot is persistent in the hiearchy. If any of the parent slots are non-persistent, then
+            all children are non persistent as well.
+            Non-persistent elements of the hiearchy do not get saved with the world.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.PersistentSelf">
+            <summary>
+            Indicates if the slot itself is set to be persistent. Setting it to non-persistent will make the whole children
+            hierarchy non-persistent, whic h means that they do not get saved with the world.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.Save(FrooxEngine.SaveControl)">
+            <summary>
+            Serializes a part of the scene hiearchy starting at this slot into a DataTreeNode hiearchy.
+            </summary>
+            <param name="control">Helper object used to control the serialization process.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.Load(Elements.Core.DataTreeNode,FrooxEngine.LoadControl)">
+            <summary>
+            Deserializes part of previously saved scene hieararchy under the hierarchy of this slot.
+            </summary>
+            <param name="node">The root DataTreeNode from which to deserialize the scene hiearchy</param>
+            <param name="control">Helper object used to control the deserializaiton process</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetComponentInChildren``1(System.Predicate{``0},System.Boolean,System.Boolean)">
+            <summary>
+            Returns a first component in the children hierarchy (including this slot) that satisfies given condition.
+            </summary>
+            <typeparam name="T">The type of the component to find.</typeparam>
+            <param name="filter">Optional function used to filter the components</param>
+            <returns>First found component or null if none found</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetComponentsInChildren``1(System.Predicate{``0},System.Boolean,System.Boolean,System.Predicate{FrooxEngine.Slot})">
+            <summary>
+            Returns a list of all components in the children hierarchy (including this slot) that satisfy given condion.
+            </summary>
+            <typeparam name="T">The type of the components to find</typeparam>
+            <param name="filter">Optional function used to filter the components.</param>
+            <returns>A list of all found components</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetComponentsInChildren``1(System.Collections.Generic.List{``0},System.Predicate{``0},System.Boolean,System.Boolean,System.Predicate{FrooxEngine.Slot})">
+            <summary>
+            Adds all components in the children hiearchy (including this slot) that satisfy given condition to the provided list.
+            </summary>
+            <typeparam name="T">The type of components to find</typeparam>
+            <param name="results">List to which the found components will be added</param>
+            <param name="filter">Optional function used to filter the components.</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.ForeachComponentInChildren``1(System.Action{``0},System.Boolean,System.Boolean)">
+            <summary>
+            Calls the provided function for each component of given type in the children hiearchy (including self)
+            </summary>
+            <typeparam name="T">The type of the components to find</typeparam>
+            <param name="callback">The function which to call for each component.</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.ForeachComponentInChildren``1(System.Func{``0,System.Boolean},System.Boolean,System.Boolean)">
+            <summary>
+            Calls the provided function for each component of given type in the children hierarchy (including self).
+            If the function returns false, the walking of the hierachy is stopped.
+            </summary>
+            <typeparam name="T">The type of the components to find</typeparam>
+            <param name="callback">The functio nwhich to call for each component.</param>
+            <returns>True if the function returned true for all found components, otherwise false</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.ForeachComponentInParents``1(System.Action{``0},System.Boolean,System.Boolean)">
+            <summary>
+            Calls the provided function for each component of given type in the parent hierarchy (including self)
+            </summary>
+            <typeparam name="T">The type of the components to find</typeparam>
+            <param name="callback">Function to call for each component</param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.ForeachComponentInParents``1(System.Func{``0,System.Boolean},System.Boolean,System.Boolean)">
+            <summary>
+            Calls the provided function for each component of given type in the parent hierarchy (including self)
+            If the function returns false it'll stop.
+            </summary>
+            <typeparam name="T">The type of the components to find</typeparam>
+            <param name="callback">The function to call for each component</param>
+            <returns>True if the function returned true for all components, false if it was stopped</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetComponentInParents``1(System.Predicate{``0},System.Boolean,System.Boolean)">
+            <summary>
+            Finds the first component in the parent hierarchy (including self) which matches the given criteria
+            </summary>
+            <typeparam name="T">The type of the component to find</typeparam>
+            <param name="filter">Optional predicate to filter the components</param>
+            <returns>The first found component or null if none matches the criteria</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetComponentsInParents``1(System.Collections.Generic.List{``0},System.Predicate{``0})">
+            <summary>
+            Fills the list with components in the parent hierarchy (including self) which match the given criteria
+            </summary>
+            <typeparam name="T">The type of the component to find</typeparam>
+            <param name="results">The list to fill with the found components</param>
+            <param name="filter">Optional predicate to filter the components</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetComponentsInParents``1(System.Predicate{``0})">
+            <summary>
+            Finds all components in the parent hierarchy (including self) which match the given criteria
+            </summary>
+            <typeparam name="T">The type of the component to find</typeparam>
+            <param name="filter">Optional predicate to filter the components</param>
+            <returns>List of all found components that match the criteria</returns>
+        </member>
+        <member name="P:FrooxEngine.Slot.ChildrenCount">
+            <summary>
+            Current number of children slots
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Children">
+            <summary>
+            A collection of all the current children slots
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Item(System.Int32)">
+            <summary>
+            Returns a child slot at specific index from all the current children slots.
+            The order of children is ensured to stay consistent between clients in presence of no changes.
+            </summary>
+            <param name="childIndex">The index of the child slot to return</param>
+            <returns>The child slot at given index</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.IndexOfChild(FrooxEngine.Slot)">
+            <summary>
+            Returns the child index of a specific slot.
+            </summary>
+            <param name="slot">The slot for which to determine the index</param>
+            <returns>Child index of the slot or -1 if it's not a child of given slot</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.IsChildOf(FrooxEngine.Slot,System.Boolean)">
+            <summary>
+            Indicates if this slot is within the hierarchy of another
+            </summary>
+            <param name="slot">The root of the children hierarchy to check</param>
+            <param name="includeSelf">Whether to return true if the slot is the same one as this is called on</param>
+            <returns>True is the slot is within the hierarchy, false otherwise</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.CopyComponents(FrooxEngine.Slot)">
+            <summary>
+            Copies all components from another slot onto this one
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:FrooxEngine.Slot.FindChild(System.String)">
+            <summary>
+            Finds the first direct child with given name
+            </summary>
+            <param name="name">The name to find</param>
+            <returns>First found slot with given name or null if none matches</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.FindChildInHierarchy(System.String)">
+            <summary>
+            Finds the first child slot in the hierarchy with given name
+            </summary>
+            <param name="name">The name to find</param>
+            <returns>First found slot with given name or null if none matches</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.FindChildOrAdd(System.String,System.Boolean)">
+            <summary>
+            Finds a direct child slot with given name or adds a new one with that name if none found
+            </summary>
+            <param name="name">The name to find</param>
+            <returns>First found slot with that name or the newly added one if none was found</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetAllChildren(System.Boolean)">
+            <summary>
+            Returns a list with all the direct and indirect children in the slot's hiearchy
+            </summary>
+            <param name="includeSelf">Whether to include the slot this is called on in the list</param>
+            <returns>List of all the children</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.TagHierarchy(System.String)">
+            <summary>
+            Sets the Tag of the Slot and all of its chlidren recursively
+            </summary>
+            <param name="tag">The tag to set</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetChildrenWithTag(System.String)">
+            <summary>
+            Gets list of all slots (including this one) with a specific tag
+            </summary>
+            <param name="tag">The tag to check for</param>
+            <returns>The list of all children with the given tag</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetChildrenWithTag(System.String,System.Collections.Generic.List{FrooxEngine.Slot})">
+            <summary>
+            Fills the list with all children with given tag
+            </summary>
+            <param name="tag">The tag to check for</param>
+            <param name="children">The list which to fill with the found slots</param>
+        </member>
+        <member name="M:FrooxEngine.Slot.SetIdentityTransform">
+            <summary>
+            Sets the local transform to identity with its parent.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.TransformByAnother(FrooxEngine.Slot,Elements.Core.float3@,Elements.Core.floatQ@,Elements.Core.float3@)">
+            <summary>
+            Transforms this slot using other slot, as if it was its child. Only this slot is assigned,
+            the other slot's transform is unchanged
+            </summary>
+            <param name="other">The slot to transform by</param>
+            <param name="globalPosition">The new virtual global position of the other slot</param>
+            <param name="globalRotation">The new virtual global rotation of the other slot</param>
+            <param name="globalScale">Thew virtual global scale of the other slot</param>
+        </member>
+        <member name="P:FrooxEngine.Slot.HasIdentityTransform">
+            <summary>
+            Indicates if the slot has identify transform relative to its parent
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.CopyTransform(FrooxEngine.Slot)">
+            <summary>
+             Copies to global position, rotation and scale of the other slot
+            </summary>
+            <param name="slot"></param>
+        </member>
+        <member name="P:FrooxEngine.Slot.LocalPosition">
+            <summary>
+            Local position of the slot in the coordinate system of its parent
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.LocalRotation">
+            <summary>
+            The local rotation of the slot in the coordinate system of its parent
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.LocalScale">
+            <summary>
+            The local scale of the slot in the coordinate system of its parent
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.GlobalPosition">
+            <summary>
+            The global position of the slot in the scene coordinate space
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.GlobalRotation">
+            <summary>
+            The global rotation of the slot in the scene coorindate space
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.GlobalScale">
+            <summary>
+            The global scale of the slot in the scene coordinate space
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.GlobalToLocal">
+            <summary>
+            Transformation matrix that transforms from the scene coordinate space into the coordinate space of the slot
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.TRS">
+            <summary>
+            The transformation matrix of the slot. It transforms from its local coordinate space into the parent's
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Slot.GetLocalToSpaceMatrix(FrooxEngine.Slot)">
+            <summary>
+            Computes a transformation matrix from the slot's local coordinate space to another slots'
+            local coordinate space.
+            </summary>
+            <param name="space">The slot that the matrix should transform into</param>
+            <returns>Transformation matrix</returns>
+        </member>
+        <member name="P:FrooxEngine.Slot.LocalToGlobal">
+            <summary>
+            Transformation matrix which transforms from the slot's coordinate space into the scene coordinate space
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.LocalToGlobalQuaternion">
+            <summary>
+            Quaternion representing a rotation from the slot's local coordinate space to the global.
+            This doesn't include negative scaling transformation.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.LocalToGlobalScale">
+            <summary>
+            Quaternions representing a rotation from global coordinate space into slot's local.
+            This doesn't include negative scaling transformation.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Forward">
+            <summary>
+            Unit vector indicating the slot's forward direction in the global coodinate space.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Up">
+            <summary>
+            Unit vector indicating the slot's upwards direction in the global coodinate space.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Backward">
+            <summary>
+            Unit vector indicating the slot's backward direction in the global coodinate space.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Down">
+            <summary>
+            Unit vector indicating the slot's downwards direction in the global coodinate space.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Left">
+            <summary>
+            Unit vector indicating the slot's left direction in the global coodinate space.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Slot.Right">
+            <summary>
+            Unit vector indicating the slot's right direction in the global coodinate space.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:FrooxEngine.Slot.GlobalRigidTransform" -->
+        <member name="M:FrooxEngine.Slot.LocalPointToGlobal(Elements.Core.float3@)">
+            <summary>
+            Transforms a positional coordinate from slot's local space to global
+            </summary>
+            <param name="localPoint">Point in the slot's local coordinate system</param>
+            <returns>Point the global coordinate system</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GlobalPointToLocal(Elements.Core.float3@)">
+            <summary>
+            Transforms a positional coordinate from global space to slot's local
+            </summary>
+            <param name="globalPoint">Point in the global coordinate system</param>
+            <returns>Point in the slot's local coordinate system</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.LocalDirectionToGlobal(Elements.Core.float3@)">
+            <summary>
+            Transforms a direction of a vector from the slot's local coordinate space to the global.
+            This rotates and inverts the vector, but preserves its length (unit input vector will
+            output unit output vector, regardless of scaling)
+            </summary>
+            <param name="localDirection">Directional vector in the slot's local coodinate space</param>
+            <returns>Directional vector in the global coordinate space</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GlobalDirectionToLocal(Elements.Core.float3@)">
+            <summary>
+            Transforms a direction of a vector from the global coordinate space to the slot's local.
+            This rotates and inverts the vector, but preserves its length (unit input vector will
+            output unit output vector, regardless of scaling)
+            </summary>
+            <param name="globalDirection">Directional vector in the global coordinate space</param>
+            <returns>Directional vector in the slot's local coordinate space</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.GlobalVectorToLocal(Elements.Core.float3@)">
+            <summary>
+            Transforms a vector from the global coordinate space to the slot's local.
+            This rotates and scales the vector, but the position of the slots doesn't affect it.
+            </summary>
+            <param name="globalVector">Vector in the global coordinate space</param>
+            <returns>Vector in the slot's local coordinate space</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.LocalVectorToGlobal(Elements.Core.float3@)">
+            <summary>
+            Transforms a vector from the slot's local coordinate space to global.
+            This rotates and scales the vector, but the position of the slots doesn't affect it.
+            </summary>
+            <param name="localVector">Vector in the local coordinate space</param>
+            <returns>Vector in the global coordinate space</returns>
+        </member>
+        <member name="M:FrooxEngine.Slot.LoadObjectAsync(System.Uri,FrooxEngine.Slot,FrooxEngine.ReferenceTranslator,System.Boolean,System.Boolean,System.Predicate{System.Type})">
+            <summary>
+            Loads an object from a record URI in-place, consuming the slot it is called from.
+            </summary>
+            <param name="uri">URI of the object to be loaded.</param>
+            <param name="assetsRoot">Root slot for the asset of the object.</param>
+            <param name="refTranslator"></param>
+            <param name="preserveRootTransform">Preserves the root transform of the object.</param>
+            <param name="skipHolder">Rewrites the data tree to avoid creating a parent Holder slot.</param>
+            <param name="typeFilter">Excludes certain types from loading, using a predicate set to false.</param>
+            <returns></returns>
+        </member>
+        <member name="E:FrooxEngine.SyncElement.Changed">
+            <remarks>
+            This is an out of data model event and shouldn't be used for anything data model related
+            </remarks>
+        </member>
+        <member name="M:FrooxEngine.Worker.CopyValues(FrooxEngine.Worker)">
+            <summary>
+            Copies values from a Worker of the same type
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:FrooxEngine.Worker.CopyProperties(FrooxEngine.Worker,System.Boolean,System.Predicate{FrooxEngine.ISyncMember})">
+            <summary>
+            Copies values from a Worker of a different type, matching them by name.
+            </summary>
+            <param name="source"></param>
+            <param name="includePrivate"></param>
+        </member>
+        <member name="T:FrooxEngine.DestroyRelayRef`1">
+            <summary>
+            This type of reference can be used when an explicit change event needs to be invoked when the
+            target is destroyed (assuming it supports this event
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:FrooxEngine.RelayRef`1">
+            RelayRef should be used if you want to be informed when the target field changes and have changes of the target invoke OnChanges() on the component that's referencing it. 
+        </member>
+        <member name="P:FrooxEngine.Engine.UseWineRenderer">
+             <summary>
+             Determines whether the engine should assume to use a Wine-based renderer when<br/>
+             executed in a Linux environment.
+            
+             </summary>
+             
+             <remarks>
+             <b>Beware! This may be removed when dispatch of the renderer process is improved!</b>
+             </remarks>
+        </member>
+        <member name="P:FrooxEngine.Engine.UniverseId">
+            <summary>
+            The Universe ID for this Engine.
+            </summary>
+            <remarks>If you're using this to check if the Engine is in a Universe,<br/>
+            then <see cref="P:FrooxEngine.Engine.InUniverse"/> is recommended as it makes Universe<br/>
+            checks easier to read.</remarks>
+        </member>
+        <member name="P:FrooxEngine.Engine.Universe">
+            <summary>
+            The full Universe details for this copy of the Engine.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.Engine.InUniverse">
+            <summary>
+            True, if this Engine is in a Universe.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.StandaloneFrooxEngineRunner.Login(System.String,SkyFrost.Base.LoginAuthentication)">
+            <summary>
+            Login user and create new UserSession for authenticating further requests.
+            To authenticate self, either password, session token or recover code should be provided.
+            If you're creating a headless or standalone app with FrooxEngine, this is probably where you want to be.
+            </summary>
+            <seealso cref="M:SkyFrost.Base.SessionManager.Login(System.String,SkyFrost.Base.LoginAuthentication,System.String,System.Boolean,System.String)"/>
+            <param name="credential">
+            The credential to login.  This will be a username.
+            </param>
+            <param name="authentication">
+            The authentication method used.
+            </param>
+            <returns>
+            Whether the attempt to login succeeded.
+            </returns>
+        </member>
+        <member name="P:FrooxEngine.WorkerInitializer.Workers">
+            <summary>
+            List of all found workers in the FrooxEngine
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.AudioSamplesHandler">
+            <summary>
+            Delegate signature for handling audio samples.
+            </summary>
+            <param name='buffer'>A buffer of audio samples provided by the callback.</param>
+        </member>
+        <member name="T:FrooxEngine.AudioInputType">
+            <summary>
+            The input semantics of the audio driver (e.g. whether the input device is from an actual capture device, is an output, or is a loopback device)
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.AudioInput">
+            <summary>
+            Base class for declaring audio inputs.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.AudioInput.Name">
+            <summary>
+            The name of the audio device this driver controls.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.AudioInput.DeviceID">
+            <summary>
+            The ID of the device this driver controls.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.AudioInput.Input">
+            <summary>
+            The InputInterface this audio input belongs to.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioInput.Engine">
+            <summary>
+            The engine this audio input belongs to.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioInput.AudioSystem">
+            <summary>
+            The audio system which controls this audio input.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioInput.IsActive">
+            <summary>
+            Whether this audio input is active.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioInput.InputType">
+            <summary>
+            The semantics of how this driver's input device operates (e.g. if it's an actual input device, loopback, etc.)
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioInput.IsSystemDefault">
+            <summary>
+            Whether this driver's device is the system's default audio input device.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioInput.IsConnected">
+            <summary>
+            Whether this driver's device is connected.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioInput.SampleRate">
+            <summary>
+            The sampling rate that this driver's device inputs at.
+            </summary>
+        </member>
+        <member name="E:FrooxEngine.AudioInput.ActiveChanged">
+            <summary>
+            Invoked whenever this driver's active status changes.
+            </summary>
+        </member>
+        <member name="E:FrooxEngine.AudioInput.ConnectedChanged">
+            <summary>
+            Invoked whenever this driver's connected status changes.
+            </summary>
+        </member>
+        <member name="E:FrooxEngine.AudioInput.NewRawSamples">
+            <summary>
+            Invoked whenever there are new raw audio samples available for consumption.
+            </summary>
+        </member>
+        <member name="E:FrooxEngine.AudioInput.NewFilteredSamples">
+            <summary>
+            Invoked whenever there are new filtered audio samples available for consumption.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.Disconnected">
+            <summary>
+            Invokes <see cref='E:FrooxEngine.AudioInput.ConnectedChanged'/> with <c>False</c> when called.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.Connected">
+            <summary>
+            Invokes <see cref='E:FrooxEngine.AudioInput.ConnectedChanged'/> with <c>True</c> when called.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.UpdateDefault(System.Boolean)">
+            <summary>
+            Updates this driver to be marked as the system default.
+            </summary>
+            <param name="isDefault">Indicator of whether this is the system default.</param>
+            <returns><c>True</c> if the default was successfully updated, otherwise <c>False</c>.</returns>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.UpdateActiveState">
+            <summary>
+            Updates the active state of this driver.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.#ctor(System.String,System.String,FrooxEngine.InputInterface,FrooxEngine.AudioInputType,System.Boolean)">
+            <summary>
+            Creates a new audio input driver.
+            </summary>
+            <param name="name">Friendly name of this driver's audio device.</param>
+            <param name="deviceId">ID of this driver's audio device.</param>
+            <param name="input">The input interface this driver belongs to.</param>
+            <param name="type">The semantics of how this driver handles audio input.</param>
+            <param name="isDefault">The audio system this driver belongs to.</param>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.SetSampleRate(System.Int32)">
+            <summary>
+            Sets the sample rate of this input.
+            </summary>
+            <param name="sampleRate">The target sample rate.</param>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.WriteSamples``1(System.Span{``0},System.Double@,``0@)">
+            <summary>
+            Writes samples from the input buffer to the internal audio system.
+            </summary>
+            <param name="buffer">The buffer to ingest samples from.</param>
+            <param name="position">The last position of the last sample read.</param>
+            <param name="lastSample">The last sample read.</param>
+        </member>
+        <member name="M:FrooxEngine.AudioInput.ProcessNewSamples(System.Span{Elements.Assets.StereoSample})">
+            <summary>
+            Processes incoming samples for consumption by the engine.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.AudioOutputDriver">
+            <summary>
+            Base class for declaring audio outputs.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.AudioOutputDriver.AVERAGE_RATE_INTERVAL">
+            <summary>
+            Time span (in seconds) over which <see cref='P:FrooxEngine.AudioOutputDriver.AverageReadRate' /> and <see cref='P:FrooxEngine.AudioOutputDriver.AverageWriteRate' /> are calculated.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.AudioSystem">
+            <summary>
+            The audio system this output driver belongs to.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.Name">
+            <summary>
+            The name of the audio device this driver controls.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.DeviceID">
+            <summary>
+            The ID of the device this driver controls.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.IsConnected">
+            <summary>
+            Whether this driver's device is connected.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.IsSystemDefault">
+            <summary>
+            Whether this driver's device is the system's default audio output device.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.OutputSampleRate">
+            <summary>
+            The sampling rate that this driver's device outputs at.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.AvailablePlaybackSamples">
+            <summary>
+            The number of playback samples this driver's device has queued.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.BufferUnderruns">
+            <summary>
+            The number of buffer underruns this driver's device has encountered.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.AverageReadRate">
+            <summary>
+            The average read rate (in samples) over the course of 15 seconds.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.AverageWriteRate">
+            <summary>
+            The average write rate (in samples) over the course of 15 seconds.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.CurrentContext">
+             <summary>
+             The context in which certain operations are done.<br />
+             </summary>
+            
+             <remarks>
+             Mostly used for logging purposes.
+             </remarks>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.RenderAudio">
+            <summary>
+            Delegate which signifies that this output driver may trigger audio renders.
+            </summary>
+        </member>
+        <member name="E:FrooxEngine.AudioOutputDriver.ConnectedChanged">
+            <summary>
+            Invoked whenever this driver's connected status changes.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.#ctor(System.String,System.String,System.Boolean,FrooxEngine.AudioSystem)">
+            <summary>
+            Creates a new audio output driver.
+            </summary>
+            <param name="name">Friendly name of this driver's audio device.</param>
+            <param name="deviceID">ID of this driver's audio device.</param>
+            <param name="isDefault">Whether this is the default output for the system.</param>
+            <param name="audioSystem">The audio system this driver belongs to.</param>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.Disconnected">
+            <summary>
+            Invokes <see cref='E:FrooxEngine.AudioOutputDriver.ConnectedChanged'/> with <c>False</c> when called.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.Connected">
+            <summary>
+            Invokes <see cref='E:FrooxEngine.AudioOutputDriver.ConnectedChanged'/> with <c>True</c> when called.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.UpdateDefault(System.Boolean)">
+            <summary>
+            Updates this driver to be marked as the system default.
+            </summary>
+            <param name="isDefault">Indicator of whether this is the system default.</param>
+            <returns><c>True</c> if the default was successfully updated, otherwise <c>False</c>.</returns>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.Start(System.String)">
+            <summary>
+            Starts playing audio through this driver's device.
+            </summary>
+            <param name="context">The user-defined context explaining why this device was started.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown when the device has already been started.</exception>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.Stop">
+            <summary>
+            Stops playing audio through this driver's device.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.AudioFrameRendered(System.Single[],System.Double)">
+            <summary>
+            Submits audio samples to a buffer when the audio render has completed.
+            </summary>
+            <param name="buffer">Location where submitted samples are stored.</param>
+            <param name="dspTime">The current simulation time of the audio system.</param>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.FrameSizeChanged">
+            <summary>
+            Re-allocates internal structures when the frame size of the simulation changes.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.Read(System.Span{Elements.Assets.StereoSample})">
+             <summary>
+             Reads any available samples into a destination buffer.
+             </summary>
+            
+             <remarks>
+             If there aren't enough samples available, new samples will be rendered on-demand.
+             </remarks>
+            
+             <param name="buffer">Destination buffer.</param>
+             <returns>The number of samples read.</returns>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.OnStart">
+            <summary>
+            Called when this driver has been started.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDriver.OnStop">
+            <summary>
+            Called when this driver has been stopped.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.MultiplyInput`1">
+            <summary>
+            Multiplies two <see cref="T:FrooxEngine.IInputNode`1"/>s together. Their types must be the same.
+            </summary>
+            <typeparam name="T">Type for this operation</typeparam>
+            <remarks>See <see cref="T:FrooxEngine.ScaleInput`1"/> for a version of this operation that multiplies by a singular float value as an amplitude.<br />
+            See <see cref="T:FrooxEngine.MultiplyInputByConstant`1"/> for a version of this operation that can multiply by a constant as oposed to an <see cref="T:FrooxEngine.IInputNode`1"/>.
+            </remarks>
+        </member>
+        <member name="T:FrooxEngine.ScaleInput`1">
+            <summary>
+            Scales an Input, by a singular float value(amplitude)
+            </summary>
+            <typeparam name="T">Source data type</typeparam>
+            <remarks>See <see cref="T:FrooxEngine.MultiplyInput`1"/> for a version that can multiple two inputs together.</remarks>
+        </member>
+        <member name="M:FrooxEngine.GenericOperatingSystemConnector.GetUniqueFilePath(System.String,System.String)">
+            <summary>
+            Generates a unique file path if file already exists.
+            </summary>
+            <param name="fileName">The file name</param>
+            <param name="targetPath">The path where to save the file</param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.PlatformInterface.ShouldInitializePlatformInterface(System.String,SkyFrost.Base.AppConfig)">
+            <summary>
+            Tests to see if a Platform interface should be initialized based on its name and a supplied app config.
+            </summary>
+            <param name="platformName"></param>
+            <param name="config"></param>
+            <returns>true if the provided platform should be initialized</returns>
+        </member>
+        <member name="F:FrooxEngine.HostAccessPermission.Denied">
+            <summary>
+            User has denied the request for access.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.HostAccessPermission.Allowed">
+            <summary>
+            User has allowed the request for access.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.HostAccessPermission.Ignored">
+            <summary>
+            User has ignored the request for access.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.SettingCategoryAttribute">
+            <seealso cref="T:SettingCategoryDefinitions">You Might be looking for this.</seealso>
+        </member>
+        <member name="M:FrooxEngine.Settings.GetActiveSetting``1">
+            <summary>
+            Gets an active settings component by its Type.
+            </summary>
+            <typeparam name="T">The setting component type to retrieve.</typeparam>
+            <returns>The setting component or null if it could not be found</returns>
+            <remarks>This method can return null, if this is the first time the setting is accessed. If you want to be sure to get a setting use <see cref="M:FrooxEngine.Settings.GetActiveSettingAsync``1"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.Settings.TryGetActiveSetting(System.Type)">
+            <inheritdoc cref="M:FrooxEngine.Settings.GetActiveSetting``1"/>
+            <param name="type">The setting component type to retrieve.</param>
+        </member>
+        <member name="M:FrooxEngine.AudioInputDeviceSettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.AudioOutputDeviceSettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.AudioVolumeSettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.CursorSettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="F:FrooxEngine.CursorSettings.BaseCursorSize">
+            <summary>
+            Base cursor size used, to calculate all other cursor sizes. 
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CursorSettings.GrabMultiplier">
+            <summary>
+            Applied to the cursor size as a multiplier when Grabbing
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CursorSettings.InteractionMultiplier">
+            <summary>
+            Applied to the cursor size as a multiplier when interacting with buttons and other Touchables.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CursorSettings.TextMultiplier">
+            <summary>
+            Applied to the cursor size as a multiplier when selecting and manipulating text.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CursorSettings.SliderMultiplier">
+            <summary>
+            Applied to the cursor size as a multiplier when interacting with Sliders
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.CursorSettings.DirectCursorEnabled">
+            <summary>
+            Turns on/off Direct Cursors
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GaussianSplatQualityPreset.VeryLow">
+            <summary>
+            18.62x smaller
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GaussianSplatQualityPreset.Low">
+            <summary>
+            14.01x smaller
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GaussianSplatQualityPreset.Medium">
+            <summary>
+            5.14x smaller
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GaussianSplatQualityPreset.High">
+            <summary>
+            2.94x smaller
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.GaussianSplatQualityPreset.VeryHigh">
+            <summary>
+            Uncompressed
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.GaussianSplatQualitySettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.RenderingQualitySettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.ResolutionSettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.TextureQualitySettings.GetDefaultSettingSwitches(FrooxEngine.World)">
+            <remarks>Used via Reflection, See: <see cref="M:FrooxEngine.SettingManager.RecomputeSettings"/></remarks>
+        </member>
+        <member name="F:FrooxEngine.OpenableUrlImportPreference.Open">
+            <summary>
+            When importing a Session/World URL, open/join that world/session
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.OpenableUrlImportPreference.SpawnInterface">
+            <summary>
+            When importing a Session/World URL, spawn a Session Interface.
+            </summary>
+            <remarks>
+            This is currently spawned as a World Orb, however we want to move towards using the EntityInterface for these.
+            This name was chosen to avoid having to rename it later.
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.OpenableUrlImportPreference.SpawnUrl">
+            <summary>
+            When importing a Session/World URL, spawn a URL Interface with the value set to the world/session url
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.RichPresenceLevel.None">
+            <summary>
+            Shares NO session details with the rich presence system
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.RichPresenceLevel.Basic">
+            <summary>
+            Shares only basic information with the rich presence system.
+            </summary>
+            <remarks>
+            As an example, Basic would send "User is playing Resonite" but not necesarily what session they're in or any other details.
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.RichPresenceLevel.Full">
+            <summary>
+            Shares all information available to the rich presence system.
+            </summary>
+            <remarks>
+            As an example, Full would send "User is playing Resonite, they're in "Cool World" with 8 users". etc.
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.DiscordIntegrationSettings.RichPresence">
+            <summary>
+            User's preference for Discord's Rich Presence
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.SteamIntegrationSettings.RichPresence">
+            <summary>
+            User's preference for Steam's Rich Presence
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.SteamIntegrationSettings.SaveScreenshots">
+            <summary>
+            When set to true, Steam will save a copy of any screenshots to Steam's screenshot system.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.MediaPrivacySettings.StripImageFileMetadata">
+            <summary>
+            If true, indicates that the user wishes to strip file meta-data tags from images on import/export.
+            </summary>
+            <remarks>
+            While <see cref="F:FrooxEngine.MediaPrivacySettings.MediaMetadataOptOut"/> refers to in-app MetaData, this setting refers to things like EXIF tags.
+            </remarks>
+        </member>
+        <member name="F:FrooxEngine.GlobalTypeRegistry.SYSTEM_COMPATIBILITY_VERSION">
+             <summary>
+             This indicates the general compatibility version between the system types. This can be used to manually break
+             compatibility between builds when changes are made that do not add or remove any data types, but that in some
+             other way make the two versions incompatible.
+            
+             An example of this might be when algorithms responsible for realtime encoding of the types are changed, so even
+             with the same set of types, the two clients wouldn't compatible at the binary level. These changes should be rare
+             so this shouldn't update very often.
+            
+             Adding, removing or reordering types doesn't require this value to be changed, because that will change
+             the compatibility hash implicitly.
+             </summary>
+        </member>
+        <member name="P:FrooxEngine.User.UTCOffset">
+            <summary>
+            A TimeSpan value which represents their Local TimeSpan offset from the UTC Timezone. This can be used to figure out the timezone and local time of this user.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.LegacyRadiantScreenWrapper`1">
+            <summary>
+            A generic we use to wrap legacy radiant screens, mostly for the dash.
+            If you want to change the background color of our legacy screens, look here.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:FrooxEngine.IItemPermissions.CanSave">
+            <summary>
+            Can this item be saved by any means?
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.MigrationDialog.LoginResult.OtherCloud">
+            <summary>
+            A Cloud Interface, which can connect to another Third-Party Cloud for migration details etc.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.MigrationDialog._previousMessageHistoryState">
+            <summary>
+            The previous message history state, stored when the contacts checkbox is toggled.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.MigrationDialog.SetAllData(System.Boolean)">
+            <summary>
+            Sets all optional migration data settings for the migration to the specified state.
+            </summary>
+            <param name="to">State to set</param>
+        </member>
+        <member name="F:FrooxEngine.WorldLoadProgress.disappearTime">
+            <summary>
+            How long after, the world is loaded should the indicator be destroyed.
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.Userspace.HomeWorldResult">
+            <summary>
+            Encapsulates a request to load home, with an error if it occured.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Userspace.GetUniverseHomeTemplate(SkyFrost.Base.OwnerType)">
+            <summary>
+            Retrieves a Universe's home template, based on the currently active Universe
+            </summary>
+            <param name="ownerType">The type of Home to get the template for</param>
+            <returns>A URI, for the appropriate home template.</returns>
+            <remarks>For non-universe templates see <see cref="M:FrooxEngine.Userspace.GetHomeTemplateUri(SkyFrost.Base.OwnerType)"/></remarks>
+        </member>
+        <member name="M:FrooxEngine.Userspace.GetHomeTemplateUri(SkyFrost.Base.OwnerType)">
+            <summary>
+            Retrieves a Regular Home Template for this platform. 
+            </summary>
+            <param name="ownerType">The type of Home to get the template for</param>
+            <returns>A URI, for the appropriate home template.</returns>
+            <remarks>For universe templates see <see cref="M:FrooxEngine.Userspace.GetUniverseHomeTemplate(SkyFrost.Base.OwnerType)"/>. Also see <see cref="M:FrooxEngine.Userspace.OpenHomeOrCreateTask(System.String,System.String,System.Boolean)"/> for usage of this. /></remarks>
+        </member>
+        <member name="M:FrooxEngine.Userspace.TryGetWorldUrlFromWorldOrb(FrooxEngine.Store.Record,System.Uri@)">
+            <summary>
+            Given a Record, try to figure out if the record is a world orb. If it is return the URI from "inside" the world orb.
+            </summary>
+            <param name="record">Input record</param>
+            <param name="worldOrbRecordUrl">A valid Record URL if successful</param>
+            <returns>true for success, false otherwise</returns>
+            <remarks>World Orb records, usually get two tags 'world_orb' and 'world_uri:resrec//etc' see <see cref="M:SkyFrost.Base.RecordTags.GetCorrespondingWorldUrl(System.Collections.Generic.HashSet{System.String})"/> for more info.</remarks>
+        </member>
+        <member name="M:FrooxEngine.WorldStartSettings.HasValidUri(SkyFrost.Base.IPlatformProfile)">
+            <summary>
+            Checks if any of the URIs in this are valid for a given platform
+            </summary>
+            <param name="platform">Platform to use when checking</param>
+            <returns><see langword="true"/> if there are valid URIs. <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:FrooxEngine.WorldStartSettings.CanStart(SkyFrost.Base.IPlatformProfile)">
+            <summary>
+            Checks if this worldstartsettings can "start" a world.
+            </summary>
+            <param name="platform">Platform the world should run on.</param>
+            <returns><see langword="true"/> if this can be used to start a world. <see langword="false"/> otherwise.</returns>
+            <remarks>
+            This is a quick check, that doesn't rely on anything external to the WorldStartSettings except for the platform.
+            </remarks>
+        </member>
+        <member name="M:FrooxEngine.BrowserDialog.SetPath(System.Collections.Generic.List{System.String})">
+            <summary>
+            This is where we generate the paths for a given folder.
+            </summary>
+            <param name="pathChain"></param>
+        </member>
+        <member name="M:FrooxEngine.AvatarCreatorSpawner.CanSpawn(FrooxEngine.World)">
+            <summary>
+            Checks to see if the <see cref="T:FrooxEngine.AvatarCreator"/> be spawned. Will check various permissions etc.
+            </summary>
+            <returns>true if the avatar creator can be spawned, false if it cannot.</returns>
+        </member>
+        <member name="M:FrooxEngine.World.RunSynchronously(System.Action,System.Boolean,FrooxEngine.IUpdatable,System.Boolean)">
+            <summary>
+            Runs an action in sync with the world update from the update thread, when changes to the data model are allowed by the running code.
+            This allows you to schedule modifications to the world from background threads and other worlds.
+            The action is ran as soon as possible, usually between the world's own update stages.
+            This action is not guaranteed to run if the world is destroyed.
+            </summary>
+            <param name="action">The action to run synchronously</param>
+            <param name="immediatellyIfPossible">If true, will run the action immediatelly if called from the world update thread, rather than scheduling it in a queue.</param>
+        </member>
+        <member name="F:OWOTCPClient.OnOWOConnectionHandlerStarted">
+            <summary>
+            Delegate triggered on OWOConnectionHandler started
+            </summary>
+        </member>
+        <member name="F:OWOTCPClient.OnConnectionOpen">
+            <summary>
+            Delegate triggered on connection open
+            </summary>
+        </member>
+        <member name="F:OWOTCPClient.OnConnectionClosed">
+            <summary>
+            Delegate triggered on connection closed
+            </summary>
+        </member>
+        <member name="F:OWOTCPClient.OnSensationSent">
+            <summary>
+            Delegate triggered when game send a sensation to OWO app
+            </summary>
+        </member>
+        <member name="F:OWOTCPClient.OnLog">
+            <summary>
+            Delegate triggered on log messages
+            </summary>
+        </member>
+        <member name="M:OWOTCPClient.Connect(System.String)">
+            <summary>
+            Connect to OWO app. Note: for this client to work, you need to provide the IP of a device running OWO app
+            </summary>
+            <param name="_ip"></param>
+        </member>
+        <member name="M:OWOTCPClient.SendSensation(System.Int32,OWOMuscles)">
+            <summary>
+            Request to OWO app a sensation to be runned
+            </summary>
+            <param name="sensationID"> Id of the sensation to run </param>
+            <param name="muscle"> Muscle to focus </param>
+        </member>
+        <member name="M:OWOTCPClient.Close">
+            <summary>
+            Close conection, to finally close the conection a second is waited
+            </summary>
+        </member>
+    </members>
+</doc>
