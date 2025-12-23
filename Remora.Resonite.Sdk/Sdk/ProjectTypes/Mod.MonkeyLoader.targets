@@ -4,8 +4,9 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
-    <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">false</IsMonkeyLoaderGamePack>
     <IsResoniteGamePack Condition="'$(IsResoniteGamePack)' == ''">false</IsResoniteGamePack>
+    <IsMonkeyLoaderGamePack Condition="'$(IsResoniteGamePack)' == 'true'">true</IsMonkeyLoaderGamePack>
+    <IsMonkeyLoaderGamePack Condition="'$(IsMonkeyLoaderGamePack)' == ''">false</IsMonkeyLoaderGamePack>
 
     <MonkeyLoaderPackageType>Mod</MonkeyLoaderPackageType>
     <MonkeyLoaderPackageType Condition="'$(IsMonkeyLoaderGamePack)' == 'true'">GamePack</MonkeyLoaderPackageType>

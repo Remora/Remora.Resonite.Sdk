@@ -10,8 +10,10 @@
     "Awwdio\\.dll$",
     "Elements.*?\\.dll$",
     "FrooxEngine.*?\\.dll$",
+    "LiteDB.*?\\.dll$",
     "PhotonDust\\.dll$",
     "ProtoFlux.*?\\.dll$",
+    "Renderite\\.Shared\\.dll$",
     "SkyFrost.*?\\.dll$",
     "YellowDogMan.*?\\.dll$"
   ],
