@@ -62,7 +62,7 @@
   </PropertyGroup>
 
   <Target Name="Resonite_SDK_Checks">
-    <Message Importance="normal" Text="Using Resonite SDK version 2.0.2" />
+    <Message Importance="normal" Text="Using Resonite SDK version 2.0.3" />
 
     <Error Code="RESO401" Text="Property ResoniteTarget must be one of 'client', 'headless', or 'renderite'!"
            Condition="'$(ResoniteTarget)' != 'client' AND '$(ResoniteTarget)' != 'headless' AND '$(ResoniteTarget)' != 'renderite'" />
