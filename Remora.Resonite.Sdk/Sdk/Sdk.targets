@@ -41,14 +41,17 @@
     <ResoniteStrippedSharedReferencePath>$(ResoniteSharedReferencePath)Stripped/</ResoniteStrippedSharedReferencePath>
     <ResonitePublicizedSharedReferencePath>$(ResoniteSharedReferencePath)Publicized/</ResonitePublicizedSharedReferencePath>
 
-    <ReferencePath Condition="Exists('$(_ResoniteAssemblyPath)') AND '$(ResoniteForceReferenceAssemblies)' != 'true'">$(_ResoniteAssemblyPath);$(ReferencePath)</ReferencePath>
+    <!-- Add fitting reference path(s) for ForceReference / UsePublicized -->
+    <ReferencePath Condition="Exists('$(_ResoniteAssemblyPath)') AND '$(ResoniteForceReferenceAssemblies)' != 'true' AND '$(ResoniteUsePublicizedAssemblies)' != 'true'">$(_ResoniteAssemblyPath);$(ReferencePath)</ReferencePath>
+    <ReferencePath Condition="(!Exists('$(_ResoniteAssemblyPath)') OR '$(ResoniteForceReferenceAssemblies)' == 'true') AND '$(ResoniteUsePublicizedAssemblies)' != 'true'">$(ResoniteStrippedTargetReferencePath);$(ResoniteStrippedSharedReferencePath);$(ReferencePath)</ReferencePath>
+    <ReferencePath Condition="'$(ResoniteUsePublicizedAssemblies)' == 'true'">$(ResonitePublicizedTargetReferencePath);$(ResonitePublicizedSharedReferencePath);$(ReferencePath)</ReferencePath>
   </PropertyGroup>
 
   <!-- Transform ResoniteReference items into real assembly references,
          either to our bundled reference assemblies or to real ones from an installation. -->
   <ItemGroup>
     <Reference Include="@(ResoniteReference)">
-      <Name>%(ResoniteReference.Identity)</Name>
+      <Name>%(Identity)</Name>
 
       <!-- Our bundled publicized reference assemblies -->
       <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedTargetReferencePath)%(Identity).dll')">$(ResonitePublicizedTargetReferencePath)%(Identity).dll</HintPath>
@@ -59,12 +62,12 @@
       <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedSharedReferencePath)%(Identity).exe')">$(ResonitePublicizedSharedReferencePath)%(Identity).exe</HintPath>
 
       <!-- Our bundled unpublicized reference assemblies -->
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteTargetReferencePath)%(Identity).dll')">$(ResoniteStrippedTargetReferencePath)%(Identity).dll</HintPath>
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteSharedReferencePath)%(Identity).dll')">$(ResoniteStrippedSharedReferencePath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).dll')">$(ResoniteStrippedTargetReferencePath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).dll')">$(ResoniteStrippedSharedReferencePath)%(Identity).dll</HintPath>
 
       <!-- Our bundled unpublicized reference executables -->
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteTargetReferencePath)%(Identity).exe')">$(ResoniteStrippedTargetReferencePath)%(Identity).exe</HintPath>
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteSharedReferencePath)%(Identity).exe')">$(ResoniteStrippedSharedReferencePath)%(Identity).exe</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).exe')">$(ResoniteStrippedTargetReferencePath)%(Identity).exe</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).exe')">$(ResoniteStrippedSharedReferencePath)%(Identity).exe</HintPath>
 
       <!-- Real assemblies / executables from an install -->
       <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).dll')">$(_ResoniteAssemblyPath)%(Identity).dll</HintPath>
