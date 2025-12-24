@@ -4,10 +4,6 @@
     <ResoniteUsePublicizedAssemblies Condition="'$(ResoniteProjectType)' == 'mod'">true</ResoniteUsePublicizedAssemblies>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <ResoniteIgnoreAccessChecksToPath>$(ResoniteReferencePath)IgnoreAccessChecksTo/</ResoniteIgnoreAccessChecksToPath>
-  </PropertyGroup>
-
   <ItemDefinitionGroup>
     <ResoniteReference>
       <Visible>false</Visible>
@@ -70,8 +66,8 @@
       <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).exe')">$(ResoniteStrippedSharedReferencePath)%(Identity).exe</HintPath>
 
       <!-- Real assemblies / executables from an install -->
-      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).dll')">$(_ResoniteAssemblyPath)%(Identity).dll</HintPath>
-      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).exe')">$(_ResoniteAssemblyPath)%(Identity).exe</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)%(Identity).dll')">$(_ResoniteAssemblyPath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)%(Identity).exe')">$(_ResoniteAssemblyPath)%(Identity).exe</HintPath>
 
       <!-- Only copy them to the output for standalone applications -->
       <Private>false</Private>

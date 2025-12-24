@@ -1,6 +1,5 @@
 <Project>
   <PropertyGroup>
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
-    <Deterministic>true</Deterministic>
   </PropertyGroup>
 </Project>
