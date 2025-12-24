@@ -85,6 +85,8 @@
         <_Parameter1>%(ResoniteReference.Identity)</_Parameter1>
       </AssemblyAttribute>
     </ItemGroup>
+
+    <Message Importance="high" Text="Reference %(Reference.Identity) with HintPath: %(Reference.HintPath)" />
   </Target>
 
   <!-- Import last to respect set properties -->
