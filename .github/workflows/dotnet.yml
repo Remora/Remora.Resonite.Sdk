@@ -17,15 +17,22 @@ jobs:
     runs-on: ${{matrix.platform}}
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+  
+      - name: Setup Dotnet
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.x
+      
+      - name: Build SDK
+        run: dotnet build ./Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj -c Release
+
+      - name: Restore
+        run: dotnet restore
 
       - name: Build
-        run: |
-          dotnet restore
-          dotnet build -c Release --no-restore
+        run: dotnet build -c Release --no-restore
 
       - name: Test
         run: dotnet test -c Release --no-restore --no-build --verbosity minimal
@@ -33,7 +40,9 @@ jobs:
       - name: Package
         if: matrix.platform == 'ubuntu-latest' && github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: dotnet pack -c Release --no-restore --no-build --version-suffix "github$GITHUB_RUN_ID"
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         if: matrix.platform == 'ubuntu-latest'
         with:
           name: nupkg
