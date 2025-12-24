@@ -54,7 +54,9 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(ResonitePath)'==''">
-    <ResonitePath>$(MSBuildProjectDirectory)/Resonite/</ResonitePath>
+    <_ProjectResonitePath>$(MSBuildProjectDirectory)/Resonite/</_ProjectResonitePath>
+
+    <ResonitePath>$(_ProjectResonitePath)</ResonitePath>
     <ResonitePath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/Resonite/')">C:/Program Files (x86)/Steam/steamapps/common/Resonite/</ResonitePath>
     <ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
   </PropertyGroup>
@@ -72,6 +74,6 @@
            Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTargetModLoader)' != 'ResoniteModLoader' AND '$(ResoniteTargetModLoader)' != 'ResoniteModLoaderStandalone' AND '$(ResoniteTargetModLoader)' != 'BepisLoader'" />
 
     <Error Code="RESO404" Text="Property ResonitePath is set but points to invalid path! Path: $(ResonitePath)"
-           Condition="'$(ResonitePath)' != '' AND !Exists('$(ResonitePath)')" />
+           Condition="'$(ResonitePath)' != '' AND '$(ResonitePath)' != '$(_ProjectResonitePath)' AND !Exists('$(ResonitePath)')" />
   </Target>
 </Project>
