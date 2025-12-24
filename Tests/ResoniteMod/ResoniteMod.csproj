@@ -4,8 +4,6 @@
     <PropertyGroup>
         <ResoniteProjectType>mod</ResoniteProjectType>
         <ResoniteTarget>client</ResoniteTarget>
-
-      <ResoniteInstallOnBuild>true</ResoniteInstallOnBuild>
     </PropertyGroup>
 
     <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />

@@ -39,13 +39,9 @@ jobs:
       - name: Test
         run: dotnet test -c Release --no-restore --no-build --verbosity minimal
 
-      - name: Package
-        if: matrix.platform == 'ubuntu-latest' && github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: dotnet pack -c Release --no-restore --no-build --version-suffix "github$GITHUB_RUN_ID"
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
-        if: matrix.platform == 'ubuntu-latest'
+        if: matrix.platform == 'ubuntu-latest' && github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           name: nupkg
           path: nuget/*

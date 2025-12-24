@@ -4,7 +4,6 @@
   <PropertyGroup>
     <ResoniteProjectType>mod</ResoniteProjectType>
     <ResoniteTarget>client</ResoniteTarget>
-    <RootNamespace>ResoniteModWithResoniteReference</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -57,17 +57,17 @@
       <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedTargetReferencePath)%(Identity).exe')">$(ResonitePublicizedTargetReferencePath)%(Identity).exe</HintPath>
       <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedSharedReferencePath)%(Identity).exe')">$(ResonitePublicizedSharedReferencePath)%(Identity).exe</HintPath>
 
+      <!-- Real assemblies / executables from an install -->
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' != 'true' AND Exists('$(_ResoniteAssemblyPath)%(Identity).dll')">$(_ResoniteAssemblyPath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' != 'true' AND Exists('$(_ResoniteAssemblyPath)%(Identity).exe')">$(_ResoniteAssemblyPath)%(Identity).exe</HintPath>
+
       <!-- Our bundled unpublicized reference assemblies -->
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).dll')">$(ResoniteStrippedTargetReferencePath)%(Identity).dll</HintPath>
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).dll')">$(ResoniteStrippedSharedReferencePath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).dll')">$(ResoniteStrippedTargetReferencePath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).dll')">$(ResoniteStrippedSharedReferencePath)%(Identity).dll</HintPath>
 
       <!-- Our bundled unpublicized reference executables -->
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).exe')">$(ResoniteStrippedTargetReferencePath)%(Identity).exe</HintPath>
-      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' == 'true' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).exe')">$(ResoniteStrippedSharedReferencePath)%(Identity).exe</HintPath>
-
-      <!-- Real assemblies / executables from an install -->
-      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)%(Identity).dll')">$(_ResoniteAssemblyPath)%(Identity).dll</HintPath>
-      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)%(Identity).exe')">$(_ResoniteAssemblyPath)%(Identity).exe</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).exe')">$(ResoniteStrippedTargetReferencePath)%(Identity).exe</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).exe')">$(ResoniteStrippedSharedReferencePath)%(Identity).exe</HintPath>
 
       <!-- Only copy them to the output for standalone applications -->
       <Private>false</Private>
@@ -85,8 +85,6 @@
         <_Parameter1>%(ResoniteReference.Identity)</_Parameter1>
       </AssemblyAttribute>
     </ItemGroup>
-
-    <Message Importance="high" Text="Reference %(Reference.Identity) with HintPath: %(Reference.HintPath)" />
   </Target>
 
   <!-- Import last to respect set properties -->

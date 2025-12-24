@@ -7,7 +7,7 @@
     <PropertyGroup>
         <Title>Remora.Resonite.Sdk</Title>
         <Description>A .NET SDK for developing Resonite mods and plugins.</Description>
-        <VersionPrefix>2.0.2</VersionPrefix>
+        <VersionPrefix>1.5.1</VersionPrefix>
         <PackageReleaseNotes>Update reference assemblies to Resonite 2025.12.16.1424.</PackageReleaseNotes>
         <IsPackable>true</IsPackable>
         <PackageTags>MSBuild;MSBuildSdk;Remora;Resonite;Renderite;RML;MonkeyLoader;Mod;Mods;BepisLoader;BepInEx;Plugin;Plugins</PackageTags>
