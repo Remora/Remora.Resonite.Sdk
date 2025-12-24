@@ -6,16 +6,31 @@
     <_PatchersOutputDirectory>$(BepInExPath)patchers/</_PatchersOutputDirectory>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(ResoniteTarget)' != 'renderite'">
     <RestoreAdditionalProjectSources>
       https://nuget-modding.resonite.net/v3/index.json;
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite'">
     <PackageReference Include="BepInEx.NET.CoreCLR" Version="6.0.0-be.*" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.ResonitePluginInfoProps" Version="3.*" />
     <PackageReference Include="ResoniteModding.BepInExResoniteShim" Version="0.8.*" />
     <PackageReference Include="ResoniteModding.BepisResoniteWrapper" Version="1.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(ResoniteTarget)' == 'renderite'">
+    <Reference Include="0Harmony">
+      <HintPath>$(BepInExPath)core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExPath)core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

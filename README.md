@@ -26,7 +26,7 @@ of the standard .NET SDK. You can also configure the project type and the target
 version of Resonite you want to build content for.
 
 ```xml
-<Project Sdk="Remora.Resonite.Sdk/2.0.0">
+<Project Sdk="Remora.Resonite.Sdk/2.x.y">
     <PropertyGroup>
         <ResoniteTarget>headless</ResoniteTarget>
         <ResoniteProjectType>plugin</ResoniteProjectType>
@@ -35,7 +35,21 @@ version of Resonite you want to build content for.
 ```
 
 Note that you do not need to define the target framework(s); the SDK defaults to
-the target framework that the chosen version of Resonite uses.
+the target framework that the chosen version of Resonite uses.  
+Specifying the version in the project file is optional too.
+Particularly for solutions with multiple projects using the SDK,
+it's advisable to add a global.json with the following content:
+
+```json
+{
+    "msbuild-sdks": {
+        "Remora.Resonite.Sdk": "2.x.y"
+    }
+}
+```
+
+Of course, the proper version number must be specified.
+Simply check for the version of the latest release here or on the NuGet feed you're using.
 
 
 ## Feature Breakdown
@@ -280,6 +294,12 @@ unpacking into a Resonite installation. The archive can be uploaded as part of a
 GitHub release or other distribution process.
 
 You can disable this behaviour by setting `ResoniteGenerateReleaseArchive` to `false`.
+
+
+## Known Issues
+
+The BepisLoader integration doesn't currently support automatic installation.
+We'll gladly accept any PRs for that.
 
 
 ## License

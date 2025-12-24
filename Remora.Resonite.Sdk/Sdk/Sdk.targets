@@ -51,7 +51,7 @@
          either to our bundled reference assemblies or to real ones from an installation. -->
   <ItemGroup>
     <Reference Include="@(ResoniteReference)">
-      <Name>%(Identity)</Name>
+      <Name>%(ResoniteReference.Identity)</Name>
 
       <!-- Our bundled publicized reference assemblies -->
       <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedTargetReferencePath)%(Identity).dll')">$(ResonitePublicizedTargetReferencePath)%(Identity).dll</HintPath>
