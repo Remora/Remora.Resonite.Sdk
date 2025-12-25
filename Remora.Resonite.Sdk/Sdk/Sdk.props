@@ -24,7 +24,7 @@
     <Deterministic Condition="'$(Deterministic)' == ''">true</Deterministic>
     <DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
 
-    <ImplicitUsings Condition="'$(ImplicitUsings)' == ''">true</ImplicitUsings>
+    <ImplicitUsings Condition="'$(ImplicitUsings)' == ''">enable</ImplicitUsings>
 
     <GenerateDocumentationFile Condition="'$(GenerateDocumentationFile)' == ''">true</GenerateDocumentationFile>
   </PropertyGroup>
