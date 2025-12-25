@@ -2,7 +2,6 @@
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);RESONITE_BEPISLOADER</DefineConstants>
     <_MainOutputDirectory>BepInEx/plugins/$(AssemblyName)/</_MainOutputDirectory>
-    <_LibraryOutputDirectory>BepInEx/plugins/$(AssemblyName)/</_LibraryOutputDirectory>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(ResoniteTarget)' != 'renderite'">
