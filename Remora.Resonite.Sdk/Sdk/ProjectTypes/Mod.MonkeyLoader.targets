@@ -18,9 +18,18 @@
     <ResoniteMonkeyLoaderOutputPath>$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)</ResoniteMonkeyLoaderOutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.7.0-beta" Condition="'$(ResoniteTarget)' == 'renderite'" />
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.28.1-beta" Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'" />
+  <!-- References for client / headless -->
+  <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'">
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.29.0" GeneratePathProperty="true" />
+
+    <Reference Include="MonkeyLoader.Resonite.Data" PrivateAssets="all">
+      <HintPath>$(PkgMonkeyLoader_GamePacks_Resonite)\lib\net10.0\pre-patchers\MonkeyLoader.Resonite.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <!-- References for renderite -->
+  <ItemGroup Condition="'$(ResoniteTarget)' == 'renderite'">
+    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.8.0" />
   </ItemGroup>
 
   <!-- Check for non-NuGet references -->
@@ -34,11 +43,16 @@
              Condition="'$(_HasNonNuGetCopyLocalReferences)' == 'true'" />
   </Target>
 
+  <!-- Remove version number from resulting nupkg file -->
+  <Target Name="_MonkeyLoaderFixPackageName" AfterTargets="Pack">
+    <Move SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(PackageOutputPath)$(PackageId).nupkg" />
+  </Target>
+
   <!-- Install the project to the right MonkeyLoader directory -->
-  <Target Name="_MonkeyLoaderInstallProject" Condition="(Exists('$(ResonitePath)') OR '$(ResonitePath)' == '$(_ProjectResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="Pack">
+  <Target Name="_MonkeyLoaderInstallProject" Condition="(Exists('$(ResonitePath)') OR '$(ResonitePath)' == '$(_ProjectResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="_MonkeyLoaderFixPackageName">
     <!-- Copy generated nupkg file for mod -->
     <Message Importance="high" Text="Copying MonkeyLoader $(MonkeyLoaderPackageType) package from $(PackageOutputPath) to $(ResonitePackageOutputPath)" />
-    <Copy SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(ResonitePackageOutputPath)$(PackageId).nupkg" />
+    <Copy SourceFiles="$(PackageOutputPath)$(PackageId).nupkg" DestinationFiles="$(ResonitePackageOutputPath)$(PackageId).nupkg" />
 
     <!-- <Copy SourceFiles="@(ResoniteModFiles)" DestinationFolder="$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)" /> -->
     <!-- Todo: Handle dependencies not provided by Resonite somehow? -->
