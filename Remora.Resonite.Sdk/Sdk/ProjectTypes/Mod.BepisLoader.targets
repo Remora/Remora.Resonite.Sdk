@@ -20,16 +20,16 @@
 
   <ItemGroup Condition="'$(ResoniteTarget)' == 'renderite'">
     <Reference Include="0Harmony">
-      <HintPath>$(BepInExPath)core\0Harmony.dll</HintPath>
+      <HintPath>$(ResoniteTargetPath)BepInEx/core/0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>$(BepInExPath)core\BepInEx.dll</HintPath>
+      <HintPath>$(ResoniteTargetPath)BepInEx/core/BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
