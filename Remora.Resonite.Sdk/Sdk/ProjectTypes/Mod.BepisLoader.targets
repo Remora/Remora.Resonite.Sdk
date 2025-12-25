@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite'">
-    <PackageReference Include="BepInEx.NET.CoreCLR" Version="6.0.0-be.*" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.ResonitePluginInfoProps" Version="3.*" />
     <PackageReference Include="ResoniteModding.BepInExResoniteShim" Version="0.9.*" />
     <PackageReference Include="ResoniteModding.BepisResoniteWrapper" Version="1.*" />
