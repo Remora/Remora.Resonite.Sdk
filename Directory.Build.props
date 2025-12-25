@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/Remora/Remora.Resonite.Sdk</RepositoryUrl>
     <RepositoryBranch>main</RepositoryBranch>
     <PackageProjectUrl>https://github.com/Remora/Remora.Resonite.Sdk</PackageProjectUrl>
-    <PackageOutputPath>$(MSBuildThisFileDirectory)/nuget</PackageOutputPath>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)nuget</PackageOutputPath>
     <PackageIconPath>$(MSBuildThisFileDirectory)/images/shark.png</PackageIconPath>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>

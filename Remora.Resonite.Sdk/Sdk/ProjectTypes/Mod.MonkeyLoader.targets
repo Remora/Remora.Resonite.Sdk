@@ -23,8 +23,19 @@
     <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.28.1-beta" Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'" />
   </ItemGroup>
 
+  <!-- Check for non-NuGet references -->
+  <Target Name="_MonkeyLoaderReferenceCheck" AfterTargets="_AdjustCopiedReferences">
+    <PropertyGroup>
+      <_HasNonNuGetCopyLocalReferences>false</_HasNonNuGetCopyLocalReferences>
+      <_HasNonNuGetCopyLocalReferences Condition="'%(ReferenceCopyLocalPaths.Identity)' != '' AND '%(ReferenceCopyLocalPaths.NuGetPackageId)' == ''">true</_HasNonNuGetCopyLocalReferences>
+    </PropertyGroup>
+
+    <Warning Code="RESO502" Text="When targeting MonkeyLoader, non-Resonite and non-NuGet references should be private and manually included in the package if necessary."
+             Condition="'$(_HasNonNuGetCopyLocalReferences)' == 'true'" />
+  </Target>
+
   <!-- Install the project to the right MonkeyLoader directory -->
-  <Target Name="_MonkeyLoaderInstallProject" Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="Pack">
+  <Target Name="_MonkeyLoaderInstallProject" Condition="(Exists('$(ResonitePath)') OR '$(ResonitePath)' == '$(_ProjectResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true'" AfterTargets="Pack">
     <!-- Copy generated nupkg file for mod -->
     <Message Importance="high" Text="Copying MonkeyLoader $(MonkeyLoaderPackageType) package from $(PackageOutputPath) to $(ResonitePackageOutputPath)" />
     <Copy SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(ResonitePackageOutputPath)$(PackageId).nupkg" />

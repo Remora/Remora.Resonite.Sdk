@@ -6,7 +6,7 @@
     <_RootOutDir>bin/$(Configuration)/$(ResoniteProjectType)/$(ResoniteTarget)/</_RootOutDir>
 
     <_UseDefaultInstallProject>false</_UseDefaultInstallProject>
-    <_UseDefaultInstallProject Condition="Exists('$(ResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true' AND ('$(ResoniteProjectType)' == 'plugin' OR '$(ResoniteTargetModLoader)' != 'MonkeyLoader')">true</_UseDefaultInstallProject>
+    <_UseDefaultInstallProject Condition="(Exists('$(ResonitePath)') OR '$(ResonitePath)' == '$(_ProjectResonitePath)') AND '$(ResoniteInstallOnBuild)' == 'true' AND ('$(ResoniteProjectType)' == 'plugin' OR '$(ResoniteTargetModLoader)' != 'MonkeyLoader')">true</_UseDefaultInstallProject>
 
     <OutDir>$(_RootOutDir)$(_MainOutputDirectory)</OutDir>
     <ResoniteOutDir Condition="'$(_UseDefaultInstallProject)' == 'true'">$(ResoniteTargetPath)$(_MainOutputDirectory)</ResoniteOutDir>
@@ -24,14 +24,14 @@
 
   <!-- Filter out non-nuget dependency assemblies from the output -->
   <Target Name="_AdjustCopiedReferences" AfterTargets="ResolveReferences">
-    <ItemGroup>
-      <ReferenceCopyLocalPaths Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' OR '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference'"
+    <ItemGroup Condition="'$(_LibraryOutputDirectory)' != '$(_MainOutputDirectory)'">
+      <ReferenceCopyLocalPaths Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' OR '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ProjectReference' OR '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' == 'ResolveAssemblyReference'"
                                Update="%(ReferenceCopyLocalPaths)"
                                DestinationSubDirectory="../$(_LibraryOutputDirectory)" />
     </ItemGroup>
 
     <ItemGroup>
-      <ReferenceCopyLocalPaths Condition=" '%(ReferenceCopyLocalPaths.NuGetPackageId)' == '' AND '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' != 'ProjectReference'"
+      <ReferenceCopyLocalPaths Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == '' AND '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' != 'ProjectReference' AND '%(ReferenceCopyLocalPaths.ReferenceSourceTarget)' != 'ResolveAssemblyReference'"
                                Remove="%(ReferenceCopyLocalPaths.Identity)" />
     </ItemGroup>
   </Target>

@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <Import Project="Sdk.props" Sdk="Remora.Resonite.Sdk" />
 
   <PropertyGroup>

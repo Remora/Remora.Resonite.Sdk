@@ -183,6 +183,7 @@ The SDK defines some defaults for properties that control the compiler settings.
 | Nullable*                  | enable   | Yes         |
 | Deterministic*             | true     | Yes         |
 | DebugType*                 | portable | Yes         |
+| ImplicitUsings*            | enable   | Yes         |
 | GenerateDocumentationFile* | true     | Yes         |
 
 These enable the latest features of the compiler and
