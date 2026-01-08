@@ -1145,6 +1145,16 @@
             <b>Optional</b>, If specified it will force this session to run on a specific network port.
             </summary>
         </member>
+        <member name="P:SkyFrost.Base.WorldStartupParameters.EnableResoniteLink">
+            <summary>
+            If specified ResoniteLink will be enabled for this world at startup.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.WorldStartupParameters.ForceResoniteLinkPort">
+            <summary>
+            <b>Optional</b>, If specified it will force ResoniteLink to run on a specific network port.
+            </summary>
+        </member>
         <member name="P:SkyFrost.Base.WorldStartupParameters.KeepOriginalRoles">
             <summary>
             <b>Optional</b>, If specified will keep the original roles as saved in the world.
