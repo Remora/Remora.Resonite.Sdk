@@ -1,22 +1,23 @@
 ﻿<Project Sdk="Microsoft.Build.NoTargets/3.5.6">
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <NoWarn>NU5128;NU5100</NoWarn>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <NoWarn>NU5128;NU5100</NoWarn>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <Title>Remora.Resonite.Sdk</Title>
-        <Description>A .NET SDK for developing Resonite mods and plugins.</Description>
-        <VersionPrefix>2.0.4</VersionPrefix>
-        <PackageReleaseNotes>Update reference assemblies to Resonite 2026.1.8.6.</PackageReleaseNotes>
-        <IsPackable>true</IsPackable>
-        <PackageTags>MSBuild;MSBuildSdk;Remora;Resonite;Renderite;RML;MonkeyLoader;Mod;Mods;BepisLoader;BepInEx;Plugin;Plugins</PackageTags>
-        <PackageType>MSBuildSdk</PackageType>
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    </PropertyGroup>
+  <PropertyGroup>
+    <Title>Remora.Resonite.Sdk</Title>
+    <Description>A .NET SDK for developing Resonite mods and plugins.</Description>
+    <VersionPrefix>2.0.8</VersionPrefix>
+    <PackageReleaseNotes>Update reference assemblies to Resonite 22026.1.16.273.</PackageReleaseNotes>
+    <IsPackable>true</IsPackable>
+    <PackageTags>MSBuild;MSBuildSdk;Remora;Resonite;Renderite;RML;MonkeyLoader;Mod;Mods;BepisLoader;BepInEx;Plugin;Plugins</PackageTags>
+    <PackageType>MSBuildSdk</PackageType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Include="ReferenceGeneration/*.json" />
     <None Include="GenerateReferences.ps1" />
+    <None Include="GenerateReferences.sh" />
   </ItemGroup>
 </Project>
