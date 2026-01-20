@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/metadata/">
+    <File Path=".config/dotnet-tools.json" />
     <File Path=".gitattributes" />
     <File Path=".github/workflows/dotnet.yml" />
     <File Path=".gitignore" />

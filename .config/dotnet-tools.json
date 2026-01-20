@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "monkeyloader.referencepackagegenerator": {
+      "version": "1.0.0",
+      "commands": [
+        "ReferencePackageGenerator"
+      ],
+      "rollForward": true
+    }
+  }
+}

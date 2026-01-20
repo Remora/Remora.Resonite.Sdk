@@ -1,9 +1,12 @@
 {
-  "SourcePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite\\Renderer\\Renderite.Renderer_Data\\Managed",
+  "SourcePaths": [
+    "~/.steam/steam/steamapps/common/Resonite/Renderer/Renderite.Renderer_Data/Managed",
+    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite\\Renderer\\Renderite.Renderer_Data\\Managed"
+  ],
   "Recursive": false,
-  "StrippedAssembliesTargetPath": "Sdk/ref/Renderite/Stripped/",
-  "PublicizedAssembliesTargetPath": "Sdk/ref/Renderite/Publicized/",
-  "IgnoreAccessChecksToPath": "Sdk/ref/IgnoreAccessChecksTo/",
+  "StrippedAssembliesTargetPath": "Sdk/ref/Renderite/Stripped",
+  "PublicizedAssembliesTargetPath": "Sdk/ref/Renderite/Publicized",
+  "IgnoreAccessChecksToPath": "Sdk/ref/IgnoreAccessChecksTo",
   "NupkgTargetPath": null,
   "IncludePatterns": [
     "Assembly-CSharp\\.dll$",

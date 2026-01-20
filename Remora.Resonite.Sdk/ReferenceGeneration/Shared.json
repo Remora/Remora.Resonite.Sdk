@@ -1,10 +1,16 @@
 {
-  "SourcePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite",
-  "DocumentationPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite\\Headless",
+  "SourcePaths": [
+    "~/.steam/steam/steamapps/common/Resonite",
+    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite"
+  ],
+  "DocumentationPaths": [
+    "~/.steam/steam/steamapps/common/Resonite/Headless",
+    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite\\Headless"
+  ],
   "Recursive": false,
-  "StrippedAssembliesTargetPath": "Sdk/ref/Shared/Stripped/",
-  "PublicizedAssembliesTargetPath": "Sdk/ref/Shared/Publicized/",
-  "IgnoreAccessChecksToPath": "Sdk/ref/IgnoreAccessChecksTo/",
+  "StrippedAssembliesTargetPath": "Sdk/ref/Shared/Stripped",
+  "PublicizedAssembliesTargetPath": "Sdk/ref/Shared/Publicized",
+  "IgnoreAccessChecksToPath": "Sdk/ref/IgnoreAccessChecksTo",
   "NupkgTargetPath": null,
   "IncludePatterns": [
     "Awwdio\\.dll$",
