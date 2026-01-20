@@ -20,10 +20,10 @@
 
   <!-- References for client / headless -->
   <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'">
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.29.0" GeneratePathProperty="true" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.30.0" GeneratePathProperty="true" />
 
-    <Reference Include="MonkeyLoader.Resonite.Data" PrivateAssets="all">
-      <HintPath>$(PkgMonkeyLoader_GamePacks_Resonite)\lib\net10.0\pre-patchers\MonkeyLoader.Resonite.Data.dll</HintPath>
+    <Reference Include="MonkeyLoader.Resonite.Data" PrivateAssets="all" Private="false">
+      <HintPath>$(PkgMonkeyLoader_GamePacks_Resonite)/lib/net10.0/pre-patchers/MonkeyLoader.Resonite.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -32,20 +32,10 @@
     <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.8.0" />
   </ItemGroup>
 
-  <!-- Check for non-NuGet references -->
-  <Target Name="_MonkeyLoaderReferenceCheck" AfterTargets="_AdjustCopiedReferences">
-    <PropertyGroup>
-      <_HasNonNuGetCopyLocalReferences>false</_HasNonNuGetCopyLocalReferences>
-      <_HasNonNuGetCopyLocalReferences Condition="'%(ReferenceCopyLocalPaths.Identity)' != '' AND '%(ReferenceCopyLocalPaths.NuGetPackageId)' == ''">true</_HasNonNuGetCopyLocalReferences>
-    </PropertyGroup>
-
-    <Warning Code="RESO502" Text="When targeting MonkeyLoader, non-Resonite and non-NuGet references should be private and manually included in the package if necessary."
-             Condition="'$(_HasNonNuGetCopyLocalReferences)' == 'true'" />
-  </Target>
-
   <!-- Remove version number from resulting nupkg file -->
   <Target Name="_MonkeyLoaderFixPackageName" AfterTargets="Pack">
-    <Move SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(PackageOutputPath)$(PackageId).nupkg" />
+    <!-- File with PackageVersion must stay around, otherwise the PackageValidation task will fail because it can't be found -->
+    <Copy SourceFiles="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(PackageOutputPath)$(PackageId).nupkg" />
   </Target>
 
   <!-- Install the project to the right MonkeyLoader directory -->

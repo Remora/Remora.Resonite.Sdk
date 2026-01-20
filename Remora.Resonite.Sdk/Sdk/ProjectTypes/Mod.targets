@@ -1,10 +1,19 @@
 <Project>
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
+
+    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteUseMonkeyLoaderCore)' == ''">true</ResoniteUseMonkeyLoaderCore>
+    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">false</ResoniteUseMonkeyLoaderCore>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="1.6.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.30.0"
+                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' != 'false'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

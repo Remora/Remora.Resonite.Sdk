@@ -68,12 +68,13 @@ defined by `Remora.Resonite.Sdk`.
 
 The following properties are defined by the SDK.
 
-| Property                | Value            | Overridable |
-|-------------------------|------------------|-------------|
-| ResoniteTarget          | client           | Yes         |
-| ResoniteProjectType     | mod              | Yes         |
-| ResoniteTargetModLoader | MonkeyLoader     | Yes         |
-| TargetFramework*        | net10.0 / net472 | Yes         |
+| Property                    | Value                                                                      | Overridable |
+|-----------------------------|----------------------------------------------------------------------------|-------------|
+| ResoniteTarget              | client                                                                     | Yes         |
+| ResoniteProjectType         | mod                                                                        | Yes         |
+| ResoniteTargetModLoader     | MonkeyLoader                                                               | Yes         |
+| TargetFramework*            | net10.0 / net472                                                           | Yes         |
+| ResoniteUseMonkeyLoaderCore | `'$(ResoniteProjectType)' == 'mod' AND '$(ResoniteTarget)' != 'renderite'` | Yes         |
 
 `ResoniteTarget` can be set to `client`, `headless`, or `renderite`.  
 `headless` is for the server version of Resonite which does not have any graphics,
@@ -107,6 +108,11 @@ For maximum compatibility, `ResoniteModLoader` should be used as the target.
 For a `ResoniteTarget` of `client` or `headless`, this must be `net10.0`,
 while for `renderite`, `net472` is generally required.
 `standalone` projects may target a higher version though.
+
+`ResoniteUseMonkeyLoaderCore` decides whether the `MonkeyLoader.Resonite.Core`
+NuGet package will be referenced when creating a mod not targeting MonkeyLoader.
+This package offers convenient extension methods and other features for mods,
+but doesn't rely on MonkeyLoader being present.
 
 
 ### Building
