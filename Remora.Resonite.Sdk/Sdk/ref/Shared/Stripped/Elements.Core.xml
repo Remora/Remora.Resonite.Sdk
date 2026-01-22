@@ -1,0 +1,1317 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Elements.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Elements.Core.Alignment">
+            <summary>
+            Controls alignment for various UI elements. Vertical is first followed by Horizontal
+            </summary>
+        </member>
+        <member name="T:Elements.Core.CurveAnimationTrack`1">
+            <summary>
+            This supports full blown keyframes, each with different type - hold, linear interpolation or even curves with tangents for each frame
+            This should support majority of animation needs, but also is the most expensive to evaluate
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Elements.Core.DiscreteAnimationTrack`1">
+            <summary>
+            This type of animation track can have key frames with different duration, but no interpolation between them
+            All of the frames are effectively "Hold" type of animation. This can be very useful when the values are more sparse
+            but don't require being interpolated between.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Elements.Core.RawAnimationTrack`1">
+            <summary>
+            This type of animation track doesn't store any duration information - every element takes same amount of time
+            This can be very efficient for homogenous animations, where the frames are all baked - no curves and no durations
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Elements.Core.Coder.IsBaseEnginePrimitive(System.Type)">
+            <summary>
+            Indicates is given type is a base engine primitive - this includes numeric types, bool and strings.
+            The set of base primitives is fixed and updated rarely - it is not extensible by users.
+            This means types like enums and such are excluded from this, because those can be freely declared.
+            </summary>
+            <param name="type">The type to determine if it's engine primitive or not</param>
+            <returns>Whether given type is base engine primitive or not</returns>
+        </member>
+        <member name="P:Elements.Core.Coder.BaseEnginePrimitives">
+            <summary>
+            List of all base engine primitives
+            </summary>
+        </member>
+        <member name="M:Elements.Core.Coder.IsEnginePrimitive(System.Type)">
+            <summary>
+            This indicates if given type is engine primitive - either base or expanded. This means that it
+            can be potentially used within data model, because it has all necessary encoding functions defined.
+            However it still must be checked if it's an allowed type within given session (or within engine at all).
+            E.g. any Enums can be generically included in the data model - but they must be marked explicitly to be
+            allowed to be included int he data model.
+            </summary>
+            <param name="type">Type to determine</param>
+            <returns>Whether it's an engine primitive or not</returns>
+        </member>
+        <member name="T:Elements.Core.RawList`1">
+            <summary>
+             No-frills list that wraps an accessible array.
+            </summary>
+            <typeparam name="T">Type of elements contained by the list.</typeparam>
+        </member>
+        <member name="F:Elements.Core.RawList`1.Elements">
+            <summary>
+             Direct access to the elements owned by the raw list.
+             Be careful about the operations performed on this list;
+             use the normal access methods if in doubt.
+            </summary>
+        </member>
+        <member name="P:Elements.Core.RawList`1.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            Can also be set; setting the count is a direct change to the count integer and does not change the state of the array.
+            </summary>
+            <returns>
+            The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </returns>
+        </member>
+        <member name="M:Elements.Core.RawList`1.#ctor">
+            <summary>
+             Constructs an empty list.
+            </summary>
+        </member>
+        <member name="M:Elements.Core.RawList`1.#ctor(System.Int32)">
+            <summary>
+             Constructs an empty list.
+            </summary>
+            <param name="initialCapacity">Initial capacity to allocate for the list.</param>
+            <exception cref="T:System.ArgumentException">Thrown when the initial capacity is zero or negative.</exception>
+        </member>
+        <member name="M:Elements.Core.RawList`1.#ctor(System.Collections.Generic.IList{`0})">
+            <summary>
+             Constructs a raw list from another list.
+            </summary>
+            <param name="elements">List to copy.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes an element from the list.
+            </summary>
+            <param name="index">Index of the element to remove.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.FastRemoveAt(System.Int32)">
+            <summary>
+            Removes an element from the list without maintaining order.
+            </summary>
+            <param name="index">Index of the element to remove.</param>
+        </member>
+        <member name="P:Elements.Core.RawList`1.Capacity">
+            <summary>
+             Gets or sets the current size allocated for the list.
+             If the new capacity is less than the current Count, the excess elements are truncated.
+            </summary>
+        </member>
+        <member name="M:Elements.Core.RawList`1.Add(`0)">
+            <summary>
+            Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Elements.Core.RawList`1.AddRange(`0[],System.Int32)">
+            <summary>
+             Adds a range of elements to the list from another list.
+            </summary>
+            <param name="items">Elements to add.</param>
+            <param name="count">How many elements to add.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.AddRange(Elements.Core.RawList{`0})">
+            <summary>
+             Adds a range of elements to the list from another list.
+            </summary>
+            <param name="items">Elements to add.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.AddRange(System.Collections.Generic.List{`0})">
+            <summary>
+             Adds a range of elements to the list from another list.
+            </summary>
+            <param name="items">Elements to add.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.AddRange(System.Collections.Generic.IList{`0})">
+            <summary>
+             Adds a range of elements to the list from another list.
+            </summary>
+            <param name="items">Elements to add.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.Clear">
+            <summary>
+            Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>
+        </member>
+        <member name="M:Elements.Core.RawList`1.Remove(`0)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <returns>
+            true if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </returns>
+            <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Elements.Core.RawList`1.FastRemove(`0)">
+            <summary>
+            Removes the first occurrence of a specific object from the collection without maintaining element order.
+            </summary>
+            <returns>
+            true if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </returns>
+            <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Elements.Core.RawList`1.IndexOf(`0)">
+            <summary>
+            Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"/>.
+            </summary>
+            <returns>
+            The index of <paramref name="item"/> if found in the list; otherwise, -1.
+            </returns>
+            <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.ToArray">
+            <summary>
+            Copies the elements from the list into an array.
+            </summary>
+            <returns>An array containing the elements in the list.</returns>
+        </member>
+        <member name="M:Elements.Core.RawList`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts the element at the specified index.
+            </summary>
+            <param name="index">Index to insert the item.</param>
+            <param name="item">Element to insert.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.FastInsert(System.Int32,`0)">
+            <summary>
+            Inserts the element at the specified index without maintaining list order.
+            </summary>
+            <param name="index">Index to insert the item.</param>
+            <param name="item">Element to insert.</param>
+        </member>
+        <member name="P:Elements.Core.RawList`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element of the list at the given index.
+            </summary>
+            <param name="index">Index in the list.</param>
+            <returns>Element at the given index.</returns>
+        </member>
+        <member name="M:Elements.Core.RawList`1.Contains(`0)">
+            <summary>
+            Determines if an item is present in the list.
+            </summary>
+            <param name="item">Item to be tested.</param>
+            <returns>Whether or not the item was contained by the list.</returns>
+        </member>
+        <member name="M:Elements.Core.RawList`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the list's contents to the array.
+            </summary>
+            <param name="array">Array to receive the list's contents.</param>
+            <param name="arrayIndex">Index in the array to start the dump.</param>
+        </member>
+        <member name="M:Elements.Core.RawList`1.GetEnumerator">
+            <summary>
+             Gets an enumerator for the list.
+            </summary>
+            <returns>Enumerator for the list.</returns>
+        </member>
+        <member name="M:Elements.Core.RawList`1.Sort(System.Collections.Generic.IComparer{`0})">
+            <summary>
+             Sorts the list.
+            </summary>
+            <param name="comparer">Comparer to use to sort the list.</param>
+        </member>
+        <member name="T:Elements.Core.RawList`1.Enumerator">
+            <summary>
+             Enumerator for the RawList.
+            </summary>
+        </member>
+        <member name="M:Elements.Core.RawList`1.Enumerator.#ctor(Elements.Core.RawList{`0})">
+            <summary>
+             Constructs a new enumerator.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="T:Elements.Core.RawValueList`1">
+            <summary>
+             No-frills list that wraps an accessible array.
+            </summary>
+            <typeparam name="T">Type of elements contained by the list.</typeparam>
+        </member>
+        <member name="F:Elements.Core.RawValueList`1.Elements">
+            <summary>
+             Direct access to the elements owned by the raw list.
+             Be careful about the operations performed on this list;
+             use the normal access methods if in doubt.
+            </summary>
+        </member>
+        <member name="P:Elements.Core.RawValueList`1.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            Can also be set; setting the count is a direct change to the count integer and does not change the state of the array.
+            </summary>
+            <returns>
+            The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </returns>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.#ctor">
+            <summary>
+             Constructs an empty list.
+            </summary>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.#ctor(System.Int32)">
+            <summary>
+             Constructs an empty list.
+            </summary>
+            <param name="initialCapacity">Initial capacity to allocate for the list.</param>
+            <exception cref="T:System.ArgumentException">Thrown when the initial capacity is zero or negative.</exception>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.#ctor(System.Collections.Generic.IList{`0})">
+            <summary>
+             Constructs a raw list from another list.
+            </summary>
+            <param name="elements">List to copy.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes an element from the list.
+            </summary>
+            <param name="index">Index of the element to remove.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.FastRemoveAt(System.Int32)">
+            <summary>
+            Removes an element from the list without maintaining order.
+            </summary>
+            <param name="index">Index of the element to remove.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Elements.Core.RawValueList`1.Capacity" -->
+        <member name="M:Elements.Core.RawValueList`1.Add(`0@)">
+            <summary>
+            Adds an item to the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <param name="item">The object to add to the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.AddRange(Elements.Core.RawValueList{`0})">
+            <summary>
+             Adds a range of elements to the list from another list.
+            </summary>
+            <param name="items">Elements to add.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.AddRange(System.Collections.Generic.List{`0})">
+            <summary>
+             Adds a range of elements to the list from another list.
+            </summary>
+            <param name="items">Elements to add.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.AddRange(System.Collections.Generic.IList{`0})">
+            <summary>
+             Adds a range of elements to the list from another list.
+            </summary>
+            <param name="items">Elements to add.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.Clear">
+            <summary>
+            Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.Remove(`0@)">
+            <summary>
+            Removes the first occurrence of a specific object from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </summary>
+            <returns>
+            true if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </returns>
+            <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.FastRemove(`0@)">
+            <summary>
+            Removes the first occurrence of a specific object from the collection without maintaining element order.
+            </summary>
+            <returns>
+            true if <paramref name="item"/> was successfully removed from the <see cref="T:System.Collections.Generic.ICollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:System.Collections.Generic.ICollection`1"/>.
+            </returns>
+            <param name="item">The object to remove from the <see cref="T:System.Collections.Generic.ICollection`1"/>.</param><exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only.</exception>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.IndexOf(`0@)">
+            <summary>
+            Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1"/>.
+            </summary>
+            <returns>
+            The index of <paramref name="item"/> if found in the list; otherwise, -1.
+            </returns>
+            <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1"/>.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.ToArray">
+            <summary>
+            Copies the elements from the list into an array.
+            </summary>
+            <returns>An array containing the elements in the list.</returns>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.Insert(System.Int32,`0@)">
+            <summary>
+            Inserts the element at the specified index.
+            </summary>
+            <param name="index">Index to insert the item.</param>
+            <param name="item">Element to insert.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.FastInsert(System.Int32,`0@)">
+            <summary>
+            Inserts the element at the specified index without maintaining list order.
+            </summary>
+            <param name="index">Index to insert the item.</param>
+            <param name="item">Element to insert.</param>
+        </member>
+        <member name="P:Elements.Core.RawValueList`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element of the list at the given index.
+            </summary>
+            <param name="index">Index in the list.</param>
+            <returns>Element at the given index.</returns>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.Contains(`0)">
+            <summary>
+            Determines if an item is present in the list.
+            </summary>
+            <param name="item">Item to be tested.</param>
+            <returns>Whether or not the item was contained by the list.</returns>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the list's contents to the array.
+            </summary>
+            <param name="array">Array to receive the list's contents.</param>
+            <param name="arrayIndex">Index in the array to start the dump.</param>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.GetEnumerator">
+            <summary>
+             Gets an enumerator for the list.
+            </summary>
+            <returns>Enumerator for the list.</returns>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.Sort(System.Collections.Generic.IComparer{`0})">
+            <summary>
+             Sorts the list.
+            </summary>
+            <param name="comparer">Comparer to use to sort the list.</param>
+        </member>
+        <member name="T:Elements.Core.RawValueList`1.Enumerator">
+            <summary>
+             Enumerator for the RawValueList.
+            </summary>
+        </member>
+        <member name="M:Elements.Core.RawValueList`1.Enumerator.#ctor(Elements.Core.RawValueList{`0})">
+            <summary>
+             Constructs a new enumerator.
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="F:Elements.Core.ColorProfileAwareOperation.UseLHS">
+            <summary>
+            Prefer the left hand operand's color profile.
+            </summary>
+        </member>
+        <member name="F:Elements.Core.ColorProfileAwareOperation.UseRHS">
+            <summary>
+            Prefer the right hand operand's color profile.
+            </summary>
+        </member>
+        <member name="F:Elements.Core.ColorProfileAwareOperation.UseLinear">
+            <summary>
+            Apply the operation in linear space.
+            </summary>
+        </member>
+        <member name="F:Elements.Core.ColorProfileAwareOperation.LinearIfUnequal">
+            <summary>
+            Apply the operation in linear space only if the operands are not in the same profile.
+            </summary>
+        </member>
+        <member name="F:Elements.Core.ColorAwareResult.leftHand">
+            <summary>
+            Left hand side of the operation.
+            </summary>
+        </member>
+        <member name="F:Elements.Core.ColorAwareResult.rightHand">
+            <summary>
+            Right hand side of the operation.
+            </summary>
+        </member>
+        <member name="F:Elements.Core.ColorAwareResult.profile">
+            <summary>
+            Color profile derived from the operation.
+            </summary>
+        </member>
+        <member name="M:Elements.Core.ColorProfileHelper.ConvertProfile(Elements.Core.color@,Renderite.Shared.ColorProfile,Renderite.Shared.ColorProfile)">
+            <summary>
+            Converts an input color from a given profile, to a different profile.
+            </summary>
+            <param name="inProfile">The color's profile.</param>
+            <param name="outProfile">The target profile.</param>
+            <param name="color">The color.</param>
+            <returns>A converted color.</returns>
+        </member>
+        <member name="M:Elements.Core.ColorProfileHelper.ToLinear(Elements.Core.color@,Renderite.Shared.ColorProfile)">
+            <summary>
+            Converts an input color in a given profile to linear
+            </summary>
+            <param name="profile">The color's profile.</param>
+            <param name="color">The color.</param>
+            <returns>A converted color.</returns>
+        </member>
+        <member name="M:Elements.Core.ColorProfileHelper.ToProfile(Elements.Core.color@,Renderite.Shared.ColorProfile)">
+            <summary>
+            Converts an input linear color to a particular profile
+            </summary>
+            <param name="profile">The target profile.</param>
+            <param name="color">The color.</param>
+            <returns>A converted color.</returns>
+        </member>
+        <member name="M:Elements.Core.ColorProfileHelper.LinearToProfile(System.Single,Renderite.Shared.ColorProfile)">
+            <summary>
+            Converts an already linear value to a profile.
+            </summary>
+            <param name="value">The already linearized input value.</param>
+            <param name="profile">The target profile.</param>
+            <returns>The profile-correct value.</returns>
+        </member>
+        <member name="M:Elements.Core.ColorProfileHelper.ProfileToLinear(System.Single,Renderite.Shared.ColorProfile)">
+            <summary>
+            Converts a value in a non-linear profile to linear.
+            </summary>
+            <param name="value">The non-linear value.</param>
+            <param name="profile">The source profile.</param>
+            <returns>A linear value.</returns>
+        </member>
+        <member name="M:Elements.Core.ColorProfileHelper.GetOperands(Elements.Core.colorX@,Elements.Core.colorX@,Elements.Core.ColorProfileAwareOperation)">
+            <summary>
+            Used for color profile aware operations, such as lerp.
+            </summary>
+            <param name="lhs">Left hand color</param>
+            <param name="rhs">Right hand color</param>
+            <param name="option">The profile option, e.g., left hand profile, right hand profile, linear, etc.</param>
+            <returns>The colors in the targeted color profile.</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:Elements.Core.colorX">
+            <summary>
+            A managed color that can automatically convert between an original base color and a linear color.
+            </summary>
+        </member>
+        <member name="P:Elements.Core.colorX.LinearColor">
+            <summary>
+            Retrieves the cached linear color.
+            </summary>
+        </member>
+        <member name="P:Elements.Core.colorX.Luminance">
+            <summary>
+            Computes luminance information based upon an input color, evaluating red, green, and blue channels.
+            </summary>
+            <param name="baseColor">The input color to compute luminance data from.</param>
+            <returns>The calculated luminance.</returns>
+        </member>
+        <member name="M:Elements.Core.colorX.NormalizeHDR(System.Single@)">
+            <summary>
+            Normalizes HDR values to unit length, and provides the gain of the original HDR value.
+            </summary>
+            <param name="gain">
+            The gain of the original HDR value.
+            </param>
+            <returns>
+            A normalized colorX.
+            </returns>
+        </member>
+        <member name="M:Elements.Core.colorX.ConstructHDR(System.Single)">
+            <summary>
+            Constructs a new HDR colorX using the supplied gain, scaling this colorX by the gain in the process.
+            </summary>
+            <param name="gain">
+            The gain to apply to this colorX.
+            </param>
+            <returns>
+            A HDR colorX that has the supplied gain applied.
+            </returns>
+        </member>
+        <member name="M:Elements.Core.colorX.ApplyHDRGamma(System.Single)">
+            <summary>
+            Applies a supplied gamma curve to this colorX.  Note inverse gammas must be pre-inverted by dividing 1 by gamma prior to calling this.
+            </summary>
+            <param name="gamma">
+            A gamma curve to apply in the event of any component being HDR.
+            </param>
+            <returns>
+            A colorX with the supplied gamma applied to any HDR values.
+            </returns>
+        </member>
+        <member name="T:Elements.Core.MathX">
+            <summary>
+            This class is responsible for emulating legacy math under Mono / .NET Framework
+            There is a number of differences that happened in .NET (Core) to make math consistent with the spec
+            So this class is used to manually emulate the legacy behavior for compatibility reasons
+            </summary>
+        </member>
+        <member name="M:Elements.Core.MathX.WavelengthColor(System.Single)">
+            <summary>
+            Provides a conversion from wavelength to color
+            <para>
+            Based on lambda calculus from part 4.2 of: <see href="https://www.baeldung.com/cs/rgb-color-light-frequency#2-cie-color-matching"/> (skips gamma conversion)
+            </para>
+            </summary>
+            <param name="nanometers">Visible wavelength in nanometers (visible wavelength ranges from 380nm to 700nm)</param>
+            <returns>A linear color that this wavelength corresponds to which closely resembles how the human eye perceives this wavelength</returns>
+        </member>
+        <member name="M:Elements.Core.MathX.WavelengthColorX(System.Single)">
+            <inheritdoc cref="M:Elements.Core.MathX.WavelengthColor(System.Single)"/>
+        </member>
+        <member name="M:Elements.Core.MathX.BlackBodyColorX(System.Single)">
+            <inheritdoc cref="M:Elements.Core.MathX.BlackBodyColor(System.Single)"/>
+        </member>
+        <member name="M:Elements.Core.MathX.BlackBodyColor(System.Single)">
+             <summary>
+             <para>
+             Gets the linear RGB color of black-body radiation at a specified kelvin temperature
+             </para>
+            
+             <para>
+             Corresponds to CIE 1964 10 degree color-matching functions (CMFs)<b/>
+             Values correspond to the '10deg' rows here: http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
+             </para>
+             </summary>
+             <param name="temperature">Temperature, in degrees kelvin</param>
+             <returns>Color of black-body radiation at the specified temperature</returns>
+        </member>
+        <member name="F:Elements.Core.MathX.BlackBodyRadiation">
+             <summary>
+             <para>
+             Lookup table for black-body radiation values.
+             </para>
+            
+             <para>
+             Corresponds to CIE 1964 10 degree color-matching functions (CMFs)<b/>
+             Values correspond to the '10deg' rows here: http://www.vendian.org/mncharity/dir3/blackbody/UnstableURLs/bbr_color.html
+             </para>
+             </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Elements.Core.MathX.Partition``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32,System.Random)" -->
+        <member name="M:Elements.Core.MathX.NthOrderStatistic``1(System.Collections.Generic.IList{``0},System.Int32,System.Random)">
+            <summary>
+            Returns Nth smallest element from the list. Here n starts from 0 so that n=0 returns minimum, n=1 returns 2nd smallest element etc.
+            Note: specified list would be mutated in the process.
+            Reference: Introduction to Algorithms 3rd Edition, Corman et al, pp 216
+            </summary>
+        </member>
+        <member name="M:Elements.Core.MathX.ReoderAndComputeMedian``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Note: specified list would be mutated in the process.
+            </summary>
+        </member>
+        <member name="P:Elements.Core.color.Luminance">
+            <summary>
+            Computes luminance information based upon an input color, evaluating red, green, and blue channels.
+            </summary>
+            <param name="baseColor">The input color to compute luminance data from.</param>
+            <returns>The calculated luminance.</returns>
+        </member>
+        <member name="F:Elements.Core.DummyEnum.GlitchCuteness">
+            <summary>
+            This value is obsolete, because the cuteness has increased way beyond what this can represent
+            </summary>
+        </member>
+        <member name="F:Elements.Core.LZMAHelper.dictionary">
+            <summary>
+            2 MB of memory will be reserved for dictionary.
+            </summary>
+        </member>
+        <member name="F:Elements.Core.LZMAHelper.numFastBytes">
+            <summary>
+            Incerease numFastBytes to get better compression ratios.
+            32 - moderate compression
+            128 - extreme compression
+            </summary>
+        </member>
+        <member name="M:Elements.Core.LZMAHelper.Compress(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Compress input stream into output stream using LZMA.
+            Remeber to set desirable positions input and output streams.
+            Input reading starts at inStream.Position and ends at inStream.Length.
+            Output writing starts at outStream.Position.
+            </summary>
+            <param name="inStream">Input stream</param>
+            <param name="outStream">Output stream</param>
+        </member>
+        <member name="M:Elements.Core.LZMAHelper.Decompress(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Decompress LZMA compressed stream into outStream.
+            Remeber to set desirable positions in input and output streams.
+            </summary>
+            <param name="inStream">Input stream</param>
+            <param name="outStream">Output stream</param>
+        </member>
+        <member name="M:Elements.Core.ConvexHullHelper.GetConvexHull(Elements.Core.RawList{Elements.Core.float3},Elements.Core.RawList{System.Int32})">
+            <summary>
+            Identifies the indices of points in a set which are on the outer convex hull of the set.
+            </summary>
+            <param name="points">List of points in the set.</param>
+            <param name="outputTriangleIndices">List of indices into the input point set composing the triangulated surface of the convex hull.
+            Each group of 3 indices represents a triangle on the surface of the hull.</param>
+        </member>
+        <member name="M:Elements.Core.PointMerger.RemoveRedundantPoints(Elements.Core.RawList{Elements.Core.float3},System.Double)">
+            <summary>
+            Removes redundant points.  Two points are redundant if they occupy the same hash grid cell.
+            </summary>
+            <param name="points">List of points to prune.</param>
+            <param name="cellSize">Size of cells to determine redundancy.</param>
+        </member>
+        <member name="T:Elements.Core.ExceptionWrapperStream">
+            <summary>
+            This stream catches any exceptions coming from the inner stream, so they do not propagate outside.
+            This is necessary for when Streams are used for an interop with native code, because exceptions cannot
+            be propagated through native stack on certain platforms (e.g. Linux), which results them being treated as
+            unhandled exceptions. See here:
+            https://www.mono-project.com/docs/advanced/pinvoke/#runtime-exception-propagation
+            </summary>
+        </member>
+        <member name="F:Elements.Core.UniLog.FlushEveryMessage">
+            <summary>
+            This will flush the log after every single message. This should be turned on temporarily only for debugging
+            purposes though, because it can have pretty significant performance impact
+            </summary>
+        </member>
+        <member name="T:Elements.Core.Result">
+            <summary>
+            A generic Result object, that can represent the Result of an operation with an optional message
+            </summary>
+        </member>
+        <member name="T:Elements.Core.Result`1">
+            <summary>
+            Like <see cref="T:Elements.Core.Result"/> but contains a <typeparamref name="T"/> as a value for the result
+            </summary>
+            <typeparam name="T">The type of value that the result can contain</typeparam>
+        </member>
+        <member name="M:Elements.Core.StringHelper.CountOcurrences(System.String,System.String,System.StringComparison)">
+            <summary>
+            Count the occurences of pattern within the string text.
+            </summary>
+            <param name="text">Text to search</param>
+            <param name="pattern">Pattern to search for</param>
+            <returns>Count of occurences of pattern within text.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:SimplexNoise.Noise" -->
+        <member name="M:SimplexNoise.Noise.Generate(System.Single)">
+            <summary>
+            1D simplex noise
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SimplexNoise.Noise.Generate(System.Single,System.Single)">
+            <summary>
+            2D simplex noise
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="T:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler">
+            <summary>Provides a work-stealing scheduler.</summary>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.#ctor(System.Threading.ThreadPriority)">
+            <summary>Initializes a new instance of the <see cref="T:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler"/> class.</summary>
+            <remarks>This constructors defaults to using twice as many threads as there are processors.</remarks>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.#ctor(System.Int32,System.Threading.ThreadPriority,System.String)">
+            <summary>Initializes a new instance of the <see cref="T:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler"/> class.</summary>
+            <param name="concurrencyLevel">The number of threads to use in the scheduler.</param>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.QueueTask(System.Threading.Tasks.Task)">
+            <summary>Queues a task to the scheduler.</summary>
+            <param name="task">The task to be scheduled.</param>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.TryExecuteTaskInline(System.Threading.Tasks.Task,System.Boolean)">
+            <summary>Executes a task on the current thread.</summary>
+            <param name="task">The task to be executed.</param>
+            <param name="taskWasPreviouslyQueued">Ignored.</param>
+            <returns>Whether the <paramref name="task"/> could be executed.</returns>
+        </member>
+        <member name="P:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.MaximumConcurrencyLevel">
+            <summary>Gets the maximum concurrency level supported by this scheduler.</summary>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.GetScheduledTasks">
+            <summary>Gets all of the tasks currently scheduled to this scheduler.</summary>
+            <returns>An enumerable containing all of the scheduled tasks.</returns>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.AddWsq(System.Threading.Tasks.Schedulers.WorkStealingQueue{System.Threading.Tasks.Task})">
+            <summary>Adds a work-stealing queue to the set of queues.</summary>
+            <param name="wsq">The queue to be added.</param>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.RemoveWsq(System.Threading.Tasks.Schedulers.WorkStealingQueue{System.Threading.Tasks.Task})">
+            <summary>Remove a work-stealing queue from the set of queues.</summary>
+            <param name="wsq">The work-stealing queue to remove.</param>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.DispatchLoop">
+            <summary>
+            The dispatch loop run by each thread in the scheduler.
+            </summary>
+        </member>
+        <member name="M:System.Threading.Tasks.Schedulers.WorkStealingTaskScheduler.Dispose">
+            <summary>Signal the scheduler to shutdown and wait for all threads to finish.</summary>
+        </member>
+        <member name="T:System.Threading.Tasks.Schedulers.WorkStealingQueue`1">
+            <summary>A work-stealing queue.</summary>
+            <typeparam name="T">Specifies the type of data stored in the queue.</typeparam>
+        </member>
+        <member name="T:Microsoft.IO.RecyclableMemoryStream">
+            <summary>
+            MemoryStream implementation that deals with pooling and managing memory streams which use potentially large
+            buffers.
+            </summary>
+            <remarks>
+            This class works in tandem with the RecylableMemoryStreamManager to supply MemoryStream
+            objects to callers, while avoiding these specific problems:
+            1. LOH allocations - since all large buffers are pooled, they will never incur a Gen2 GC
+            2. Memory waste - A standard memory stream doubles its size when it runs out of room. This
+            leads to continual memory growth as each stream approaches the maximum allowed size.
+            3. Memory copying - Each time a MemoryStream grows, all the bytes are copied into new buffers.
+            This implementation only copies the bytes when GetBuffer is called.
+            4. Memory fragmentation - By using homogeneous buffer sizes, it ensures that blocks of memory
+            can be easily reused.
+            
+            The stream is implemented on top of a series of uniformly-sized blocks. As the stream's length grows,
+            additional blocks are retrieved from the memory manager. It is these blocks that are pooled, not the stream
+            object itself.
+            
+            The biggest wrinkle in this implementation is when GetBuffer() is called. This requires a single 
+            contiguous buffer. If only a single block is in use, then that block is returned. If multiple blocks 
+            are in use, we retrieve a larger buffer from the memory manager. These large buffers are also pooled, 
+            split by size--they are multiples of a chunk size (1 MB by default).
+            
+            Once a large buffer is assigned to the stream the blocks are NEVER again used for this stream. All operations take place on the 
+            large buffer. The large buffer can be replaced by a larger buffer from the pool as needed. All blocks and large buffers 
+            are maintained in the stream until the stream is disposed (unless AggressiveBufferReturn is enabled in the stream manager).
+            
+            </remarks>
+        </member>
+        <member name="F:Microsoft.IO.RecyclableMemoryStream.blocks">
+            <summary>
+            All of these blocks must be the same size
+            </summary>
+        </member>
+        <member name="F:Microsoft.IO.RecyclableMemoryStream.byteBuffer">
+            <summary>
+            This buffer exists so that WriteByte can forward all of its calls to Write
+            without creating a new byte[] buffer on every call.
+            </summary>
+        </member>
+        <member name="F:Microsoft.IO.RecyclableMemoryStream.dirtyBuffers">
+            <summary>
+            This list is used to store buffers once they're replaced by something larger.
+            This is for the cases where you have users of this class that may hold onto the buffers longer
+            than they should and you want to prevent race conditions which could corrupt the data.
+            </summary>
+        </member>
+        <member name="F:Microsoft.IO.RecyclableMemoryStream.largeBuffer">
+            <summary>
+            This is only set by GetBuffer() if the necessary buffer is larger than a single block size, or on
+            construction if the caller immediately requests a single large buffer.
+            </summary>
+            <remarks>If this field is non-null, it contains the concatenation of the bytes found in the individual
+            blocks. Once it is created, this (or a larger) largeBuffer will be used for the life of the stream.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.Tag">
+            <summary>
+            A temporary identifier for the current usage of this stream.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.MemoryManager">
+            <summary>
+            Gets the memory manager being used by this stream.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.AllocationStack">
+            <summary>
+            Callstack of the constructor. It is only set if MemoryManager.GenerateCallStacks is true,
+            which should only be in debugging situations.
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.DisposeStack">
+            <summary>
+            Callstack of the Dispose call. It is only set if MemoryManager.GenerateCallStacks is true,
+            which should only be in debugging situations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.#ctor(Microsoft.IO.RecyclableMemoryStreamManager)">
+            <summary>
+            Allocate a new RecyclableMemoryStream object.
+            </summary>
+            <param name="memoryManager">The memory manager</param>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.#ctor(Microsoft.IO.RecyclableMemoryStreamManager,System.String)">
+            <summary>
+            Allocate a new RecyclableMemoryStream object
+            </summary>
+            <param name="memoryManager">The memory manager</param>
+            <param name="tag">A string identifying this stream for logging and debugging purposes</param>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.#ctor(Microsoft.IO.RecyclableMemoryStreamManager,System.String,System.Int32)">
+            <summary>
+            Allocate a new RecyclableMemoryStream object
+            </summary>
+            <param name="memoryManager">The memory manager</param>
+            <param name="tag">A string identifying this stream for logging and debugging purposes</param>
+            <param name="requestedSize">The initial requested size to prevent future allocations</param>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.#ctor(Microsoft.IO.RecyclableMemoryStreamManager,System.String,System.Int32,System.Byte[])">
+            <summary>
+            Allocate a new RecyclableMemoryStream object
+            </summary>
+            <param name="memoryManager">The memory manager</param>
+            <param name="tag">A string identifying this stream for logging and debugging purposes</param>
+            <param name="requestedSize">The initial requested size to prevent future allocations</param>
+            <param name="initialLargeBuffer">An initial buffer to use. This buffer will be owned by the stream and returned to the memory manager upon Dispose.</param>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.Dispose(System.Boolean)">
+            <summary>
+            Returns the memory used by this stream back to the pool.
+            </summary>
+            <param name="disposing">Whether we're disposing (true), or being called by the finalizer (false)</param>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.Close">
+            <summary>
+            Equivalent to Dispose
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.Capacity">
+            <summary>
+            Gets or sets the capacity
+            </summary>
+            <remarks>Capacity is always in multiples of the memory manager's block size, unless
+            the large buffer is in use.  Capacity never decreases during a stream's lifetime. 
+            Explicitly setting the capacity to a lower value than the current value will have no effect. 
+            This is because the buffers are all pooled by chunks and there's little reason to 
+            allow stream truncation.
+            </remarks>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.Length">
+            <summary>
+            Gets the number of bytes written to this stream.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.Position">
+            <summary>
+            Gets the current position in the stream
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.CanRead">
+            <summary>
+            Whether the stream can currently read
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.CanSeek">
+            <summary>
+            Whether the stream can currently seek
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.CanTimeout">
+            <summary>
+            Always false
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStream.CanWrite">
+            <summary>
+            Whether the stream can currently write
+            </summary>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.GetBuffer">
+            <summary>
+            Returns a single buffer containing the contents of the stream.
+            The buffer may be longer than the stream length.
+            </summary>
+            <returns>A byte[] buffer</returns>
+            <remarks>IMPORTANT: Doing a Write() after calling GetBuffer() invalidates the buffer. The old buffer is held onto
+            until Dispose is called, but the next time GetBuffer() is called, a new buffer from the pool will be required.</remarks>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.ToArray">
+            <summary>
+            Returns a new array with a copy of the buffer's contents. You should almost certainly be using GetBuffer combined with the Length to 
+            access the bytes in this stream. Calling ToArray will destroy the benefits of pooled buffers, but it is included
+            for the sake of completeness.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads from the current position into the provided buffer
+            </summary>
+            <param name="buffer">Destination buffer</param>
+            <param name="offset">Offset into buffer at which to start placing the read bytes.</param>
+            <param name="count">Number of bytes to read.</param>
+            <returns>The number of bytes read</returns>
+            <exception cref="T:System.ArgumentNullException">buffer is null</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">offset or count is less than 0</exception>
+            <exception cref="T:System.ArgumentException">offset subtracted from the buffer length is less than count</exception>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.SafeRead(System.Byte[],System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Reads from the specified position into the provided buffer
+            </summary>
+            <param name="buffer">Destination buffer</param>
+            <param name="offset">Offset into buffer at which to start placing the read bytes.</param>
+            <param name="count">Number of bytes to read.</param>
+            <param name="streamPosition">Position in the stream to start reading from</param>
+            <returns>The number of bytes read</returns>
+            <exception cref="T:System.ArgumentNullException">buffer is null</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">offset or count is less than 0</exception>
+            <exception cref="T:System.ArgumentException">offset subtracted from the buffer length is less than count</exception>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Writes the buffer to the stream
+            </summary>
+            <param name="buffer">Source buffer</param>
+            <param name="offset">Start position</param>
+            <param name="count">Number of bytes to write</param>
+            <exception cref="T:System.ArgumentNullException">buffer is null</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">offset or count is negative</exception>
+            <exception cref="T:System.ArgumentException">buffer.Length - offset is not less than count</exception>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.ToString">
+            <summary>
+            Returns a useful string for debugging. This should not normally be called in actual production code.
+            </summary>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.WriteByte(System.Byte)">
+            <summary>
+            Writes a single byte to the current position in the stream.
+            </summary>
+            <param name="value">byte value to write</param>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.ReadByte">
+            <summary>
+            Reads a single byte from the current position in the stream.
+            </summary>
+            <returns>The byte at the current position, or -1 if the position is at the end of the stream.</returns>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.SafeReadByte(System.Int32@)">
+            <summary>
+            Reads a single byte from the specified position in the stream.
+            </summary>
+            <param name="streamPosition">The position in the stream to read from</param>
+            <returns>The byte at the current position, or -1 if the position is at the end of the stream.</returns>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.SetLength(System.Int64)">
+            <summary>
+            Sets the length of the stream
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">value is negative or larger than MaxStreamLength</exception>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Sets the position to the offset from the seek location
+            </summary>
+            <param name="offset">How many bytes to move</param>
+            <param name="loc">From where</param>
+            <returns>The new position</returns>
+            <exception cref="T:System.ObjectDisposedException">Object has been disposed</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">offset is larger than MaxStreamLength</exception>
+            <exception cref="T:System.ArgumentException">Invalid seek origin</exception>
+            <exception cref="T:System.IO.IOException">Attempt to set negative position</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.WriteTo(System.IO.Stream)">
+            <summary>
+            Synchronously writes this stream's bytes to the parameter stream.
+            </summary>
+            <param name="stream">Destination stream</param>
+            <remarks>Important: This does a synchronous write, which may not be desired in some situations</remarks>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStream.ReleaseLargeBuffer">
+            <summary>
+            Release the large buffer (either stores it for eventual release or returns it immediately).
+            </summary>
+        </member>
+        <member name="T:Microsoft.IO.RecyclableMemoryStreamManager">
+            <summary>
+            Manages pools of RecyclableMemoryStream objects.
+            </summary>
+            <remarks>
+            There are two pools managed in here. The small pool contains same-sized buffers that are handed to streams
+            as they write more data.
+            
+            For scenarios that need to call GetBuffer(), the large pool contains buffers of various sizes, all
+            multiples of LargeBufferMultiple (1 MB by default). They are split by size to avoid overly-wasteful buffer
+            usage. There should be far fewer 8 MB buffers than 1 MB buffers, for example.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.IO.RecyclableMemoryStreamManager.EventHandler">
+            <summary>
+            Generic delegate for handling events without any arguments.
+            </summary>
+        </member>
+        <member name="T:Microsoft.IO.RecyclableMemoryStreamManager.StreamLengthReportHandler">
+            <summary>
+            Delegate for handling reports of stream size when streams are allocated
+            </summary>
+            <param name="bytes">Bytes allocated.</param>
+        </member>
+        <member name="T:Microsoft.IO.RecyclableMemoryStreamManager.UsageReportEventHandler">
+            <summary>
+            Delegate for handling periodic reporting of memory use statistics.
+            </summary>
+            <param name="smallPoolInUseBytes">Bytes currently in use in the small pool.</param>
+            <param name="smallPoolFreeBytes">Bytes currently free in the small pool.</param>
+            <param name="largePoolInUseBytes">Bytes currently in use in the large pool.</param>
+            <param name="largePoolFreeBytes">Bytes currently free in the large pool.</param>
+        </member>
+        <member name="F:Microsoft.IO.RecyclableMemoryStreamManager.largePools">
+            <summary>
+            pools[0] = 1x largeBufferMultiple buffers
+            pools[1] = 2x largeBufferMultiple buffers
+            etc., up to maximumBufferSize
+            </summary>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.#ctor">
+            <summary>
+            Initializes the memory manager with the default block/buffer specifications.
+            </summary>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes the memory manager with the given block requiredSize.
+            </summary>
+            <param name="blockSize">Size of each block that is pooled. Must be > 0.</param>
+            <param name="largeBufferMultiple">Each large buffer will be a multiple of this value.</param>
+            <param name="maximumBufferSize">Buffers larger than this are not pooled</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">blockSize is not a positive number, or largeBufferMultiple is not a positive number, or maximumBufferSize is less than blockSize.</exception>
+            <exception cref="T:System.ArgumentException">maximumBufferSize is not a multiple of largeBufferMultiple</exception>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.BlockSize">
+            <summary>
+            The size of each block. It must be set at creation and cannot be changed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.LargeBufferMultiple">
+            <summary>
+            All buffers are multiples of this number. It must be set at creation and cannot be changed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.MaximumBufferSize">
+            <summary>
+            Gets or sets the maximum buffer size.
+            </summary>
+            <remarks>Any buffer that is returned to the pool that is larger than this will be
+            discarded and garbage collected.</remarks>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.SmallPoolFreeSize">
+            <summary>
+            Number of bytes in small pool not currently in use
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.SmallPoolInUseSize">
+            <summary>
+            Number of bytes currently in use by stream from the small pool
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.LargePoolFreeSize">
+            <summary>
+            Number of bytes in large pool not currently in use
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.LargePoolInUseSize">
+            <summary>
+            Number of bytes currently in use by streams from the large pool
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.SmallBlocksFree">
+            <summary>
+            How many blocks are in the small pool
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.LargeBuffersFree">
+            <summary>
+            How many buffers are in the large pool
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.MaximumFreeSmallPoolBytes">
+            <summary>
+            How many bytes of small free blocks to allow before we start dropping
+            those returned to us.
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.MaximumFreeLargePoolBytes">
+            <summary>
+            How many bytes of large free buffers to allow before we start dropping
+            those returned to us.
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.MaximumStreamCapacity">
+            <summary>
+            Maximum stream capacity in bytes. Attempts to set a larger capacity will
+            result in an exception.
+            </summary>
+            <remarks>A value of 0 indicates no limit.</remarks>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.GenerateCallStacks">
+            <summary>
+            Whether to save callstacks for stream allocations. This can help in debugging.
+            It should NEVER be turned on generally in production.
+            </summary>
+        </member>
+        <member name="P:Microsoft.IO.RecyclableMemoryStreamManager.AggressiveBufferReturn">
+            <summary>
+            Whether dirty buffers can be immediately returned to the buffer pool. E.g. when GetBuffer() is called on
+            a stream and creates a single large buffer, if this setting is enabled, the other blocks will be returned
+            to the buffer pool immediately.
+            Note when enabling this setting that the user is responsible for ensuring that any buffer previously
+            retrieved from a stream which is subsequently modified is not used after modification (as it may no longer
+            be valid).
+            </summary>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.GetBlock">
+            <summary>
+            Removes and returns a single block from the pool.
+            </summary>
+            <returns>A byte[] array</returns>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.GetLargeBuffer(System.Int32,System.String)">
+            <summary>
+            Returns a buffer of arbitrary size from the large buffer pool. This buffer
+            will be at least the requiredSize and always be a multiple of largeBufferMultiple.
+            </summary>
+            <param name="requiredSize">The minimum length of the buffer</param>
+            <param name="tag">The tag of the stream returning this buffer, for logging if necessary.</param>
+            <returns>A buffer of at least the required size.</returns>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.ReturnLargeBuffer(System.Byte[],System.String)">
+            <summary>
+            Returns the buffer to the large pool
+            </summary>
+            <param name="buffer">The buffer to return.</param>
+            <param name="tag">The tag of the stream returning this buffer, for logging if necessary.</param>
+            <exception cref="T:System.ArgumentNullException">buffer is null</exception>
+            <exception cref="T:System.ArgumentException">buffer.Length is not a multiple of LargeBufferMultiple (it did not originate from this pool)</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.ReturnBlocks(System.Collections.Generic.List{System.Byte[]},System.String)">
+            <summary>
+            Returns the blocks to the pool
+            </summary>
+            <param name="blocks">Collection of blocks to return to the pool</param>
+            <param name="tag">The tag of the stream returning these blocks, for logging if necessary.</param>
+            <exception cref="T:System.ArgumentNullException">blocks is null</exception>
+            <exception cref="T:System.ArgumentException">blocks contains buffers that are the wrong size (or null) for this memory manager</exception>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.GetStream">
+            <summary>
+            Retrieve a new MemoryStream object with no tag and a default initial capacity.
+            </summary>
+            <returns>A MemoryStream.</returns>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.GetStream(System.String)">
+            <summary>
+            Retrieve a new MemoryStream object with the given tag and a default initial capacity.
+            </summary>
+            <param name="tag">A tag which can be used to track the source of the stream.</param>
+            <returns>A MemoryStream.</returns>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.GetStream(System.String,System.Int32)">
+            <summary>
+            Retrieve a new MemoryStream object with the given tag and at least the given capacity.
+            </summary>
+            <param name="tag">A tag which can be used to track the source of the stream.</param>
+            <param name="requiredSize">The minimum desired capacity for the stream.</param>
+            <returns>A MemoryStream.</returns>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.GetStream(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Retrieve a new MemoryStream object with the given tag and at least the given capacity, possibly using
+            a single continugous underlying buffer.
+            </summary>
+            <remarks>Retrieving a MemoryStream which provides a single contiguous buffer can be useful in situations
+            where the initial size is known and it is desirable to avoid copying data between the smaller underlying
+            buffers to a single large one. This is most helpful when you know that you will always call GetBuffer
+            on the underlying stream.</remarks>
+            <param name="tag">A tag which can be used to track the source of the stream.</param>
+            <param name="requiredSize">The minimum desired capacity for the stream.</param>
+            <param name="asContiguousBuffer">Whether to attempt to use a single contiguous buffer.</param>
+            <returns>A MemoryStream.</returns>
+        </member>
+        <member name="M:Microsoft.IO.RecyclableMemoryStreamManager.GetStream(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Retrieve a new MemoryStream object with the given tag and with contents copied from the provided
+            buffer. The provided buffer is not wrapped or used after construction.
+            </summary>
+            <remarks>The new stream's position is set to the beginning of the stream when returned.</remarks>
+            <param name="tag">A tag which can be used to track the source of the stream.</param>
+            <param name="buffer">The byte buffer to copy data from.</param>
+            <param name="offset">The offset from the start of the buffer to copy from.</param>
+            <param name="count">The number of bytes to copy from the buffer.</param>
+            <returns>A MemoryStream.</returns>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.BlockCreated">
+            <summary>
+            Triggered when a new block is created.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.BlockDiscarded">
+            <summary>
+            Triggered when a new block is created.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.LargeBufferCreated">
+            <summary>
+            Triggered when a new large buffer is created.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.StreamCreated">
+            <summary>
+            Triggered when a new stream is created.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.StreamDisposed">
+            <summary>
+            Triggered when a stream is disposed.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.StreamFinalized">
+            <summary>
+            Triggered when a stream is finalized.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.StreamLength">
+            <summary>
+            Triggered when a stream is finalized.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.StreamConvertedToArray">
+            <summary>
+            Triggered when a user converts a stream to array.
+            </summary>
+        </member>
+        <member name="E:Microsoft.IO.RecyclableMemoryStreamManager.UsageReport">
+            <summary>
+            Periodically triggered to report usage statistics.
+            </summary>
+        </member>
+    </members>
+</doc>

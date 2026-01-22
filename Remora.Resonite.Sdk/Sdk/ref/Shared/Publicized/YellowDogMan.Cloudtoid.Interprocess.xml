@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YellowDogMan.Cloudtoid.Interprocess</name>
+    </assembly>
+    <members>
+        <member name="T:Cloudtoid.Interprocess.IPublisher">
+            <summary>
+            Message publisher that publishes messages to the subscribers.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.IPublisher.TryEnqueue(System.ReadOnlySpan{System.Byte})">
+            <summary>Enqueues the message to be published to the subscribers.</summary>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.IQueueFactory">
+            <summary>Factory to create queue publishers and subscribers. </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.IQueueFactory.CreatePublisher(Cloudtoid.Interprocess.QueueOptions)">
+            <summary> Creates a queue message publisher. </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.IQueueFactory.CreateSubscriber(Cloudtoid.Interprocess.QueueOptions)">
+            <summary> Creates a queue message subscriber.</summary>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.ISubscriber">
+            <summary>
+            Message subscriber that subscribes to the messages published by the publisher.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.ISubscriber.TryDequeue(System.Threading.CancellationToken,System.ReadOnlyMemory{System.Byte}@)">
+            <summary>
+            Dequeues a message from the queue if the queue is not empty. This is a non-blocking
+            call and returns immediately.
+            This overload allocates a <see cref="T:System.Byte"/> array the size of the message in the
+            queue and copies the message from the shared memory to it. To avoid this memory
+            allocation, consider reusing a previously allocated <see cref="T:System.Byte"/> array with
+            <see cref="M:Cloudtoid.Interprocess.ISubscriber.TryDequeue(System.Memory{System.Byte},System.Threading.CancellationToken,System.ReadOnlyMemory{System.Byte}@)"/>.
+            <see cref="T:System.Buffers.ArrayPool`1"/> can be a good way of pooling and
+            reusing byte arrays.
+            </summary>
+            <param name="cancellation">A cancellation token to observe while waiting for the task to complete.</param>
+            <param name="message">The dequeued message.</param>
+            <returns>Returns <see langword="false"/> if the queue is empty.</returns>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.ISubscriber.TryDequeue(System.Memory{System.Byte},System.Threading.CancellationToken,System.ReadOnlyMemory{System.Byte}@)">
+            <summary>
+            Dequeues a message from the queue if the queue is not empty. This is a non-blocking
+            call and returns immediately. This method does not allocated memory and only populates
+            the <paramref name="buffer"/> that is passed in. Make sure that the buffer is large
+            enough to receive the entire message, or the message is truncated to fit the buffer.
+            </summary>
+            <param name="buffer">The memory buffer that is populated with the message. Make sure
+            that the buffer is large enough to receive the entire message, or the message is
+            truncated to fit the buffer.</param>
+            <param name="cancellation">A cancellation token to observe while waiting for the task to complete.</param>
+            <param name="message">The dequeued message.</param>
+            <returns>Returns <see langword="false"/> if the queue is empty.</returns>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.ISubscriber.Dequeue(System.Threading.CancellationToken)">
+            <summary>
+            Dequeues a message from the queue. If the queue is empty, it *waits* for the
+            arrival of a new message. This call is blocking until a message is received.
+            This overload allocates a <see cref="T:System.Byte"/> array the size of the message in the
+            queue and copies the message from the shared memory to it. To avoid this memory
+            allocation, consider reusing a previously allocated <see cref="T:System.Byte"/> array with
+            <see cref="M:Cloudtoid.Interprocess.ISubscriber.Dequeue(System.Memory{System.Byte},System.Threading.CancellationToken)"/>.
+            <see cref="T:System.Buffers.ArrayPool`1"/> can be a good way of pooling and
+            reusing byte arrays.
+            </summary>
+            <param name="cancellation">A cancellation token to observe while waiting for the task to complete.</param>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.ISubscriber.Dequeue(System.Memory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Dequeues a message from the queue. If the queue is empty, it *waits* for the
+            arrival of a new message. This call is blocking until a message is received.
+            This method does not allocated memory and only populates
+            the <paramref name="buffer"/> that is passed in. Make sure that the buffer is large
+            enough to receive the entire message, or the message is truncated to fit the buffer.
+            </summary>
+            <param name="buffer">The memory buffer that is populated with the message. Make sure
+            that the buffer is large enough to receive the entire message, or the message is
+            truncated to fit the buffer.</param>
+            <param name="cancellation">A cancellation token to observe while waiting for the task to complete.</param>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.MemoryViewOptions">
+            <summary> The options to create a raw memory view. </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.MemoryViewOptions.#ctor(System.String,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.Interprocess.MemoryViewOptions"/> class.
+            </summary>
+            <param name="memoryViewName">The unique name of the memory view.</param>
+            <param name="capacity">The maximum capacity of the memory view in bytes. This should be at least 16 bytes long and in the multiples of 8</param>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.MemoryViewOptions.#ctor(System.String,System.String,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.Interprocess.QueueOptions"/> class.
+            </summary>
+            <param name="memoryViewName">The unique name of the queue.</param>
+            <param name="path">The path to the directory/folder in which the memory mapped and other files are stored in</param>
+            <param name="capacity">The maximum capacity of the queue in bytes. This should be at least 16 bytes long and in the multiples of 8</param>
+        </member>
+        <member name="P:Cloudtoid.Interprocess.MemoryViewOptions.MemoryViewName">
+            <summary>
+            Gets the unique name of the memory view.
+            </summary>
+        </member>
+        <member name="P:Cloudtoid.Interprocess.MemoryViewOptions.Path">
+            <summary>
+            Gets the path to the directory/folder in which the memory mapped and other files are stored in.
+            </summary>
+        </member>
+        <member name="P:Cloudtoid.Interprocess.MemoryViewOptions.Capacity">
+            <summary>
+            Gets the size of the memory view in bytes.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.MemoryViewOptions.GetActualStorageSize">
+            <summary>
+            Gets the full size of this memory view. For raw memory view this is the same as Capacity.
+            </summary>
+        </member>
+        <member name="F:Cloudtoid.Interprocess.QueueHeader.ReadOffset">
+            <summary>
+            Where the next message could potentially be read
+            </summary>
+        </member>
+        <member name="F:Cloudtoid.Interprocess.QueueHeader.WriteOffset">
+            <summary>
+            Where the next message could potentially be written
+            </summary>
+        </member>
+        <member name="F:Cloudtoid.Interprocess.QueueHeader.ReadLockTimestamp">
+            <summary>
+            Time (ticks) at which the read lock was taken. It is set to zero if not lock
+            </summary>
+        </member>
+        <member name="F:Cloudtoid.Interprocess.QueueHeader.Reserved">
+            <summary>
+            Not used and might be used in the future
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.QueueOptions">
+            <summary> The options to create a queue. </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.QueueOptions.#ctor(System.String,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.Interprocess.QueueOptions"/> class.
+            </summary>
+            <param name="queueName">The unique name of the queue.</param>
+            <param name="capacity">The maximum capacity of the queue in bytes. This should be at least 16 bytes long and in the multiples of 8</param>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.QueueOptions.#ctor(System.String,System.String,System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.Interprocess.QueueOptions"/> class.
+            </summary>
+            <param name="queueName">The unique name of the queue.</param>
+            <param name="path">The path to the directory/folder in which the memory mapped and other files are stored in</param>
+            <param name="capacity">The maximum capacity of the queue in bytes. This should be at least 16 bytes long and in the multiples of 8</param>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.QueueOptions.GetActualStorageSize">
+            <summary>
+            Gets the full size of the queue that includes both the header and message sections
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.Memory.Unix.AtomicFileCounter">
+            <summary>
+            Uses interlocked operations on a memory-mapped file to count how many references to it exist.
+            <para>
+            Each instantiation of this class on the same file path will increment it's count by one,<br />
+            and each disposal will decrease the count by one.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.Memory.Unix.AtomicFileCounter.#ctor(System.String,System.Action{System.String},System.Int32@)">
+            <summary>
+            Creates a new atomic file counter at the specified path.
+            </summary>
+            <param name="path">The path to the file counter.</param>
+            <param name="callback">Callback to invoke when the atomic file counter reaches zero.</param>
+            <param name="count">The count on the file at the time of instantiation.</param>
+        </member>
+        <member name="P:Cloudtoid.Interprocess.Memory.Unix.AtomicFileCounter.FileValue">
+            <summary>
+            How many references to this file currently exist.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.Memory.Unix.AtomicFileCounter.Dispose">
+            <summary>
+            Decrements the atomic counter by one and disposes of the memory map.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.Queue.GetPaddedMessageLength(System.Int64)">
+            <summary>
+            Calculates the total length of a message which consists of [header][body][padding].
+            <list type="bullet">
+            <item><term>header</term><description>An instance of <see cref="T:Cloudtoid.Interprocess.MessageHeader"/></description></item>
+            <item><term>body</term><description>A collection of bytes provided by the user</description></item>
+            <item><term>padding</term><description>A possible padding is added to round up the length to the closest multiple of 8 bytes</description></item>
+            </list>
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.QueueFactory">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.QueueFactory.#ctor">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.QueueFactory.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>Initializes a new instance of the <see cref="T:Cloudtoid.Interprocess.QueueFactory"/> class.</summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.QueueFactory.CreatePublisher(Cloudtoid.Interprocess.QueueOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.QueueFactory.CreateSubscriber(Cloudtoid.Interprocess.QueueOptions)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.InterprocessSemaphore">
+            <summary>
+            This class opens or creates platform agnostic named semaphore. Named
+            semaphores are synchronization constructs accessible across processes.
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.Interprocess.ServiceCollectionExtensions">
+            <summary>
+            Extensions to the <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to register the shared-memory queue.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Interprocess.ServiceCollectionExtensions.AddInterprocessQueue(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers what is needed to create and consume shared-memory queues that are
+            cross-process accessible.
+            Use <see cref="T:Cloudtoid.Interprocess.IQueueFactory"/> to access the queue.
+            </summary>
+        </member>
+    </members>
+</doc>

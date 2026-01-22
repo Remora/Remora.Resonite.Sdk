@@ -1,49 +1,92 @@
-<Project>
-    <ItemDefinitionGroup>
-        <ResoniteReference>
-            <Visible>false</Visible>
-        </ResoniteReference>
-    </ItemDefinitionGroup>
+<Project InitialTargets="TransformResoniteReferences">
+  <PropertyGroup Condition="'$(ResoniteUsePublicizedAssemblies)' == ''">
+    <ResoniteUsePublicizedAssemblies>false</ResoniteUsePublicizedAssemblies>
+    <ResoniteUsePublicizedAssemblies Condition="'$(ResoniteProjectType)' == 'mod'">true</ResoniteUsePublicizedAssemblies>
+  </PropertyGroup>
 
-    <Import Project="Sdk.ResoniteVersion.targets" />
+  <ItemDefinitionGroup>
+    <ResoniteReference>
+      <Visible>false</Visible>
 
-    <Import Project="Targets/Client.targets" Condition="'$(ResoniteTarget)' == 'client'"/>
-    <Import Project="Targets/Headless.targets" Condition="'$(ResoniteTarget)' == 'headless'"/>
-    <Import Project="Targets/Renderite.targets" Condition="'$(ResoniteTarget)' == 'renderite'"/>
-    
-    <Import Project="ProjectTypes/Mod.targets" Condition="'$(ResoniteProjectType)' == 'mod'"/>
-    <Import Project="ProjectTypes/Plugin.targets" Condition="'$(ResoniteProjectType)' == 'plugin'"/>
-    <Import Project="ProjectTypes/Library.targets" Condition="'$(ResoniteProjectType)' == 'library'"/>
-    <Import Project="ProjectTypes/Standalone.targets" Condition="'$(ResoniteProjectType)' == 'standalone'"/>
+      <UseReference>false</UseReference>
+      <UseReference Condition="'$(ResoniteForceReferenceAssemblies)' == 'true'">true</UseReference>
 
-    <!-- Add Path for Resonite Assemblies to the Reference Paths if it exists.
+      <UsePublicized>false</UsePublicized>
+      <UsePublicized Condition="'$(ResoniteUsePublicizedAssemblies)' == 'true'">true</UsePublicized>
+    </ResoniteReference>
+  </ItemDefinitionGroup>
+
+  <Import Project="Sdk.ResoniteVersion.targets" />
+
+  <Import Project="Targets/Client.targets" Condition="'$(ResoniteTarget)' == 'client'" />
+  <Import Project="Targets/Headless.targets" Condition="'$(ResoniteTarget)' == 'headless'" />
+  <Import Project="Targets/Renderite.targets" Condition="'$(ResoniteTarget)' == 'renderite'" />
+
+  <Import Project="ProjectTypes/Mod.targets" Condition="'$(ResoniteProjectType)' == 'mod'" />
+  <Import Project="ProjectTypes/Plugin.targets" Condition="'$(ResoniteProjectType)' == 'plugin'" />
+  <Import Project="ProjectTypes/Library.targets" Condition="'$(ResoniteProjectType)' == 'library'" />
+  <Import Project="ProjectTypes/Standalone.targets" Condition="'$(ResoniteProjectType)' == 'standalone'" />
+
+  <!-- Add Path for Resonite Assemblies to the Reference Paths if it exists.
          This allows MSBuild to search for references there. -->
-    <PropertyGroup>
-        <ReferencePath Condition="Exists('$(_ResoniteAssemblyPath)')">$(_ResoniteAssemblyPath);$(ReferencePath)</ReferencePath>
-    </PropertyGroup>
+  <PropertyGroup>
+    <ResoniteStrippedTargetReferencePath>$(ResoniteTargetReferencePath)Stripped/</ResoniteStrippedTargetReferencePath>
+    <ResonitePublicizedTargetReferencePath>$(ResoniteTargetReferencePath)Publicized/</ResonitePublicizedTargetReferencePath>
 
-    <!-- Transform ResoniteReference items into real assembly references,
+    <ResoniteSharedReferencePath>$(ResoniteReferencePath)Shared/</ResoniteSharedReferencePath>
+    <ResoniteStrippedSharedReferencePath>$(ResoniteSharedReferencePath)Stripped/</ResoniteStrippedSharedReferencePath>
+    <ResonitePublicizedSharedReferencePath>$(ResoniteSharedReferencePath)Publicized/</ResonitePublicizedSharedReferencePath>
+
+    <!-- Add fitting reference path(s) for ForceReference / UsePublicized -->
+    <ReferencePath Condition="Exists('$(_ResoniteAssemblyPath)') AND '$(ResoniteForceReferenceAssemblies)' != 'true' AND '$(ResoniteUsePublicizedAssemblies)' != 'true'">$(_ResoniteAssemblyPath);$(ReferencePath)</ReferencePath>
+    <ReferencePath Condition="(!Exists('$(_ResoniteAssemblyPath)') OR '$(ResoniteForceReferenceAssemblies)' == 'true') AND '$(ResoniteUsePublicizedAssemblies)' != 'true'">$(ResoniteStrippedTargetReferencePath);$(ResoniteStrippedSharedReferencePath);$(ReferencePath)</ReferencePath>
+    <ReferencePath Condition="'$(ResoniteUsePublicizedAssemblies)' == 'true'">$(ResonitePublicizedTargetReferencePath);$(ResonitePublicizedSharedReferencePath);$(ReferencePath)</ReferencePath>
+  </PropertyGroup>
+
+  <!-- Transform ResoniteReference items into real assembly references,
          either to our bundled reference assemblies or to real ones from an installation. -->
+  <ItemGroup>
+    <Reference Include="@(ResoniteReference)">
+      <Name>%(ResoniteReference.Identity)</Name>
+
+      <!-- Our bundled publicized reference assemblies -->
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedTargetReferencePath)%(Identity).dll')">$(ResonitePublicizedTargetReferencePath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedSharedReferencePath)%(Identity).dll')">$(ResonitePublicizedSharedReferencePath)%(Identity).dll</HintPath>
+
+      <!-- Our bundled publicized reference executables -->
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedTargetReferencePath)%(Identity).exe')">$(ResonitePublicizedTargetReferencePath)%(Identity).exe</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UsePublicized)' == 'true' AND Exists('$(ResonitePublicizedSharedReferencePath)%(Identity).exe')">$(ResonitePublicizedSharedReferencePath)%(Identity).exe</HintPath>
+
+      <!-- Real assemblies / executables from an install -->
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' != 'true' AND Exists('$(_ResoniteAssemblyPath)%(Identity).dll')">$(_ResoniteAssemblyPath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND '%(UseReference)' != 'true' AND Exists('$(_ResoniteAssemblyPath)%(Identity).exe')">$(_ResoniteAssemblyPath)%(Identity).exe</HintPath>
+
+      <!-- Our bundled unpublicized reference assemblies -->
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).dll')">$(ResoniteStrippedTargetReferencePath)%(Identity).dll</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).dll')">$(ResoniteStrippedSharedReferencePath)%(Identity).dll</HintPath>
+
+      <!-- Our bundled unpublicized reference executables -->
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedTargetReferencePath)%(Identity).exe')">$(ResoniteStrippedTargetReferencePath)%(Identity).exe</HintPath>
+      <HintPath Condition="'%(HintPath)' == '' AND Exists('$(ResoniteStrippedSharedReferencePath)%(Identity).exe')">$(ResoniteStrippedSharedReferencePath)%(Identity).exe</HintPath>
+
+      <!-- Only copy them to the output for standalone applications -->
+      <Private>false</Private>
+      <Private Condition="'$(ResoniteProjectType)' == 'standalone'">true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Special handling for Mods and Plugins -->
+  <Import Project="ProjectTypes/Shared.ModPlugin.targets" Condition="'$(ResoniteProjectType)' == 'mod' OR '$(ResoniteProjectType)' == 'plugin'" />
+
+  <!-- Add IgnoreAccessChecksTo attributes to the assembly for all publicized ResoniteReferences -->
+  <Target Name="TransformResoniteReferences">
     <ItemGroup>
-        <Reference Include="@(ResoniteReference)">
-            <Name>%(ResoniteReference.Identity)</Name>
-
-            <!-- Real assemblies from an install -->
-            <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).dll')">$(_ResoniteAssemblyPath)/%(Identity).dll</HintPath>
-            <HintPath Condition="'%(HintPath)' == '' AND Exists('$(_ResoniteAssemblyPath)/%(Identity).exe')">$(_ResoniteAssemblyPath)/%(Identity).exe</HintPath>
-
-            <!-- Our bundled unpublicized reference assemblies -->
-            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteTargetReferencePath)%(Identity).dll')">$(ResoniteTargetReferencePath)%(Identity).dll</HintPath>
-            <HintPath Condition="('$(ResoniteForceReferenceAssemblies)' == 'true' OR '%(HintPath)' == '') AND Exists('$(ResoniteTargetReferencePath)%(Identity).exe')">$(ResoniteTargetReferencePath)%(Identity).exe</HintPath>
-            
-            <!-- Only copy them to the output for standalone applications -->
-            <Private Condition="'$(ResoniteProjectType)' != 'standalone'">false</Private>
-        </Reference>
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.IgnoresAccessChecksTo" Condition="'%(ResoniteReference.UsePublicized)' == 'true'">
+        <_Parameter1>%(ResoniteReference.Identity)</_Parameter1>
+      </AssemblyAttribute>
     </ItemGroup>
+  </Target>
 
-    <!-- Special handling for Mods and Plugins -->
-    <Import Project="ProjectTypes/Shared.ModPlugin.targets" Condition="'$(ResoniteProjectType)' == 'mod' OR '$(ResoniteProjectType)' == 'plugin'"/>
-
-    <!-- Import last to respect set properties -->
-    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(ResoniteSdkImportsMicrosoftSdk)' == 'true'"/>
+  <!-- Import last to respect set properties -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(ResoniteSdkImportsMicrosoftSdk)' == 'true'" />
 </Project>

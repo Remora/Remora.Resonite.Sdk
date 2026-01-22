@@ -1,37 +1,81 @@
-<Project>
-    <!-- Defaults for centrally managed package versions -->
-    <Import Project="Sdk.Packages.props" />
+<Project InitialTargets="Resonite_SDK_Checks">
+  <!-- Defaults for centrally managed package versions -->
+  <Import Project="Sdk.Packages.props" />
 
-    <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' != 'true'">
-        <ResoniteSdkImportsMicrosoftSdk>true</ResoniteSdkImportsMicrosoftSdk>
-    </PropertyGroup>
+  <PropertyGroup Condition="'$(UsingMicrosoftNETSdk)' != 'true'">
+    <ResoniteSdkImportsMicrosoftSdk>true</ResoniteSdkImportsMicrosoftSdk>
+  </PropertyGroup>
 
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(ResoniteSdkImportsMicrosoftSdk)' == 'true'" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(ResoniteSdkImportsMicrosoftSdk)' == 'true'" />
 
-    <!-- Overridable defaults -->
+  <!-- Overridable defaults -->
 
-    <!-- Targeting properties -->
-    <PropertyGroup>
-        <TargetFramework Condition="'$(TargetFramework)' == ''">net9.0</TargetFramework>
-    </PropertyGroup>
+  <!-- Targeting properties -->
+  <PropertyGroup Condition="'$(TargetFramework)' == ''">
+    <TargetFramework>net10.0</TargetFramework>
+    <_TargetFrameworkSetFromProps>true</_TargetFrameworkSetFromProps>
+  </PropertyGroup>
 
-    <!-- Remora.Resonite.Sdk-specific properties -->
-    <PropertyGroup>
-        <ResoniteTarget Condition="'$(ResoniteTarget)' == ''">client</ResoniteTarget>
-        <ResoniteProjectType Condition="'$(ResoniteProjectType)' == ''">mod</ResoniteProjectType>
-        <ResoniteTargetModLoader Condition="'$(ResoniteTargetModLoader)' == ''">MonkeyLoader</ResoniteTargetModLoader>
+  <!-- General Build Defaults -->
+  <PropertyGroup>
+    <LangVersion Condition="'$(LangVersion)' == ''">14.0</LangVersion>
+    <Nullable Condition="'$(Nullable)' == ''">enable</Nullable>
 
-        <ResoniteInstallOnBuild Condition="'$(ResoniteInstallOnBuild)' == ''">false</ResoniteInstallOnBuild>
-        <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)/ref/</ResoniteReferencePath>
-        <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
+    <Deterministic Condition="'$(Deterministic)' == ''">true</Deterministic>
+    <DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
 
-        <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' And '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>
-        <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == ''">false</ResoniteGenerateReleaseArchive>
-    </PropertyGroup>
+    <ImplicitUsings Condition="'$(ImplicitUsings)' == ''">enable</ImplicitUsings>
 
-    <PropertyGroup Condition="'$(ResonitePath)'==''">
-        <ResonitePath>$(MSBuildProjectDirectory)/Resonite/</ResonitePath>
-        <ResonitePath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/Resonite/')">C:/Program Files (x86)/Steam/steamapps/common/Resonite/</ResonitePath>
-        <ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
-    </PropertyGroup>
+    <GenerateDocumentationFile Condition="'$(GenerateDocumentationFile)' == ''">true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- NuGet Packaging Defaults -->
+  <PropertyGroup>
+    <RepositoryType Condition="'$(RepositoryType)' == ''">git</RepositoryType>
+
+    <IncludeSymbols Condition="'$(IncludeSymbols)' == ''">false</IncludeSymbols>
+    <EmbedAllSources Condition="'$(EmbedAllSources)' == ''">true</EmbedAllSources>
+    <EmbedUntrackedSources Condition="'$(EmbedUntrackedSources)' == ''">true</EmbedUntrackedSources>
+    <SymbolPackageFormat Condition="'$(SymbolPackageFormat)' == ''">snupkg</SymbolPackageFormat>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <!-- Remora.Resonite.Sdk-specific properties -->
+  <PropertyGroup>
+    <ResoniteTarget Condition="'$(ResoniteTarget)' == ''">client</ResoniteTarget>
+    <ResoniteProjectType Condition="'$(ResoniteProjectType)' == ''">mod</ResoniteProjectType>
+    <ResoniteTargetModLoader Condition="'$(ResoniteTargetModLoader)' == ''">MonkeyLoader</ResoniteTargetModLoader>
+
+    <ResoniteInstallOnBuild Condition="'$(ResoniteInstallOnBuild)' == ''">false</ResoniteInstallOnBuild>
+
+    <ResoniteReferencePath Condition="'$(ResoniteReferencePath)' == ''">$(MSBuildThisFileDirectory)ref/</ResoniteReferencePath>
+    <ResoniteForceReferenceAssemblies Condition="'$(ResoniteForceReferenceAssemblies)' == ''">false</ResoniteForceReferenceAssemblies>
+
+    <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == '' AND '$(Configuration)' == 'Release'">true</ResoniteGenerateReleaseArchive>
+    <ResoniteGenerateReleaseArchive Condition="'$(ResoniteGenerateReleaseArchive)' == ''">false</ResoniteGenerateReleaseArchive>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ResonitePath)'==''">
+    <_ProjectResonitePath>$(MSBuildProjectDirectory)/Resonite/</_ProjectResonitePath>
+
+    <ResonitePath>$(_ProjectResonitePath)</ResonitePath>
+    <ResonitePath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/Resonite/')">C:/Program Files (x86)/Steam/steamapps/common/Resonite/</ResonitePath>
+    <ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
+  </PropertyGroup>
+
+  <Target Name="Resonite_SDK_Checks">
+    <Message Importance="normal" Text="Using Resonite SDK version 2.0.9" />
+
+    <Error Code="RESO401" Text="Property ResoniteTarget must be one of 'client', 'headless', or 'renderite'!"
+           Condition="'$(ResoniteTarget)' != 'client' AND '$(ResoniteTarget)' != 'headless' AND '$(ResoniteTarget)' != 'renderite'" />
+
+    <Error Code="RESO402" Text="Property ResoniteProjectType must be one of 'mod', 'plugin', 'library', or 'standalone'!"
+           Condition="'$(ResoniteProjectType)' != 'mod' AND '$(ResoniteProjectType)' != 'plugin' AND '$(ResoniteProjectType)' != 'library' AND '$(ResoniteProjectType)' != 'standalone'" />
+
+    <Error Code="RESO403" Text="Property ResoniteTargetModLoader must be one of 'MonkeyLoader', 'ResoniteModLoader', 'ResoniteModLoaderStandalone', or 'BepisLoader'!"
+           Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTargetModLoader)' != 'ResoniteModLoader' AND '$(ResoniteTargetModLoader)' != 'ResoniteModLoaderStandalone' AND '$(ResoniteTargetModLoader)' != 'BepisLoader'" />
+
+    <Error Code="RESO404" Text="Property ResonitePath is set but points to invalid path! Path: $(ResonitePath)"
+           Condition="'$(ResonitePath)' != '' AND '$(ResonitePath)' != '$(_ProjectResonitePath)' AND !Exists('$(ResonitePath)')" />
+  </Target>
 </Project>

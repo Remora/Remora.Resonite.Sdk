@@ -1,0 +1,20 @@
+{
+  "SourcePaths": [
+    "~/.steam/steam/steamapps/common/Resonite",
+    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite"
+  ],
+  "DocumentationPaths": [
+    "~/.steam/steam/steamapps/common/Resonite/Headless",
+    "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Resonite\\Headless"
+  ],
+  "Recursive": false,
+  "StrippedAssembliesTargetPath": "Sdk/ref/Client/Stripped",
+  "PublicizedAssembliesTargetPath": "Sdk/ref/Client/Publicized",
+  "IgnoreAccessChecksToPath": "Sdk/ref/IgnoreAccessChecksTo",
+  "NupkgTargetPath": null,
+  "IncludePatterns": [
+    "Renderite\\.Host\\.dll$",
+    "resonite-clipboard-cs\\.dll$"
+  ],
+  "ExcludePatterns": []
+}

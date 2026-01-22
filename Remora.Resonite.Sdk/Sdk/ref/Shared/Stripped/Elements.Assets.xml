@@ -1,0 +1,454 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Elements.Assets</name>
+    </assembly>
+    <members>
+        <member name="M:Elements.Assets.SampleHelper.Clip``1(System.Span{``0},System.Single)">
+            <summary>
+            Clips a span of samples to a given amplitude.
+            </summary>
+            <typeparam name="S">The type of sample to process.</typeparam>
+            <param name="buffer">The sample buffer to clip.</param>
+            <param name="maxAmplitude">The maximum amplitude that is allowed to appear in the buffer.</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Edge.#ctor(Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            Represents a simple polygon's edge
+            </summary>
+            <param name="p1"></param>
+            <param name="p2"></param>
+        </member>
+        <member name="F:Elements.Assets.Poly2Tri.Shape.Points">
+            <summary>
+            A list of shape outline points.
+            </summary>
+        </member>
+        <member name="F:Elements.Assets.Poly2Tri.Shape.SteinerPoints">
+            <summary>
+            Extra points inserted within the shape's area to control or increase triangulation.
+            </summary>
+        </member>
+        <member name="F:Elements.Assets.Poly2Tri.Shape.Holes">
+            <summary>
+            A list of subtraction shapes fully contained inside this shape.<para/>
+            Shapes added to this list will be used to create holes during triangulation. Any that are outside or intersect the shape outline are invalid.
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.#ctor(System.Collections.Generic.IList{Elements.Assets.Poly2Tri.TriPoint})">
+            <summary>
+            Create a polygon from a list of at least 3 points with no duplicates.
+            </summary>
+            <param name="points">A list of unique points</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.#ctor(System.Collections.Generic.IList{Elements.Assets.Poly2Tri.TriPoint},Elements.Core.float2,System.Single)">
+            <summary>
+            Create a polygon from a list of at least 3 points with no duplicates.
+            </summary>
+            <param name="points">A list of unique points</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.#ctor(System.Collections.Generic.IEnumerable{Elements.Assets.Poly2Tri.TriPoint})">
+            <summary>
+            Create a polygon from a list of at least 3 points with no duplicates.
+            </summary>
+            <param name="points">A list of unique points.</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.#ctor(Elements.Assets.Poly2Tri.TriPoint[])">
+            <summary>
+            Create a polygon from a list of at least 3 points with no duplicates.
+            </summary>
+            <param name="points">A list of unique points.</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.#ctor(Elements.Core.float2[])">
+            <summary>
+            Create a polygon from a list of at least 3 points with no duplicates.
+            </summary>
+            <param name="points">A list of unique points.</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.#ctor(System.Collections.Generic.IList{Elements.Core.float2},Elements.Core.float2,System.Single)">
+            <summary>
+            Creates a polygon from a list of at least 3 Vector3 points, with no duplicates.
+            </summary>
+            <param name="points">The input points.</param>
+            <param name="offset">An offset to apply to all of the provided points.</param>
+            <param name="scale">The scale of the provided points. 0.5f is half size. 2.0f is 2x the normal size.</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.#ctor(System.Collections.Generic.IList{Elements.Core.float2})">
+            <summary>
+            Creates a polygon from a list of at least 3 Vector3 points, with no duplicates.
+            </summary>
+            <param name="points">The input points.</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.CalculateBounds">
+            <summary>
+            Produces a <see cref="!:RectangleF"/> which contains all of the shape's points.
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.Triangulate(System.Collections.Generic.IList{Elements.Core.float2},Elements.Core.float2,System.Single)">
+            <summary>
+            Triangulates the shape and adds all of the points (in triangle list layout) to the provided output.
+            </summary>
+            <param name="output">The output list.</param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Shape.Triangulate(System.Collections.Generic.IList{Elements.Assets.Poly2Tri.Triangle})">
+            <summary>
+            Triangulates the shape and adds all of the triangles to the provided output.
+            </summary>
+            <param name="output">The output list.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Elements.Assets.Poly2Tri.Sweep.Incircle(Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.TriPoint)" -->
+        <member name="M:Elements.Assets.Poly2Tri.Sweep.RotateTrianglePair(Elements.Assets.Poly2Tri.Triangle,Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.Triangle,Elements.Assets.Poly2Tri.TriPoint)">
+             Rotates a triangle pair one vertex CW
+            <pre>
+                   n2                    n2
+              P +-----+             P +-----+
+                | t  /|               |\  t |
+                |   / |               | \   |
+              n1|  /  |n3           n1|  \  |n3
+                | /   |    after CW   |   \ |
+                |/ oT |               | oT \|
+                +-----+ oP            +-----+
+                   n4                    n4
+             </pre>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.MarkNeighbor(Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.Triangle)">
+            <summary>
+            Update neighbor pointers
+            </summary>
+            <param name="p1"></param>
+            <param name="p2"></param>
+            <param name="t"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.MarkNeighbor(Elements.Assets.Poly2Tri.Triangle)">
+            <summary>
+            Exhaustive search to update neighbor pointers
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.Legalize(Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            Legalized triangle by rotating clockwise around point(0)
+            </summary>
+            <param name="point"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.Legalize(Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            Legalize triagnle by rotating clockwise around oPoint
+            </summary>
+            <param name="opoint"></param>
+            <param name="npoint"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.MarkConstrainedEdge(Elements.Assets.Poly2Tri.TriPoint,Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            Mark edge as constrained
+            </summary>
+            <param name="p"></param>
+            <param name="q"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.PointCW(Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            The point counter-clockwise to given point
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.PointCCW(Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            The point counter-clockwise to given point
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.Triangle.NeighborCW(Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            The neighbor clockwise to given point
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Elements.Assets.Poly2Tri.TriPoint.Empty">
+            <summary>
+            An empty <see cref="T:Elements.Assets.Poly2Tri.TriPoint"/> with <see cref="F:Elements.Assets.Poly2Tri.TriPoint.EdgeList"/> uninitialized (null).
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.TriPoint.GetNegated">
+            <summary>
+            Negate this point and return a new instance of it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.TriPoint.Add(Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            Add a point to this point.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.TriPoint.Subtract(Elements.Assets.Poly2Tri.TriPoint)">
+            <summary>
+            Subtract a point from this point.
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.TriPoint.Multiply(System.Single)">
+            <summary>
+            Multiply this point by a scalar.
+            </summary>
+            <param name="a"></param>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.TriPoint.Length">
+            <summary>
+            Get the length of this point (the norm).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Elements.Assets.Poly2Tri.TriPoint.Normalize">
+            <summary>
+            Convert this point into a unit point (normalizes it). Returns the Length.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Elements.Assets.Poly2Tri.Winding">
+            <summary>
+            The winding of a set of points.
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.FreeTypeFont.ToEngine(SharpFont.FTVector@)">
+            <summary>
+            Converts a FreeType vector to our product's vector format
+            </summary>
+            <param name="vector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Elements.Assets.FreeTypeFont.ToEngineStatic(SharpFont.FTVector@)">
+            <summary>
+            Converts a FreeType vector to our Engine's static vector configuration
+            </summary>
+            <param name="vector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Elements.Assets.Bitmap2D.BlockCompress(Renderite.Shared.TextureFormat,System.Int32,System.Int32)">
+            <summary>
+            Block Compresses a BitMap2D.
+            </summary>
+            <param name="targetFormat">Format to compress to</param>
+            <param name="quality">Expressed as 0-100(percent), from the asset variant system</param>
+            <param name="maxThreads">The maximum number of threads to use for this operation</param>
+            <returns>Block Compressed BitMap</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Elements.Assets.BitmapBlockCompression.AdjustQualityForCompressonator(System.Int32)">
+            <summary>
+            Given an int based percentage for quality, convert it to a float suitable for compressonator.
+            </summary>
+            <param name="quality">quality, expressed as a percentage 0-100.</param>
+            <returns>Quality value suitable for compressonator 0 - 1.0 <see langword="float"/></returns>
+        </member>
+        <member name="F:Elements.Assets.BitmapBlockCompression.DEFAULT_BC67_COMPRESSION_QUALITY">
+            <summary>
+            <see href="https://github.com/Yellow-Dog-Man/compressonator/blob/master/cmp_compressonatorlib/compressonator.h#L426">
+                Compressonator recommends a quality of 0.05f for BC6H and BC7.
+                However, the first step of Error Correction kicks in at 0.25f.
+                We've seen some artifacts/errors on 0.05, so our minimum is now 25.
+            </see> This is Expressed as a percentage (0-100) so 5.
+            </summary>
+        </member>
+        <member name="F:Elements.Assets.BitmapBlockCompression.DEFAULT_BLOCK_COMPRESSION_QUALITY">
+            <summary>
+            For other block compression formats, compressonator defaults to max quality. Expressed as a percentage (0-100)
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.BitmapBlockCompression.GetRecommendedBlockCompressionQuality(Renderite.Shared.TextureFormat)">
+            <summary>
+            Given a compression option, return the recommended quality. 
+            </summary>
+            <remarks>
+            The recommended quality is usually <see cref="F:Elements.Assets.BitmapBlockCompression.DEFAULT_BLOCK_COMPRESSION_QUALITY"/> right now.
+            However, should this change in the future, this method allows us to do it in a way that makes change control and documentation easier.
+            </remarks>
+            <param name="format">target compression format</param>
+            <returns>Recommened quality for this compression format.</returns>
+        </member>
+        <member name="F:Elements.Assets.BitmapBlockCompression.AUTOMATIC_THREAD_COUNT_IDENTIFIER">
+            <summary>
+            Compressonator uses 0, to mean "automatic".
+            Automatic will cause compressonator to calculate a thread value itself.
+            </summary>
+        </member>
+        <member name="F:Elements.Assets.BitmapBlockCompression.COMPRESSONATOR_THREAD_DIVISOR">
+            <summary>
+            The Division factor applied to max thread counts for expensive compressonator operations
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.BitmapBlockCompression.CalculateMaxThreads(System.Int32,Renderite.Shared.TextureFormat)">
+            <summary>
+            Given a regular maxThreads settings, calculate an appropriate adjustment for expensive compressonator operations.
+            </summary>
+            <param name="maxThreads">Incoming maxThreads from an asset generator</param>
+            <param name="format">Target texture format</param>
+            <returns>Appropriate max threads value for this operation.</returns>
+        </member>
+        <member name="M:Elements.Assets.BitmapCube.BlockCompress(Renderite.Shared.TextureFormat,System.Int32,System.Int32)">
+            <summary>
+            Block Compresses a BitmapCube
+            </summary>
+            <param name="targetFormat">Format to compress to</param>
+            <param name="quality">Expressed as 0-100(percent), from the asset variant system</param>
+            <param name="maxThreads">The maximum number of threads to use for this operation</param>
+            <returns>Block Compressed BitmapCube</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:Elements.Assets.ComputedVariantResult">
+            <summary>
+            The asset variant's identifier and file.
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.AssetVariantHelper.GenerateVariants(System.String,Elements.Assets.IAssetVariantDescriptor,System.Int32,Elements.Assets.VariantGeneratedHandler,System.Predicate{System.String})">
+            <summary>
+            The primary entry point for asset variant generation.
+            </summary>
+            <param name="file">The path to the specific file that a variant must be generated for.</param>
+            <param name="variantDescriptor">The descriptor of the variant to be generated, such as compression settings, etc.</param>
+            <param name="maxThreads">Maximum number of threads to compute the variant across.</param>
+            <param name="variantGenerated">Delegate for when the variant generation has completed.</param>
+            <param name="variantFilter">A list of variants to filter from the generation process.</param>
+            <returns>A list of computed variants.</returns>
+            <exception cref="T:System.Exception">Throws an exception when an unsupported variant descriptor has been provided.</exception>
+        </member>
+        <member name="F:Elements.Assets.GaussianSplatDataType.Buffer">
+            <summary>
+            Single buffer (position/scale/color/SH)
+            </summary>
+        </member>
+        <member name="F:Elements.Assets.GaussianSplatDataType.ChunkData">
+            <summary>
+            Chunk data. This is needed for normalized buffers
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.GaussianSplatVariantDescriptor.UsesChunkData">
+            <summary>
+            Indicates if any of the buffers require the chunk data - they're normalized buffers
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.TextureCompressionExtensions.IsBlockCompressed(Elements.Assets.TextureCompression)">
+            <summary>
+            Is this compression format block compressed?
+            </summary>
+            <param name="compression">Target compression format</param>
+            <returns>true if it can be block compressed. false otherwise</returns>
+            <remarks>Block compression is handled by <see cref="M:Elements.Assets.BitmapBlockCompression.BlockCompress(System.Collections.Generic.List{Elements.Assets.MipMapBuffer},System.Collections.Generic.List{Elements.Assets.MipMapBuffer},Renderite.Shared.TextureFormat,Renderite.Shared.TextureFormat,System.Int32,System.Int32)"/></remarks>
+        </member>
+        <member name="M:Elements.Assets.TextureCompressionExtensions.IsCrunchCompressed(Elements.Assets.TextureCompression)">
+            <summary>
+            Is this compression format crunch compressed?
+            </summary>
+            <remarks>
+            Crunch compression is handled by <see cref="M:Elements.Assets.Bitmap2D.CrunchCompress(System.String,Elements.Assets.TextureCompression,System.Int32)"/>
+            </remarks>
+            <param name="compression">Target compression format</param>
+            <returns>true if it can be crunch compressed. false otherwise</returns>
+        </member>
+        <member name="M:Elements.Assets.TextureCompressionExtensions.IsNormalMap(Elements.Assets.TextureCompression)">
+            <summary>
+            Is this compression format for Normal Maps?
+            </summary>
+            <param name="compression">Target compression format</param>
+            <returns>true for normal map, false otherwise</returns>
+            <remarks>All normal maps are also non-perceptual as marked in <see cref="M:Elements.Assets.TextureCompressionExtensions.IsPerceptual(Elements.Assets.TextureCompression)"/></remarks>
+        </member>
+        <member name="M:Elements.Assets.TextureCompressionExtensions.IsPerceptual(Elements.Assets.TextureCompression)">
+            <summary>
+            Is this compression format "perceptual"?
+            </summary>
+            <param name="compression">Target Compression Format</param>
+            <returns>true for perceptual, false otherwise</returns>
+            <remarks>Perceptual is sent as a flag to Crunch Compression <see cref="M:Elements.Assets.Bitmap2D.CrunchCompress(System.String,Elements.Assets.TextureCompression,System.Int32)"/></remarks>
+        </member>
+        <member name="F:Elements.Assets.TextureCompressionExtensions.DEFAULT_COMPRESSION_QUALITY">
+            <summary>
+            The default quality for most assets is the maximum, 100.
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.TextureCompressionExtensions.GetRecommendedQuality(Elements.Assets.TextureCompression)">
+            <summary>
+            Gets the Recommended compression quality for this TextureCompression format.
+            </summary>
+            <param name="compression">Target compression format</param>
+            <returns>quality, expressed as a percentage 0-100.</returns>
+        </member>
+        <member name="P:Elements.Assets.TextureVariantDescriptor`2.TextureCompression">
+            <summary>
+            The specific texture compression to be used.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.TextureVariantDescriptor`2.CompressionQuality">
+            <summary>
+            The overall compression quality.  Mainly used to determine compression quality for BC7 and similar.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.TextureVariantDescriptor`2.MipMaps">
+            <summary>
+            Whether this texture should have mipmaps generated.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.TextureVariantDescriptor`2.ColorPreprocess">
+            <summary>
+            What color preprocess to use on this texture.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.TextureVariantDescriptor`2.AlphaPreprocess">
+            <summary>
+            What alpha preprocess to use on this texture.
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.CubemapVariantGenerator.GenerateVariants(System.String,Elements.Assets.CubemapVariantDescriptor,System.Int32,Elements.Assets.VariantGeneratedHandler,System.Predicate{System.String})">
+            <summary>
+            Generates variants of a given source asset.
+            Only gets called if no such variant exists.
+            </summary>
+            <param name="file"></param>
+            <param name="variantDescriptor"></param>
+            <param name="maxThreads"></param>
+            <param name="variantGenerated"></param>
+            <param name="variantFilter"></param>
+            <returns>The resulting variant data.</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="P:Elements.Assets.IAssetVariantDescriptor.OriginalAsset">
+            <summary>
+            This indicates that we want to load the original asset and not one of the generated variants.
+            Not all assets will have original asset - only some can do this.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.IAssetVariantDescriptor.IsValid">
+            <summary>
+            Indicates if this is a valid variant description
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.IAssetVariantDescriptor.ValidationError">
+            <summary>
+            If the variant isn't valid, this will indicate why it's not a valid one.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.IAssetVariantDescriptor.VariantIdentifier">
+            <summary>
+            A unique string identifier in a form of a query that fully identifiers this particular variant.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.IAssetVariantDescriptor.IsComposite">
+            <summary>
+            A composite variant is a description that doesn't represent an asset itself, but rather a set of
+            multiple files. To actually load this variant, multiple files need to be loaded.
+            </summary>
+        </member>
+        <member name="P:Elements.Assets.IAssetVariantDescriptor.VariantVersion">
+            <summary>
+            The version of this variant. Whenever the variants change, this will increment for that variant type.
+            </summary>
+        </member>
+        <member name="M:Elements.Assets.IAssetVariantDescriptor.EnsureCurrentVersion">
+            <summary>
+            This sets the VariantVersion to latest version of that variant
+            </summary>
+        </member>
+    </members>
+</doc>

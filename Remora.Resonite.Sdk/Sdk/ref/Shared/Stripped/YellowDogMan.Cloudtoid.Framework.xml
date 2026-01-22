@@ -1,0 +1,1599 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YellowDogMan.Cloudtoid.Framework</name>
+    </assembly>
+    <members>
+        <member name="T:Cloudtoid.ReadOnlyValueList`1">
+            <summary>
+            Represents zero/<see langword="null"/>, one, or many items of type <typeparamref name="TValue"/> in an efficient way.
+            </summary>
+        </member>
+        <member name="F:Cloudtoid.ReadOnlyValueList`1.Empty">
+            <summary>
+            A read-only instance of the <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> struct whose value is an empty <typeparamref name="TValue"/> array.
+            </summary>
+            <remarks>
+            In application code, this field is most commonly used to safely represent a <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> that has no values.
+            </remarks>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> structure using the specified <paramref name="item"/>.
+            </summary>
+            <param name="item">A value or <see langword="null"/></param>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.#ctor(System.Collections.Generic.IList{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> structure that holds the specified <paramref name="items"/>.
+            </summary>
+            <param name="items">A <see cref="T:System.Collections.Generic.IList`1"/> instance or <see langword="null"/>.</param>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> structure using the specified <typeparamref name="TValue"/> enumerable.
+            </summary>
+            <param name="items">A <typeparamref name="TValue"/> enumerable or <see langword="null"/>.</param>
+        </member>
+        <member name="P:Cloudtoid.ReadOnlyValueList`1.Count">
+            <summary>
+            Gets the number of <typeparamref name="TValue"/> elements contained in this <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.
+            </summary>
+        </member>
+        <member name="P:Cloudtoid.ReadOnlyValueList`1.Item(System.Int32)">
+            <summary>
+            Gets the <typeparamref name="TValue"/> at index.
+            </summary>
+            <value>The <typeparamref name="TValue"/> at the specified index.</value>
+            <param name="index">The zero-based index of the element to get.</param>
+        </member>
+        <member name="P:Cloudtoid.ReadOnlyValueList`1.System#Collections#Generic#IList{TValue}#Item(System.Int32)">
+            <summary>
+            Gets the <typeparamref name="TValue"/> at index.
+            </summary>
+            <value>The <typeparamref name="TValue"/> at the specified index.</value>
+            <param name="index">The zero-based index of the element to get.</param>
+            <exception cref="T:System.NotSupportedException">Set operations are not supported on read-only <see cref="T:Cloudtoid.ReadOnlyValueList`1"/>.</exception>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.ToArray">
+            <summary>
+            Creates a <typeparamref name="TValue"/> array from the current <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> object.
+            </summary>
+            <returns>A <typeparamref name="TValue"/> array represented by this instance.</returns>
+            <remarks>
+            <para>If the <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> contains a single <typeparamref name="TValue"/> internally, it is copied to a new array.</para>
+            <para>If the <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> contains an array internally it returns that array instance.</para>
+            <para>Otherwise, it creates a new array and copies the values to it.</para>
+            </remarks>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.System#Collections#Generic#IList{TValue}#IndexOf(`0)">
+            <summary>
+            Returns the zero-based index of the first occurrence of an item in the <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.
+            </summary>
+            <param name="item">The <typeparamref name="TValue"/> to locate in the <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.</param>
+            <returns>the zero-based index of the first occurrence of <paramref name="item" /> within the <see cref="T:Cloudtoid.ReadOnlyValueList`1" />, if found; otherwise, –1.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.System#Collections#Generic#ICollection{TValue}#Contains(`0)">
+            <summary>Determines whether a <typeparamref name="TValue"/> is in the <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.</summary>
+            <param name="item">The <typeparamref name="TValue"/> to locate in the <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.</param>
+            <returns>true if <paramref name="item">item</paramref> is found in the <see cref="T:Cloudtoid.ReadOnlyValueList`1" />; otherwise, false.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.System#Collections#Generic#ICollection{TValue}#CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:Cloudtoid.ReadOnlyValueList`1" />to a <typeparamref name="TValue"/> array, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:Array" /> that is the destination of the elements copied from. The <see cref="T:Array" /> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in the destination array at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="array">array</paramref> <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="arrayIndex">arrayIndex</paramref> is less than 0.</exception>
+            <exception cref="T:System.ArgumentException">The number of elements in the source <see cref="T:Cloudtoid.ReadOnlyValueList`1" /> is greater than the available space from <paramref name="arrayIndex">arrayIndex</paramref> to the end of the destination <paramref name="array">array</paramref>.</exception>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.GetEnumerator">
+            <summary>Retrieves an object that can iterate through the individual <typeparamref name="TValue"/>s in this <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.</summary>
+            <returns>An enumerator that can be used to iterate through the <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.System#Collections#Generic#IEnumerable{TValue}#GetEnumerator">
+            <inheritdoc cref="M:Cloudtoid.ReadOnlyValueList`1.GetEnumerator" />
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc cref="M:Cloudtoid.ReadOnlyValueList`1.GetEnumerator" />
+        </member>
+        <member name="T:Cloudtoid.ReadOnlyValueList`1.Enumerator">
+            <summary>
+            Enumerates the <typeparamref name="TValue"/> values of a <see cref="T:Cloudtoid.ReadOnlyValueList`1" />.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Equality(Cloudtoid.ReadOnlyValueList{`0},Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether two specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> have the same value.
+            </summary>
+            <param name="left">The first <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The second <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is the same as the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Inequality(Cloudtoid.ReadOnlyValueList{`0},Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether two specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> have different values.
+            </summary>
+            <param name="left">The first <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The second <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is different to the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Equality(Cloudtoid.ReadOnlyValueList{`0},`0)">
+            <inheritdoc cref="M:Cloudtoid.ReadOnlyValueList`1.Equals(Cloudtoid.ReadOnlyValueList{`0},`0)" />
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Inequality(Cloudtoid.ReadOnlyValueList{`0},`0)">
+            <summary>
+            Determines whether the specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> and <typeparamref name="TValue"/> objects have different values.
+            </summary>
+            <param name="left">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The <typeparamref name="TValue"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is different to the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Equality(`0,Cloudtoid.ReadOnlyValueList{`0})">
+            <inheritdoc cref="M:Cloudtoid.ReadOnlyValueList`1.Equals(`0,Cloudtoid.ReadOnlyValueList{`0})" />
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Inequality(`0,Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether the specified <typeparamref name="TValue"/> and <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> objects have different values.
+            </summary>
+            <param name="left">The <typeparamref name="TValue"/> to compare.</param>
+            <param name="right">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is different to the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Equality(Cloudtoid.ReadOnlyValueList{`0},System.Collections.Generic.IList{`0})">
+            <inheritdoc cref="M:Cloudtoid.ReadOnlyValueList`1.Equals(Cloudtoid.ReadOnlyValueList{`0},System.Collections.Generic.IList{`0})" />
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Inequality(Cloudtoid.ReadOnlyValueList{`0},System.Collections.Generic.IList{`0})">
+            <summary>
+            Determines whether the specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> and <see cref="T:System.Collections.Generic.IList`1"/> instances have different values.
+            </summary>
+            <param name="left">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The <see cref="T:System.Collections.Generic.IList`1"/> instance to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is different to the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Equality(System.Collections.Generic.IList{`0},Cloudtoid.ReadOnlyValueList{`0})">
+            <inheritdoc cref="M:Cloudtoid.ReadOnlyValueList`1.Equals(System.Collections.Generic.IList{`0},Cloudtoid.ReadOnlyValueList{`0})" />
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Inequality(System.Collections.Generic.IList{`0},Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether the specified <see cref="T:System.Collections.Generic.IList`1"/> and <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> instances have different values.
+            </summary>
+            <param name="left">The <see cref="T:System.Collections.Generic.IList`1"/> instance to compare.</param>
+            <param name="right">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is different to the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Equality(Cloudtoid.ReadOnlyValueList{`0},System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> and <see cref="T:System.Object"/>, which must be a
+            <see cref="T:Cloudtoid.ReadOnlyValueList`1"/>, <typeparamref name="TValue"/>, or <see cref="T:System.Collections.Generic.IList`1"/>, have the same value.
+            </summary>
+            <param name="left">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The <see cref="T:System.Object"/> to compare.</param>
+            <returns><c>true</c> if the <paramref name="left"/> object is equal to the <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Inequality(Cloudtoid.ReadOnlyValueList{`0},System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> and <see cref="T:System.Object"/>, which must be a
+            <see cref="T:Cloudtoid.ReadOnlyValueList`1"/>, <typeparamref name="TValue"/>, or <see cref="T:System.Collections.Generic.IList`1"/>, have different values.
+            </summary>
+            <param name="left">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The <see cref="T:System.Object"/> to compare.</param>
+            <returns><c>true</c> if the <paramref name="left"/> object is equal to the <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Equality(System.Object,Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/>, which must be a
+            <see cref="T:Cloudtoid.ReadOnlyValueList`1"/>, <typeparamref name="TValue"/>, or <see cref="T:System.Collections.Generic.IList`1"/>, and specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/>,  have the same value.
+            </summary>
+            <param name="left">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The <see cref="T:System.Object"/> to compare.</param>
+            <returns><c>true</c> if the <paramref name="left"/> object is equal to the <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.op_Inequality(System.Object,Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> and <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> object have the same value.
+            </summary>
+            <param name="left">The <see cref="T:System.Object"/> to compare.</param>
+            <param name="right">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the <paramref name="left"/> object is equal to the <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(Cloudtoid.ReadOnlyValueList{`0},Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether two specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> objects have the same value in the same order.
+            </summary>
+            <param name="left">The first <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The second <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is the same as the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether this instance and another specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> object have the same value.
+            </summary>
+            <param name="other">The <typeparamref name="TValue"/> to compare to this instance.</param>
+            <returns><c>true</c> if the value of <paramref name="other"/> is the same as the value of this instance; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(`0,Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether the specified <typeparamref name="TValue"/> and <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> objects have the same value.
+            </summary>
+            <param name="left">The <typeparamref name="TValue"/> to compare.</param>
+            <param name="right">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is the same as the value of <paramref name="right"/>; otherwise, <c>false</c>. If <paramref name="left"/> is <c>null</c>, the method returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(Cloudtoid.ReadOnlyValueList{`0},`0)">
+            <summary>
+            Determines whether the specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> and <typeparamref name="TValue"/> objects have the same value.
+            </summary>
+            <param name="left">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The <typeparamref name="TValue"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is the same as the value of <paramref name="right"/>; otherwise, <c>false</c>. If <paramref name="right"/> is <c>null</c>, the method returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(System.Collections.Generic.IList{`0},Cloudtoid.ReadOnlyValueList{`0})">
+            <summary>
+            Determines whether the specified <see cref="T:System.Collections.Generic.IList`1"/> and <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> instances have the same value.
+            </summary>
+            <param name="left">The <see cref="T:System.Collections.Generic.IList`1"/> instance to compare.</param>
+            <param name="right">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is the same as the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(Cloudtoid.ReadOnlyValueList{`0},System.Collections.Generic.IList{`0})">
+            <summary>
+            Determines whether the specified <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> and <see cref="T:System.Collections.Generic.IList`1"/> instances have the same value.
+            </summary>
+            <param name="left">The <see cref="T:Cloudtoid.ReadOnlyValueList`1"/> to compare.</param>
+            <param name="right">The <see cref="T:System.Collections.Generic.IList`1"/> instance to compare.</param>
+            <returns><c>true</c> if the value of <paramref name="left"/> is the same as the value of <paramref name="right"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(`0)">
+            <summary>
+            Determines whether this instance and a specified <typeparamref name="TValue"/>, have the same value.
+            </summary>
+            <param name="other">The <typeparamref name="TValue"/> to compare to this instance.</param>
+            <returns><c>true</c> if the value of <paramref name="other"/> is the same as this instance; otherwise, <c>false</c>. If <paramref name="other"/> is <c>null</c>, returns <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(System.Collections.Generic.IList{`0})">
+            <summary>
+            Determines whether this instance and <paramref name="other"/> have the same value.
+            </summary>
+            <param name="other">The <see cref="T:System.Collections.Generic.IList`1"/> instance to compare to this instance.</param>
+            <returns><c>true</c> if the value of <paramref name="other"/> is the same as this instance; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.Equals(System.Object)">
+            <summary>
+            Determines whether this instance and a specified object have the same value.
+            </summary>
+            <param name="obj">An object to compare with this object.</param>
+            <returns><c>true</c> if the current object is equal to <paramref name="obj"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:Cloudtoid.ReadOnlyValueList`1.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:Cloudtoid.ValueListUtil.GetOptimizedValues``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Gets an optimized value from <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            <list type="bullet">
+            <item>If the source is <see langword="null"/>, it returns <see langword="null"/>.</item>
+            <item>If the source is a <see cref="T:System.Collections.Generic.IList`1"/>, then the same exact instance of the list is returned.</item>
+            <item>If the source has a single instance of <typeparamref name="TValue"/>, then the same exact instance of <typeparamref name="TValue"/> is returned.</item>
+            <item>In all other cases, it behaves similar to <see cref="M:System.Linq.Enumerable.ToArray``1(System.Collections.Generic.IEnumerable{``0})"/>.</item>
+            </list>
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Async.LoopTillCancelledAsync(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.ValueTask},Microsoft.Extensions.Logging.ILogger,System.Threading.CancellationToken)">
+            <summary>
+            Loops until the token is cancelled or a fatal exception is thrown. See <see cref="M:Cloudtoid.ExceptionExtensions.IsFatal(System.Exception)"/>
+            for what is considered a fatal exception
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Async.LoopTillCancelled(System.Action{System.Threading.CancellationToken},Microsoft.Extensions.Logging.ILogger,System.Threading.CancellationToken)">
+            <summary>
+            Loops until the token is cancelled or a fatal exception is thrown. See <see cref="M:Cloudtoid.ExceptionExtensions.IsFatal(System.Exception)"/>
+            for what is considered a fatal exception
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.AsyncLazy`1">
+            <summary>
+            Provides support for asynchronous lazy initialization.
+            </summary>
+            <remarks>
+            Based on Stephen Toub's article:
+            http://blogs.msdn.com/b/pfxteam/archive/2011/01/15/10116210.aspx
+            </remarks>
+            <typeparam name="T">
+            The type of object that is being initialized.
+            </typeparam>
+        </member>
+        <member name="M:Cloudtoid.AsyncLazy`1.#ctor(System.Func{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.AsyncLazy`1"/> class.
+            </summary>
+            <param name="factory">
+            The delegate that is invoked to produce the lazily initialized
+            value when it is needed.
+            </param>
+        </member>
+        <member name="M:Cloudtoid.AsyncLazy`1.#ctor(System.Func{System.Threading.Tasks.Task{`0}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cloudtoid.AsyncLazy`1"/> class.
+            </summary>
+            <param name="factory">
+            The asynchronous delegate that is invoked to produce the lazily
+            initialized value when it is needed.
+            </param>
+        </member>
+        <member name="M:Cloudtoid.AsyncLazy`1.GetAwaiter">
+            <summary>
+            Returns the awaiter used to await the lazy initialized value.
+            </summary>
+            <returns>An awaiter instance.</returns>
+        </member>
+        <member name="T:Cloudtoid.LinkedCancellationToken">
+            <summary>
+            This class provides a pool of <see cref="T:System.Threading.CancellationTokenSource"/>s that are used to create short-lived
+            linked token sources.
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.Contract">
+            <summary>
+            Execution contract assertions also known as Code Contracts
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Contract.Check(System.Boolean,System.String,System.Object[])">
+            <summary>
+            General purpose condition check.
+            </summary>
+            <exception cref="T:System.Exception"> is thrown on failure.</exception>
+            <param name="condition">The condition to check.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckParam(System.Boolean,System.String)">
+            <summary>
+            Used for general argument validation not covered by other Check methods.
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            </summary>
+            <param name="condition">The condition to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckParam(System.Boolean,System.String,System.String,System.Object[])">
+            <summary>
+            Used for general argument validation not covered by other Check methods.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <param name="condition">The condition to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``1(``0,System.String)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``2(``0,System.String,System.String,``1)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <typeparam name="TArg">The type of the argument for message format.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 1 argument only.</param>
+            <param name="arg">The argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``3(``0,System.String,System.String,``1,``2)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <typeparam name="TArg0">The type of the first argument for message format.</typeparam>
+            <typeparam name="TArg1">The type of the second argument for message format.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 2 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``4(``0,System.String,System.String,``1,``2,``3)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <typeparam name="TArg0">The type of the first argument for message format.</typeparam>
+            <typeparam name="TArg1">The type of the second argument for message format.</typeparam>
+            <typeparam name="TArg2">The type of the third argument for message format.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 3 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+            <param name="arg2">The third argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``1(``0,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``1(System.Nullable{``0}@,System.String)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``2(System.Nullable{``0}@,System.String,System.String,``1)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <typeparam name="TArg">The type of the argument for message format.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 1 argument only.</param>
+            <param name="arg">The argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``3(System.Nullable{``0}@,System.String,System.String,``1,``2)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <typeparam name="TArg0">The type of the first argument for message format.</typeparam>
+            <typeparam name="TArg1">The type of the second argument for message format.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 2 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``4(System.Nullable{``0}@,System.String,System.String,``1,``2,``3)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <typeparam name="TArg0">The type of the first argument for message format.</typeparam>
+            <typeparam name="TArg1">The type of the second argument for message format.</typeparam>
+            <typeparam name="TArg2">The type of the third argument for message format.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 3 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+            <param name="arg2">The third argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``1(System.Nullable{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``1(System.Threading.Tasks.Task{``0},System.String)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="task">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``2(System.Threading.Tasks.Task{``0},System.String,System.String,``1)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the <see cref="T:System.Threading.Tasks.Task"/> being tested.</typeparam>
+            <typeparam name="TArg">The type of the argument for message format.</typeparam>
+            <param name="task">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 1 argument only.</param>
+            <param name="arg">The argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``3(System.Threading.Tasks.Task{``0},System.String,System.String,``1,``2)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the <see cref="T:System.Threading.Tasks.Task"/> being tested.</typeparam>
+            <typeparam name="TArg0">The type of the first argument for message format.</typeparam>
+            <typeparam name="TArg1">The type of the second argument for message format.</typeparam>
+            <param name="task">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 2 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``4(System.Threading.Tasks.Task{``0},System.String,System.String,``1,``2,``3)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the <see cref="T:System.Threading.Tasks.Task"/> being tested.</typeparam>
+            <typeparam name="TArg0">The type of the first argument for message format.</typeparam>
+            <typeparam name="TArg1">The type of the second argument for message format.</typeparam>
+            <typeparam name="TArg2">The type of the third argument for message format.</typeparam>
+            <param name="task">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 3 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+            <param name="arg2">The third argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``1(System.Threading.Tasks.Task{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="task">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue(System.Threading.Tasks.Task,System.String)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``1(System.Threading.Tasks.Task,System.String,System.String,``0)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 1 argument only.</param>
+            <param name="arg">The argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``2(System.Threading.Tasks.Task,System.String,System.String,``0,``1)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 2 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue``3(System.Threading.Tasks.Task,System.String,System.String,``0,``1,``2)">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 3 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+            <param name="arg2">The third argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckValue(System.Threading.Tasks.Task,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonValue``1(``0,System.String)">
+            <summary>
+            Validates that the value is null.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonValue``1(``0,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is null.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty(System.String,System.String)">
+            <summary>
+            Validates that a string is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="s"/> is null.</exception>
+            <param name="s">The string to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.String,System.String,System.String,``0)">
+            <summary>
+            Validates that a string is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="s"/> is null.</exception>
+            <param name="s">The string to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 1 argument only.</param>
+            <param name="arg">The argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``2(System.String,System.String,System.String,``0,``1)">
+            <summary>
+            Validates that a string is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="s"/> is null.</exception>
+            <param name="s">The string to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 2 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``3(System.String,System.String,System.String,``0,``1,``2)">
+            <summary>
+            Validates that a string is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="s"/> is null.</exception>
+            <param name="s">The string to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message format with 3 arguments.</param>
+            <param name="arg0">The first argument for message format.</param>
+            <param name="arg1">The second argument for message format.</param>
+            <param name="arg2">The third argument for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty(System.String,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a string is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="s"/> is null.</exception>
+            <param name="s">The string to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty(System.Guid,System.String)">
+            <summary>
+            Verify whether Guid is Empty.
+            Note: This is needed because .NET Guid is not a class, it's a value type
+            and hence the CheckValue generic of class type does not cover this.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <param name="val">The Guid to test.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty(System.Guid,System.String,System.String,System.Object[])">
+            <summary>
+            Verify whether Guid is Empty.
+            Note: This is needed because .NET Guid is not a class, it's a value type
+            and hence the CheckValue generic of class type does not cover this.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <param name="val">The Guid to test.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty(System.Threading.CancellationToken,System.String)">
+            <summary>
+            Verify whether a <see cref="T:System.Threading.CancellationToken"/> is <see cref="P:System.Threading.CancellationToken.None"/> or default./>.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <param name="val">The <see cref="T:System.Threading.CancellationToken"/> to test.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty(System.Threading.CancellationToken,System.String,System.String,System.Object[])">
+            <summary>
+            Verify whether a <see cref="T:System.Threading.CancellationToken"/> is <see cref="P:System.Threading.CancellationToken.None"/> or default./>.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <param name="val">The <see cref="T:System.Threading.CancellationToken"/> to test.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.ICollection{``0},System.String)">
+            <summary>
+            Validates that a collection is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.ICollection{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a collection is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.IReadOnlyCollection{``0},System.String)">
+            <summary>
+            Validates that a collection is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.IReadOnlyCollection{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a collection is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.IList{``0},System.String)">
+            <summary>
+            Validates that a list is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.IList{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a list is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.IReadOnlyList{``0},System.String)">
+            <summary>
+            Validates that a list is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(System.Collections.Generic.IReadOnlyList{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a list is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(``0[],System.String)">
+            <summary>
+            Validates that an array is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``1(``0[],System.String,System.String,System.Object[])">
+            <summary>
+            Validates that an array is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="T">The type of the items being tested.</typeparam>
+            <param name="arguments">The collection being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``2(System.Collections.Generic.IDictionary{``0,``1},System.String)">
+            <summary>
+            Validates that a dictionary is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="TKey">The type of dictionary entry key being tested.</typeparam>
+            <typeparam name="TValue">The type of dictionary entry value being tested.</typeparam>
+            <param name="arguments">The dictionary being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``2(System.Collections.Generic.IDictionary{``0,``1},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a dictionary is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="TKey">The type of dictionary entry key being tested.</typeparam>
+            <typeparam name="TValue">The type of dictionary entry value being tested.</typeparam>
+            <param name="arguments">The dictionary being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``2(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.String)">
+            <summary>
+            Validates that a read only dictionary is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="TKey">The type of dictionary entry key being tested.</typeparam>
+            <typeparam name="TValue">The type of dictionary entry value being tested.</typeparam>
+            <param name="arguments">The dictionary being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonEmpty``2(System.Collections.Generic.IReadOnlyDictionary{``0,``1},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a read only dictionary is non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <typeparam name="TKey">The type of dictionary entry key being tested.</typeparam>
+            <typeparam name="TValue">The type of dictionary entry value being tested.</typeparam>
+            <param name="arguments">The dictionary being tested.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonWhitespace(System.String,System.String)">
+            <summary>
+            Validates that a string is non-null, non-empty, and non-whitespace.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown if <paramref name="s"/> is empty or white-space.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown if <paramref name="s"/> is null.</exception>
+            /// <param name="s">The string to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonWhitespace(System.String,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that a string is non-null, non-empty, and non-whitespace.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown if <paramref name="s"/> is empty.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown if <paramref name="s"/> is null.</exception>
+            <param name="s">The string to check.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckRange``1(``0,``0,``0,System.String)">
+            <summary>
+            Validates numeric ranges or relationships (like that an array index is within
+            the bounds of the array).
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="min">The absolute minimum - inclusive.</param>
+            <param name="max">The absolute maximum - inclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckRange``1(``0,``0,``0,System.String,System.String,System.Object[])">
+            <summary>
+            Validates numeric ranges or relationships (like that an array index is within
+            the bounds of the array).
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="min">The absolute minimum - inclusive.</param>
+            <param name="max">The absolute maximum - inclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonNegative(System.Int32,System.String)">
+            <summary>
+            Validates that the value is non-negative.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNonNegative(System.Int32,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is non-negative.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckGreaterThanOrEqual``1(``0,``0,System.String)">
+            <summary>
+            Validates that the value is greater than or equal to the min value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="min">The absolute minimum - inclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckGreaterThanOrEqual``1(``0,``0,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is greater than or equal to the min value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="min">The absolute minimum - inclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckLessThanOrEqual``1(``0,``0,System.String)">
+            <summary>
+            Validates that the value is less than or equal to the max value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="max">The absolute maximum - inclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckLessThanOrEqual``1(``0,``0,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is less than or equal to the max value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="max">The absolute maximum - inclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckGreaterThan``1(``0,``0,System.String)">
+            <summary>
+            Validates that the value is greater than the min value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="min">The absolute minimum - exclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckGreaterThan``1(``0,``0,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is greater than the min value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="min">The absolute minimum - exclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckLessThan``1(``0,``0,System.String)">
+            <summary>
+            Validates that the value is less than the max value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="max">The absolute maximum - exclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckLessThan``1(``0,``0,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value is less than the max value.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"> is thrown on failure.</exception>
+            <param name="value">The actual condition.</param>
+            <param name="max">The absolute maximum - exclusive.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllNonEmpty(System.Collections.Generic.IList{System.String},System.String)">
+            <summary>
+            Validates that all the strings in a specified collection are
+            non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllNonEmpty(System.Collections.Generic.IList{System.String},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the strings in a specified collection are
+            non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> or any of its items is null.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllNonEmpty(System.Collections.Generic.IReadOnlyList{System.String},System.String)">
+            <summary>
+            Validates that all the strings in a specified collection are
+            non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllNonEmpty(System.Collections.Generic.IReadOnlyList{System.String},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the strings in a specified collection are
+            non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> or any of its items is null.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllNonEmpty(System.Collections.Generic.ISet{System.String},System.String)">
+            <summary>
+            Validates that all the strings in a specified collection are
+            non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> or any of its items is null.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllNonEmpty(System.Collections.Generic.ISet{System.String},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the strings in a specified collection are
+            non-null and non-empty.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> or any of its items is null.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.IList{``0},System.String)">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.IList{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.IReadOnlyList{``0},System.String)">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.IReadOnlyList{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.ICollection{``0},System.String)">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.ICollection{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.IReadOnlyCollection{``0},System.String)">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.IReadOnlyCollection{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.ISet{``0},System.String)">
+            <summary>
+            Validates that all the items in a set are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The set being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``1(System.Collections.Generic.ISet{``0},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the items in a set are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <typeparam name="T">The item type.</typeparam>
+            <param name="arguments">The set being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``2(System.Collections.Generic.IDictionary{``0,``1},System.String)">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="arguments"/> is null.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckAllValues``2(System.Collections.Generic.IDictionary{``0,``1},System.String,System.String,System.Object[])">
+            <summary>
+            Validates that all the items in a collection are non-null.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"> is thrown on failure.</exception>
+            <param name="arguments">The collection being tested. It cannot be null but can be empty.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckIsOfType``1(System.Object,System.String)">
+            <summary>
+            Validates that the value of a parameter is of a given type or inherits/implements that type
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="val"/> is null.</exception>
+            <typeparam name="TType">The type of the value to test.</typeparam>
+            <param name="val">The value to test.</param>
+            <param name="paramName">parameter name</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckIsOfType``1(System.Object,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value of a parameter is of a given type or inherits/implements that type
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="val"/> is null.</exception>
+            <typeparam name="TType">The type of the value to test.</typeparam>
+            <param name="val">The value to test.</param>
+            <param name="paramName">parameter name</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckIsNotOfType``1(System.Object,System.String)">
+            <summary>
+            Validates that the value of a parameter is not of a given type or inherits/implements that type
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="val"/> is null.</exception>
+            <typeparam name="TType">The type of the value to test.</typeparam>
+            <param name="val">The value to test.</param>
+            <param name="paramName">parameter name</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckIsNotOfType``1(System.Object,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value of a parameter is not of a given type or inherits/implements that type
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="val"/> is null.</exception>
+            <typeparam name="TType">The type of the value to test.</typeparam>
+            <param name="val">The value to test.</param>
+            <param name="paramName">parameter name</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckIsExactType``1(System.Object,System.String)">
+            <summary>
+            Validates that the value of a parameter is of an exact type
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="val"/> is null.</exception>
+            <typeparam name="TType">The type of the value to test.</typeparam>
+            <param name="val">The value to test.</param>
+            <param name="paramName">parameter name</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckIsExactType``1(System.Object,System.String,System.String,System.Object[])">
+            <summary>
+            Validates that the value of a parameter is of an exact type.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <exception cref="T:System.ArgumentNullException"> is thrown is <paramref name="val"/> is null.</exception>
+            <typeparam name="TType">The type of the value to test.</typeparam>
+            <param name="val">The value to test.</param>
+            <param name="paramName">parameter name</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckEqual``1(``0,``0,System.String)">
+            <summary>
+            Used to check the equality of the value of the parameter with a comparand.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="expected">The comparand that <paramref name="val"/> is compared to.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckEqual``1(``0,``0,System.String,System.String,System.Object[])">
+            <summary>
+            Used to check the equality of the value of the parameter with a comparand.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="expected">The comparand that <paramref name="val"/> is compared to.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNotEqual``1(``0,``0,System.String)">
+            <summary>
+            Used to check that the <paramref name="val"/> is not equal to <paramref name="notExpected"/>.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="notExpected">The comparand that <paramref name="val"/> is compared to.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+        </member>
+        <member name="M:Cloudtoid.Contract.CheckNotEqual``1(``0,``0,System.String,System.String,System.Object[])">
+            <summary>
+            Used to check that the <paramref name="val"/> is not equal to <paramref name="notExpected"/>.
+            </summary>
+            <exception cref="T:System.ArgumentException"> is thrown on failure.</exception>
+            <typeparam name="T">The type of the value being tested.</typeparam>
+            <param name="val">The value being tested.</param>
+            <param name="notExpected">The comparand that <paramref name="val"/> is compared to.</param>
+            <param name="paramName">The name of the parameter being tested.</param>
+            <param name="format">The exception message or message format.</param>
+            <param name="args">The arguments for message format.</param>
+        </member>
+        <member name="M:Cloudtoid.EnumerableExtensions.ConcatOrEmpty``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            It safely concatenates two enumerables. If the enumerables are null, they are treated as empty.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.ExceptionExtensions.IsFatal(System.Exception)">
+            <summary>
+            Checks if <paramref name="exception"/> is considered a fatal exception such as <see cref="T:System.Threading.ThreadAbortException"/>,
+            <see cref="T:System.AccessViolationException"/>, <see cref="T:System.Runtime.InteropServices.SEHException"/>, <see cref="T:System.StackOverflowException"/>,
+            <see cref="T:System.TypeInitializationException"/>, or <see cref="T:System.OutOfMemoryException"/> but not
+            <see cref="T:System.InsufficientMemoryException"/>
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.ExceptionExtensions.IsCancelOrTimeout(System.Exception)">
+            <summary>
+            Checks if <paramref name="exception"/> is of type <see cref="T:System.OperationCanceledException"/>
+            or <see cref="T:System.Threading.Tasks.TaskCanceledException"/>.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.ExceptionExtensions.IsFatalOrCancelOrTimeout(System.Exception)">
+            <summary>
+            Checks if <paramref name="exception"/> is considered a fatal exception such as <see cref="T:System.Threading.ThreadAbortException"/> or
+            is of type <see cref="T:System.OperationCanceledException"/> or <see cref="T:System.Threading.Tasks.TaskCanceledException"/>.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Framework.GuidExtensions.Base64UrlEncode(System.Guid)">
+            <summary>
+            <a href="https://base64.guru/standards/base64url">Base64url</a> encodes <paramref name="value"/>.
+            The length of the result is always 22 characters consisting of these characters: [A..Za..z0..9-_].
+            This case-sensitive encoded value can be used in Query Parameters and HTTP Headers, but for the most parts,
+            ULR paths are case-insensitive. Use <see cref="F:Cloudtoid.Framework.GuidExtensions.Base41UrlChars"/> instead.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.Framework.GuidExtensions.Base41UrlEncode(System.Guid)">
+            <summary>
+            Encodes <paramref name="value"/> to base 41. The length of the result is 24 characters consisting of these characters: [a..z0..9-_].
+            This case-insensitive encoded value can be used in URL Path as well as Query Parameters and HTTP Headers.
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.IGuidProvider">
+            <summary>
+            This can be mocked by the test code to ensure that Guid generation is predictable.
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.HashUtil">
+            <summary>
+            Utility methods for generating and combining hash codes.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.HashUtil.Combine``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEqualityComparer{``0})">
+            <summary>
+            Combines the hash code from each object in the specified list.  The specified comparer
+            is used to generate the hash code.  The position of each value is reflected in the resulting
+            hash code.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.HashUtil.Combine``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEqualityComparer{``0})">
+            <summary>
+            Combines the hash code from each object in the specified enumeration.  The specified comparer
+            is used to generate the hash code.  The position of each value is reflected in the resulting
+            hash code.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.PathUtil.GetAbsolutePath(System.String)">
+            <summary>
+            Converts a path to its absolute form. If it is a relative path, it assumes that it is relative to
+            <see cref="P:System.Environment.CurrentDirectory"/>.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.PathUtil.TryDeleteFile(System.String)">
+            <summary>
+            Deletes a file or returns <see langword="false"/> if it fails to delete the file.
+            No exceptions are thrown.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.PathUtil.CreateShortUniqueFileName(System.String,System.String,System.String)">
+            <summary>
+            Creates a unique file name in the <paramref name="path"/> ensuring that
+            such a file name does not exist. The path returned is the shorter of
+            absolute and relative paths to this new unique file. The relative path
+            is assumed to be relative to <see cref="P:System.Environment.CurrentDirectory"/>.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.PathUtil.ShortenPath(System.String)">
+            <summary>
+            Shortens a file path by choosing the shorter of absolute and relative paths.
+            The relative path is assumed to be relative to <see cref="P:System.Environment.CurrentDirectory"/>.
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.SeekableStringReader">
+            <summary>
+            This class implements a seekable text reader that reads from a string.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.SeekableStringReader.Peek">
+            <summary>
+            Returns the next available character without actually reading it from
+            the underlying string. The current position of the StringReader is not
+            changed by this operation. The returned value is -1 if no further
+            characters are available.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.SeekableStringReader.Read">
+            <summary>
+            Reads the next character from the underlying string. The returned value
+            is -1 if no further characters are available.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.SeekableStringReader.Read(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Reads a block of characters. This method will read up to count
+            characters from this StringReader into the buffer character
+            array starting at position index. Returns the actual number of
+            characters read, or zero if the end of the string is reached.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.SeekableStringReader.ReadLine">
+            <summary>
+            Reads a line. A line is defined as a sequence of characters followed by
+            a carriage return ('\r'), a line feed ('\n'), or a carriage return
+            immediately followed by a line feed. The resulting string does not
+            contain the terminating carriage return and/or line feed. The returned
+            value is null if the end of the underlying string has been reached.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.FormatInvariant``1(System.String,``0)">
+            <summary>
+            Formats a string using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
+            </summary>
+            <param name="format">Format string with a single argument.</param>
+            <param name="arg">Format argument.</param>
+            <returns>A string formatted using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.</returns>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.FormatInvariant``2(System.String,``0,``1)">
+            <summary>
+            Formats a string using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
+            </summary>
+            <param name="format">Format string with 2 arguments.</param>
+            <param name="arg0">First format argument.</param>
+            <param name="arg1">Second format argument.</param>
+            <returns>A string formatted using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.</returns>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.FormatInvariant``3(System.String,``0,``1,``2)">
+            <summary>
+            Formats a string using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
+            </summary>
+            <param name="format">Format string with 2 arguments.</param>
+            <param name="arg0">First format argument.</param>
+            <param name="arg1">Second format argument.</param>
+            <param name="arg2">Third format argument.</param>
+            <returns>A string formatted using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.</returns>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.FormatInvariant(System.String,System.Object[])">
+            <summary>
+            Formats a string using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.
+            </summary>
+            <param name="format">Format string.</param>
+            <param name="args">Format arguments.</param>
+            <returns>A string formatted using the <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.</returns>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.EqualsOrdinalIgnoreCase(System.String,System.String)">
+            <summary>
+            Determines whether two specified String objects have the same value using the <see cref="F:System.StringComparison.OrdinalIgnoreCase"/> comparison.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.EqualsOrdinal(System.String,System.String)">
+            <summary>
+            Determines whether two specified String objects have the same value using the <see cref="F:System.StringComparison.Ordinal"/> comparison.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.StartsWithOrdinalIgnoreCase(System.String,System.String)">
+            <summary>
+            Determines whether the beginning of this string instance matches the specified string when compared using <see cref="F:System.StringComparison.OrdinalIgnoreCase"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to compare.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.StartsWithOrdinal(System.String,System.String)">
+            <summary>
+            Determines whether the beginning of this string instance matches the specified string when compared using <see cref="F:System.StringComparison.Ordinal"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to compare.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.EndsWithOrdinalIgnoreCase(System.String,System.String)">
+            <summary>
+            Determines whether the end of this string instance matches the specified string when compared using <see cref="F:System.StringComparison.OrdinalIgnoreCase"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to compare.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.EndsWithOrdinal(System.String,System.String)">
+            <summary>
+            Determines whether the end of this string instance matches the specified string when compared using <see cref="F:System.StringComparison.Ordinal"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to compare.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.ContainsOrdinalIgnoreCase(System.String,System.String)">
+            <summary>
+            Determines if the search string is contained in original string using <see cref="F:System.StringComparison.OrdinalIgnoreCase"/> comparison
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.ContainsOrdinal(System.String,System.String)">
+            <summary>
+            Determines if the search string is contained in original string using <see cref="F:System.StringComparison.Ordinal"/> comparison
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.IndexOfOrdinalIgnoreCase(System.String,System.String)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified string in the current <see cref="T:System.String"/> object. The search uses <see cref="F:System.StringComparison.OrdinalIgnoreCase"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to seek.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.IndexOfOrdinalIgnoreCase(System.String,System.String,System.Int32)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified string in the current <see cref="T:System.String"/> object. The search uses <see cref="F:System.StringComparison.OrdinalIgnoreCase"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to seek.</param>
+            <param name="startIndex">The search starting position.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.IndexOfOrdinal(System.String,System.String)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified string in the current <see cref="T:System.String"/> object. The search uses <see cref="F:System.StringComparison.Ordinal"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to seek.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.IndexOfOrdinal(System.String,System.Char)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified char in the current <see cref="T:System.String"/> object. The search uses <see cref="F:System.StringComparison.Ordinal"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The char to seek.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.IndexOfOrdinal(System.String,System.String,System.Int32)">
+            <summary>
+            Reports the zero-based index of the first occurrence of the specified string in the current <see cref="T:System.String"/> object. The search uses <see cref="F:System.StringComparison.Ordinal"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="value">The string to seek.</param>
+            <param name="startIndex">The search starting position.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.ReplaceOrdinal(System.String,System.String,System.String)">
+            <summary>
+            Returns a new string in which all occurrences of a specified string in the current instance are replaced with another specified string. The search uses <see cref="F:System.StringComparison.Ordinal"/> comparison.
+            </summary>
+            <param name="str">The original string.</param>
+            <param name="oldValue">The string to be replaced.</param>
+            <param name="newValue">The string to replace all occurrences of oldValue.</param>
+        </member>
+        <member name="M:Cloudtoid.StringUtil.GetHashCodeInvariant(System.String)">
+            <summary>
+            Returns the hash code for this string using <see cref="F:System.StringComparison.InvariantCulture"/>.
+            </summary>
+        </member>
+        <member name="M:Cloudtoid.StringValuesExtensions.AsStringValues(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates an instance of <see cref="T:Microsoft.Extensions.Primitives.StringValues"/> from <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            <list type="bullet">
+            <item>If the source is <see langword="null"/>, it returns an empty <see cref="T:Microsoft.Extensions.Primitives.StringValues"/>.</item>
+            <item>If the source is a <see cref="T:System.String"/> array, then the array is wrapped inside of an instance of <see cref="T:Microsoft.Extensions.Primitives.StringValues"/>.</item>
+            <item>If the source contains a single instance of <see cref="T:System.String"/>, then it is wrapped inside of an instance of <see cref="T:Microsoft.Extensions.Primitives.StringValues"/> saving on a creation of an array instance.</item>
+            <item>In all other cases, it behaves similar to <see cref="M:System.Linq.Enumerable.ToArray``1(System.Collections.Generic.IEnumerable{``0})"/> wrapped in an instance of <see cref="T:Microsoft.Extensions.Primitives.StringValues"/>.</item>
+            </list>
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.IDateTimeOffsetProvider">
+            <summary>
+            This can be mocked by the test code to ensure there are no race conditions between what the product
+            thinks is Now and what Test would check for.
+            </summary>
+        </member>
+        <member name="T:Cloudtoid.IDateTimeProvider">
+            <summary>
+            This can be mocked by the test code to ensure there are no race conditions between what the product
+            thinks is Now and what Test would check for.
+            </summary>
+        </member>
+    </members>
+</doc>

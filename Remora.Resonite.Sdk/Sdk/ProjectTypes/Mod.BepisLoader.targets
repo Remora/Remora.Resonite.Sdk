@@ -1,21 +1,33 @@
 <Project>
-    <PropertyGroup>
-        <DefineConstants>$(DefineConstants);RESONITE_BEPISLOADER</DefineConstants>
-        <BepInExPath>$(ResoniteTargetPath)BepInEx/</BepInExPath>
-        <_PluginsOutputDirectory>$(BepInExPath)plugins/</_PluginsOutputDirectory>
-        <_PatchersOutputDirectory>$(BepInExPath)patchers/</_PatchersOutputDirectory>
-    </PropertyGroup>
-    
-    <PropertyGroup>
-        <RestoreAdditionalProjectSources>
-            https://nuget-modding.resonite.net/v3/index.json;
-        </RestoreAdditionalProjectSources>
-    </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RESONITE_BEPISLOADER</DefineConstants>
+    <_MainOutputDirectory>BepInEx/plugins/$(AssemblyName)/</_MainOutputDirectory>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="BepInEx.NET.CoreCLR" Version="6.0.0-be.*" IncludeAssets="compile" />
-        <PackageReference Include="BepInEx.ResonitePluginInfoProps" Version="3.*" />
-        <PackageReference Include="ResoniteModding.BepInExResoniteShim" Version="0.8.*" />
-        <PackageReference Include="ResoniteModding.BepisResoniteWrapper" Version="1.*" />
-    </ItemGroup>
+  <PropertyGroup Condition="'$(ResoniteTarget)' != 'renderite'">
+    <RestoreAdditionalProjectSources>
+      https://nuget-modding.resonite.net/v3/index.json;
+    </RestoreAdditionalProjectSources>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite'">
+    <PackageReference Include="BepInEx.ResonitePluginInfoProps" Version="3.*" />
+    <PackageReference Include="ResoniteModding.BepInExResoniteShim" Version="0.9.*" />
+    <PackageReference Include="ResoniteModding.BepisResoniteWrapper" Version="1.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(ResoniteTarget)' == 'renderite'">
+    <Reference Include="0Harmony">
+      <HintPath>$(ResoniteTargetPath)BepInEx/core/0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>$(ResoniteTargetPath)BepInEx/core/BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

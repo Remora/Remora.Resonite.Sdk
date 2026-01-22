@@ -1,8 +1,13 @@
-<Project>
-    <PropertyGroup>
-        <DefineConstants>$(DefineConstants);RESONITE_RML</DefineConstants>
-        
-        <_MainOutputDirectory>rml_mods/</_MainOutputDirectory>
-        <_LibraryOutputDirectory>rml_libs/</_LibraryOutputDirectory>
-    </PropertyGroup>
+<Project InitialTargets="RML_ResoniteTarget_Checking">
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RESONITE_RML</DefineConstants>
+
+    <_MainOutputDirectory>rml_mods/</_MainOutputDirectory>
+    <_LibraryOutputDirectory>rml_libs/</_LibraryOutputDirectory>
+  </PropertyGroup>
+
+  <!-- Error for invalid RML target (renderite) -->
+  <Target Name="RML_ResoniteTarget_Checking" Condition="'$(ResoniteTarget)' != 'client' AND '$(ResoniteTarget)' != 'headless'">
+    <Error Code="RESO501" Text="ResoniteModLoader does not support ResoniteTarget options other than 'client' and 'headless'!" />
+  </Target>
 </Project>

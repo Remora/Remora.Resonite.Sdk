@@ -1,5 +1,5 @@
 <Project>
-    <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.props" />
+    <Import Project="Sdk.props" Sdk="Remora.Resonite.Sdk" />
 
     <PropertyGroup>
         <ResoniteProjectType>plugin</ResoniteProjectType>
@@ -10,5 +10,5 @@
         <ResoniteReference Include="FrooxEngine" />
     </ItemGroup>
 
-    <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.targets" />
+    <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />
 </Project>

@@ -1,5 +1,5 @@
 <Project>
-    <PropertyGroup>
-        <DefineConstants>$(DefineConstants);RESONITE_LIBRARY</DefineConstants>
-    </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RESONITE_LIBRARY</DefineConstants>
+  </PropertyGroup>
 </Project>

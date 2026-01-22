@@ -1,10 +1,10 @@
 <Project>
-    <PropertyGroup>
-        <DefineConstants>$(DefineConstants);RESONITE_HEADLESS</DefineConstants>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RESONITE_HEADLESS</DefineConstants>
 
-        <ResoniteTargetPath>$(ResonitePath)Headless/</ResoniteTargetPath>
-        <_ResoniteAssemblyPath>$(ResoniteTargetPath)</_ResoniteAssemblyPath>
-        
-        <ResoniteTargetReferencePath>$(ResoniteReferencePath)Headless/</ResoniteTargetReferencePath>
-    </PropertyGroup>
+    <ResoniteTargetPath>$(ResonitePath)Headless/</ResoniteTargetPath>
+    <_ResoniteAssemblyPath>$(ResoniteTargetPath)</_ResoniteAssemblyPath>
+
+    <ResoniteTargetReferencePath>$(ResoniteReferencePath)Headless/</ResoniteTargetReferencePath>
+  </PropertyGroup>
 </Project>

@@ -1,18 +1,18 @@
 <Project>
-    <PropertyGroup>
-        <DefineConstants>$(DefineConstants);RESONITE_RENDERITE</DefineConstants>
-        <TargetFramework Condition="'$(TargetFramework)' == 'net9.0'">net462</TargetFramework>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RESONITE_RENDERITE</DefineConstants>
+    <TargetFramework Condition="'$(_TargetFrameworkSetFromProps)' == 'true'">net472</TargetFramework>
 
-        <ResoniteTargetPath>$(ResonitePath)Renderer/</ResoniteTargetPath>
-        <_ResoniteAssemblyPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/</_ResoniteAssemblyPath>
-        
-        <ResoniteTargetReferencePath>$(ResoniteReferencePath)Renderite/</ResoniteTargetReferencePath>
-    </PropertyGroup>
+    <ResoniteTargetPath>$(ResonitePath)Renderer/</ResoniteTargetPath>
+    <_ResoniteAssemblyPath>$(ResoniteTargetPath)Renderite.Renderer_Data/Managed/</_ResoniteAssemblyPath>
 
-    <ItemGroup>
-        <PackageReference Include="PolySharp" Version="*">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
+    <ResoniteTargetReferencePath>$(ResoniteReferencePath)Renderite/</ResoniteTargetReferencePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PolySharp" Version="1.15.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>

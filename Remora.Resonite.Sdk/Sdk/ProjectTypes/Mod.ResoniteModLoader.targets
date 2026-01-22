@@ -1,15 +1,15 @@
 <Project>
-    <Import Project="Shared.ResoniteModLoader.targets" />
+  <Import Project="Shared.ResoniteModLoader.targets" />
 
-    <PropertyGroup>
-        <DefineConstants>$(DefineConstants);RESONITE_RML_STANDALONE</DefineConstants>
-    </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RESONITE_RML_STANDALONE</DefineConstants>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <Reference Include="ResoniteModLoader">
-            <HintPath Condition="'%(HintPath)' == '' And Exists('$(ResonitePath)/Libraries/ResoniteModLoader.dll')">$(ResonitePath)/Libraries/ResoniteModLoader.dll</HintPath>
-            <HintPath Condition="'$(ResoniteForceReferenceAssemblies)' == 'true' OR ('%(HintPath)' == '' And Exists('$(ResoniteReferencePath)/rml/ResoniteModLoader.dll'))">$(ResoniteReferencePath)/rml/ResoniteModLoader.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-    </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ResoniteModLoader">
+      <HintPath Condition="'%(HintPath)' == '' And Exists('$(ResonitePath)Libraries/ResoniteModLoader.dll')">$(ResonitePath)Libraries/ResoniteModLoader.dll</HintPath>
+      <HintPath Condition="'$(ResoniteForceReferenceAssemblies)' == 'true' OR ('%(HintPath)' == '' And Exists('$(ResoniteReferencePath)ResoniteModLoaderStandalone/ResoniteModLoader.dll'))">$(ResoniteReferencePath)ResoniteModLoaderStandalone/ResoniteModLoader.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
 </Project>

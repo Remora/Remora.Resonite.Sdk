@@ -1,18 +1,26 @@
 <Project>
-    <PropertyGroup>
-        <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
-    </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
 
-    <ItemGroup>
-        <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="*">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-    </ItemGroup>
+    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteUseMonkeyLoaderCore)' == ''">true</ResoniteUseMonkeyLoaderCore>
+    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">false</ResoniteUseMonkeyLoaderCore>
+  </PropertyGroup>
 
-    <Import Project="Mod.MonkeyLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'"/>
-    <Import Project="Mod.MonkeyLoader.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoader'"/>
-    <Import Project="Mod.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoaderStandalone'"/>
-    <Import Project="Mod.BepisLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'BepisLoader'"/>
-    <Import Project="Mod.BepisLoaderRenderer.targets" Condition="'$(ResoniteTargetModLoader)' == 'BepisLoaderRenderer'"/>
+  <ItemGroup>
+    <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="1.6.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.30.0"
+                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' != 'false'">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Import Project="Mod.MonkeyLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'" />
+  <Import Project="Mod.MonkeyLoader.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoader'" />
+  <Import Project="Mod.ResoniteModLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'ResoniteModLoaderStandalone'" />
+  <Import Project="Mod.BepisLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'BepisLoader'" />
 </Project>

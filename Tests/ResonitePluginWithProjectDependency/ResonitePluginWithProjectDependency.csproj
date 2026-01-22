@@ -1,14 +1,14 @@
-<Project>
-    <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.props" />
+<Project ToolsVersion="Current">
+  <Import Project="Sdk.props" Sdk="Remora.Resonite.Sdk" />
+  
+  <PropertyGroup>
+    <ResoniteProjectType>plugin</ResoniteProjectType>
+    <ResoniteTarget>client</ResoniteTarget>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <ResoniteProjectType>plugin</ResoniteProjectType>
-        <ResoniteTarget>client</ResoniteTarget>
-    </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Library\Library.csproj" />
-    </ItemGroup>
-
-    <Import Project="../../Remora.Resonite.Sdk/Sdk/Sdk.targets" />
+  <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />
 </Project>
