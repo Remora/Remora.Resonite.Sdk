@@ -13,10 +13,7 @@
     </PackageReference>
 
     <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.30.0"
-                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' != 'false'">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' != 'false'" />
   </ItemGroup>
 
   <Import Project="Mod.MonkeyLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'" />
