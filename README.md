@@ -4,7 +4,7 @@ Remora.Resonite.Sdk
 `Remora.Resonite.Sdk` is an `MSBuild` SDK made to simplify the development of
 various kinds of software targeting Resonite.
 
-You can access the latest builds on the Remora NuGet feed here on GitHub,
+You can find the latest builds on the Remora NuGet feed here on GitHub,
 or the released versions on [nuget.org](https://www.nuget.org/packages/Remora.Resonite.Sdk).
 
 
@@ -41,7 +41,7 @@ Note that you do not need to define the target framework(s); the SDK defaults to
 the target framework that the chosen version of Resonite uses.  
 Specifying the version in the project file is optional too.
 Particularly for solutions with multiple projects using the SDK,
-it's advisable to add a global.json with the following content:
+it's advisable to add a `global.json` with the following content instead:
 
 ```json
 {
@@ -308,8 +308,7 @@ You can disable this behaviour by setting `ResoniteGenerateReleaseArchive` to `f
 
 ## Known Issues
 
-The BepisLoader integration doesn't currently support automatic installation.
-We'll gladly accept any PRs for that.
+None at the moment! But do report them here, please, if you run into any!
 
 
 ## License
