@@ -4,6 +4,9 @@ Remora.Resonite.Sdk
 `Remora.Resonite.Sdk` is an `MSBuild` SDK made to simplify the development of
 various kinds of software targeting Resonite.
 
+You can access the latest builds on the Remora NuGet feed here on GitHub,
+or the released versions on [nuget.org](https://www.nuget.org/packages/Remora.Resonite.Sdk).
+
 
 ## Feature Highlights
 
