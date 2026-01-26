@@ -13,7 +13,7 @@
 
     <_LibraryOutputDirectory Condition="'$(_LibraryOutputDirectory)' == ''">$(_MainOutputDirectory)</_LibraryOutputDirectory>
     <LibraryOutDir>$(_RootOutDir)$(_LibraryOutputDirectory)</LibraryOutDir>
-    <ResoniteLibrayOutDir Condition="'$(_UseDefaultInstallProject)' == 'true'">$(ResoniteTargetPath)$(_LibraryOutputDirectory)"</ResoniteLibrayOutDir>
+    <ResoniteLibrayOutDir Condition="'$(_UseDefaultInstallProject)' == 'true'">$(ResoniteTargetPath)$(_LibraryOutputDirectory)</ResoniteLibrayOutDir>
 
     <PublishDir>$(_RootPublishDir)$(_MainOutputDirectory)</PublishDir>
     <LibraryPublishDir>$(_RootPublishDir)$(_LibraryOutputDirectory)</LibraryPublishDir>
