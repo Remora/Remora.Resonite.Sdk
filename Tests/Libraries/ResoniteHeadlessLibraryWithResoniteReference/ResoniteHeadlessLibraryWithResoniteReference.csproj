@@ -1,15 +1,9 @@
-<Project>
-    <Import Project="Sdk.props" Sdk="Remora.Resonite.Sdk" />
-
+<Project Sdk="Remora.Resonite.Sdk">
     <PropertyGroup>
-        <ResoniteProjectType>library</ResoniteProjectType>
         <ResoniteTarget>headless</ResoniteTarget>
-        <RootNamespace>ResoniteHeadlessLibraryWithResoniteReference</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <ResoniteReference Include="FrooxEngine" />
     </ItemGroup>
-
-    <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />
 </Project>

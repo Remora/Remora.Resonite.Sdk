@@ -1,17 +1,5 @@
-<Project>
-    <Import Project="Sdk.props" Sdk="Remora.Resonite.Sdk" />
-
-    <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <ResoniteProjectType>standalone</ResoniteProjectType>
-        <ResoniteTarget>client</ResoniteTarget>
-        <LangVersion>13.0</LangVersion>
-        <RootNamespace>ModernResoniteExecutableWithResoniteReference</RootNamespace>
-    </PropertyGroup>
-
+<Project Sdk="Remora.Resonite.Sdk">
     <ItemGroup>
         <ResoniteReference Include="FrooxEngine" />
     </ItemGroup>
-
-    <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />
 </Project>

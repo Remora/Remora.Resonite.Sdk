@@ -13,12 +13,13 @@
   <Folder Name="/Tests/">
     <File Path="Tests/Directory.Build.props" />
     <File Path="Tests/Directory.Build.targets" />
-    <Project Path="Tests/Library/Library.csproj" />
     <Project Path="Tests/DualSdkProject/DualSdkProject.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
+    <Project Path="Tests/Library/Library.csproj" />
   </Folder>
   <Folder Name="/Tests/Executables/">
+    <File Path="Tests/Executables/Directory.Build.props" />
     <Project Path="Tests/Executables/ModernResoniteExecutable/ModernResoniteExecutable.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
@@ -27,6 +28,7 @@
     </Project>
   </Folder>
   <Folder Name="/Tests/Libraries/">
+    <File Path="Tests/Libraries/Directory.Build.props" />
     <Project Path="Tests/Libraries/ResoniteHeadlessLibrary/ResoniteHeadlessLibrary.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
@@ -53,6 +55,7 @@
     </Project>
   </Folder>
   <Folder Name="/Tests/Mods/">
+    <File Path="Tests/Mods/Directory.Build.props" />
     <Project Path="Tests/Mods/ResoniteHeadlessMod/ResoniteHeadlessMod.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
@@ -79,6 +82,7 @@
     </Project>
   </Folder>
   <Folder Name="/Tests/Plugins/">
+    <File Path="Tests/Plugins/Directory.Build.props" />
     <Project Path="Tests/Plugins/ResoniteHeadlessPlugin/ResoniteHeadlessPlugin.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
