@@ -3,11 +3,11 @@
   
   <PropertyGroup>
     <ResoniteProjectType>library</ResoniteProjectType>
-    <ResoniteTarget>client</ResoniteTarget>
+    <ResoniteTarget>headless</ResoniteTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Library\Library.csproj" />
+    <ProjectReference Include="../../Library/Library.csproj" />
   </ItemGroup>
 
   <Import Project="Sdk.targets" Sdk="Remora.Resonite.Sdk" />
