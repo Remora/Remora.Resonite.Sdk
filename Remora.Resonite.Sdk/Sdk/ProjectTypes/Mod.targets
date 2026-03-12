@@ -2,7 +2,7 @@
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
 
-    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteUseMonkeyLoaderCore)' == ''">true</ResoniteUseMonkeyLoaderCore>
+    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteUseMonkeyLoaderCore)' == ''">false</ResoniteUseMonkeyLoaderCore>
     <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">false</ResoniteUseMonkeyLoaderCore>
   </PropertyGroup>
 
@@ -13,7 +13,7 @@
     </PackageReference>
 
     <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.30.0"
-                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' != 'false'" />
+                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' == 'true'" />
   </ItemGroup>
 
   <Import Project="Mod.MonkeyLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'" />

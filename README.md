@@ -53,6 +53,7 @@ it's advisable to add a `global.json` with the following content instead:
 
 Of course, the proper version number must be specified.
 Simply check for the version of the latest release here or on the NuGet feed you're using.
+The package is available on [nuget.org](https://www.nuget.org/packages/Remora.Resonite.Sdk) as well.
 
 
 ## Feature Breakdown
@@ -77,7 +78,7 @@ The following properties are defined by the SDK.
 | ResoniteProjectType         | mod                                                                        | Yes         |
 | ResoniteTargetModLoader     | MonkeyLoader                                                               | Yes         |
 | TargetFramework*            | net10.0 / net472                                                           | Yes         |
-| ResoniteUseMonkeyLoaderCore | `'$(ResoniteProjectType)' == 'mod' AND '$(ResoniteTarget)' != 'renderite'` | Yes         |
+| ResoniteUseMonkeyLoaderCore | false                                                                      | Yes         |
 
 `ResoniteTarget` can be set to `client`, `headless`, or `renderite`.  
 `headless` is for the server version of Resonite which does not have any graphics,
@@ -112,10 +113,11 @@ For a `ResoniteTarget` of `client` or `headless`, this must be `net10.0`,
 while for `renderite`, `net472` is generally required.
 `standalone` projects may target a higher version though.
 
-`ResoniteUseMonkeyLoaderCore` decides whether the `MonkeyLoader.Resonite.Core`
+`ResoniteUseMonkeyLoaderCore` controls whether the `MonkeyLoader.Resonite.Core`
 NuGet package will be referenced when creating a mod not targeting MonkeyLoader.
 This package offers convenient extension methods and other features for mods,
 but doesn't rely on MonkeyLoader being present.
+Since the default is `false`, you have to manually set it to `true` for your project.
 
 
 ### Building
