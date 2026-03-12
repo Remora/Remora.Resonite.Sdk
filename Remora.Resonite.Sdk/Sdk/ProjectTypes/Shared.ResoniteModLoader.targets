@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)../include/IgnoresAccessChecksToAttribute.cs" Hidden="true"
+    <Compile Include="$(MSBuildThisFileDirectory)../include/IgnoresAccessChecksToAttribute.cs" Visible="false"
              Condition="'$(ResoniteUseMonkeyLoaderCore)' != 'true'" />
   </ItemGroup>
 
