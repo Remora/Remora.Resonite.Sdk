@@ -705,6 +705,33 @@
             <param name="pattern">Pattern to search for</param>
             <returns>Count of occurences of pattern within text.</returns>
         </member>
+        <member name="T:Elements.Core.ThrottleHelper">
+            <summary>
+            Contains utility methods for throttling/rate-limiting operations
+            </summary>
+        </member>
+        <member name="M:Elements.Core.ThrottleHelper.RetryWithBackoff(System.Func{System.Threading.Tasks.Task{System.Boolean}},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Runs an operation repeatedly until it succeeds or a maximum number of attempts is reached.
+            A delay is inserted between each attempt, doubling each time, up to a maximum delay.
+            </summary>
+            <param name="func">Function to run for each attempt, returning whether the operation was successful</param>
+            <param name="baseDelayMs"></param>
+            <param name="maxDelayMs"></param>
+            <param name="maxAttempts"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Elements.Core.ThrottleHelper.RetryWithBackoff(System.Func{System.Threading.Tasks.Task{System.Boolean}},System.TimeSpan,System.TimeSpan,System.Int32)">
+            <summary>
+            Runs an operation repeatedly until it succeeds or a maximum number of attempts is reached.
+            A delay is inserted between each attempt, doubling each time, up to a maximum delay.
+            </summary>
+            <param name="func">Function to run for each attempt, returning whether the operation was successful</param>
+            <param name="baseDelay"></param>
+            <param name="maxDelay"></param>
+            <param name="maxAttempts"></param>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:SimplexNoise.Noise" -->
         <member name="M:SimplexNoise.Noise.Generate(System.Single)">
             <summary>

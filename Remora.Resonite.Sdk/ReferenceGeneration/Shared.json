@@ -21,7 +21,8 @@
     "ProtoFlux.*?\\.dll$",
     "Renderite\\.Shared\\.dll$",
     "SkyFrost.*?\\.dll$",
-    "YellowDogMan.*?\\.dll$"
+    "YellowDogMan.*?\\.dll$",
+    "ResoniteLink\\.dll$"
   ],
   "ExcludePatterns": []
 }

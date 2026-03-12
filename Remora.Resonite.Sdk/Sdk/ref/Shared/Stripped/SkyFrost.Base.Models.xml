@@ -1777,6 +1777,7 @@
             Base64 encoded RSA SHA-256 signature, which can be used to verify the Id and Timestamp of this thumbnail info
             for upload on the endpoint (Cloudflare) without having to contact the Azure API
             </summary>
+            <remarks><see cref="P:SkyFrost.Base.ThumbnailInfo.SignatureDataString"/> for the unsigned data.</remarks>
         </member>
         <member name="P:SkyFrost.Base.ThumbnailInfo.UploadEndpoint">
             <summary>
@@ -1794,8 +1795,11 @@
         </member>
         <member name="P:SkyFrost.Base.ThumbnailInfo.SignatureData">
             <summary>
-            Binary version of the SignatureString
+            Binary version of the SignatureString for signing.
             </summary>
+            <remarks>
+            <see cref="P:SkyFrost.Base.ThumbnailInfo.Signature"/> for the signed version.
+            </remarks>
         </member>
         <member name="M:SkyFrost.Base.ThumbnailInfo.Sign(System.Security.Cryptography.RSAParameters)">
             <summary>
