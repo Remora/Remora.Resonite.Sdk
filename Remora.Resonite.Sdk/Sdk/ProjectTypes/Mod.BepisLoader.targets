@@ -1,7 +1,10 @@
 <Project>
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);RESONITE_BEPISLOADER</DefineConstants>
+
     <_MainOutputDirectory>BepInEx/plugins/$(AssemblyName)/</_MainOutputDirectory>
+
+    <ResoniteHasIgnoreAccessChecksAttribute>true</ResoniteHasIgnoreAccessChecksAttribute>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(ResoniteTarget)' != 'renderite'">

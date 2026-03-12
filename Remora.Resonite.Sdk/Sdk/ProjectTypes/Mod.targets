@@ -4,7 +4,15 @@
 
     <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteUseMonkeyLoaderCore)' == ''">false</ResoniteUseMonkeyLoaderCore>
     <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">false</ResoniteUseMonkeyLoaderCore>
+
+    <ResoniteHasIgnoreAccessChecksAttribute Condition="'$(ResoniteHasIgnoreAccessChecksAttribute)' == ''">false</ResoniteHasIgnoreAccessChecksAttribute>
+    <ResoniteHasIgnoreAccessChecksAttribute Condition="'$(ResoniteUseMonkeyLoaderCore)' == 'true'">true</ResoniteHasIgnoreAccessChecksAttribute>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)../include/IgnoresAccessChecksToAttribute.cs" Visible="false"
+             Condition="'$(ResoniteHasIgnoreAccessChecksAttribute)' != 'true'" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="1.6.1">

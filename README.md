@@ -296,7 +296,13 @@ No matter your project type, the following attributes are always defined.
 Additionally, for each `ResoniteReference` with `UsePublicized` set to `true`,
 a corresponding `IgnoreAccessChecksTo` attribute is added.
 This ensures that there will be no issues when accessing non-public types or
-members of those assemblies at runtime.
+members of those assemblies at runtime.  
+As this attribute is supported by the runtime but not available by default,
+it has to be supplied directly or from another library.
+To do this, a definition for the attribute is automatically included
+for mod projects that do not already get access to it
+through a library included by the SDK.
+To prevent this, set the property `ResoniteHasIgnoreAccessChecksAttribute` to `true`.
 
 
 ### Publishing

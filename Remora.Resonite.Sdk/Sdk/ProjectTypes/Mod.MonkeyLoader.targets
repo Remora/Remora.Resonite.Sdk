@@ -18,6 +18,8 @@
 
     <ResoniteMonkeyLoaderPath>$(ResoniteTargetPath)MonkeyLoader/</ResoniteMonkeyLoaderPath>
     <ResoniteMonkeyLoaderOutputPath>$(ResoniteTargetPath)$(_MonkeyLoaderMainDirectory)</ResoniteMonkeyLoaderOutputPath>
+
+    <ResoniteHasIgnoreAccessChecksAttribute>true</ResoniteHasIgnoreAccessChecksAttribute>
   </PropertyGroup>
 
   <!-- References for client / headless -->
