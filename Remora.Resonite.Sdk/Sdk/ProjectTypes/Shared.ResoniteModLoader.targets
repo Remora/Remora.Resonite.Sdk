@@ -6,6 +6,10 @@
     <_LibraryOutputDirectory>rml_libs/</_LibraryOutputDirectory>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+  </ItemGroup>
+
   <!-- Error for invalid RML target (renderite) -->
   <Target Name="RML_ResoniteTarget_Checking" Condition="'$(ResoniteTarget)' != 'client' AND '$(ResoniteTarget)' != 'headless'">
     <Error Code="RESO501" Text="ResoniteModLoader does not support ResoniteTarget options other than 'client' and 'headless'!" />

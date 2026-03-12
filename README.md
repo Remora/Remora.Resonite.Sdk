@@ -53,6 +53,7 @@ it's advisable to add a `global.json` with the following content instead:
 
 Of course, the proper version number must be specified.
 Simply check for the version of the latest release here or on the NuGet feed you're using.
+The package is available on [nuget.org](https://www.nuget.org/packages/Remora.Resonite.Sdk) as well.
 
 
 ## Feature Breakdown
@@ -77,7 +78,7 @@ The following properties are defined by the SDK.
 | ResoniteProjectType         | mod                                                                        | Yes         |
 | ResoniteTargetModLoader     | MonkeyLoader                                                               | Yes         |
 | TargetFramework*            | net10.0 / net472                                                           | Yes         |
-| ResoniteUseMonkeyLoaderCore | `'$(ResoniteProjectType)' == 'mod' AND '$(ResoniteTarget)' != 'renderite'` | Yes         |
+| ResoniteUseMonkeyLoaderCore | false                                                                      | Yes         |
 
 `ResoniteTarget` can be set to `client`, `headless`, or `renderite`.  
 `headless` is for the server version of Resonite which does not have any graphics,
@@ -112,10 +113,11 @@ For a `ResoniteTarget` of `client` or `headless`, this must be `net10.0`,
 while for `renderite`, `net472` is generally required.
 `standalone` projects may target a higher version though.
 
-`ResoniteUseMonkeyLoaderCore` decides whether the `MonkeyLoader.Resonite.Core`
+`ResoniteUseMonkeyLoaderCore` controls whether the `MonkeyLoader.Resonite.Core`
 NuGet package will be referenced when creating a mod not targeting MonkeyLoader.
 This package offers convenient extension methods and other features for mods,
 but doesn't rely on MonkeyLoader being present.
+Since the default is `false`, you have to manually set it to `true` for your project.
 
 
 ### Building
@@ -168,11 +170,12 @@ You can control the location where these assemblies are loaded from with
 When using `MonkeyLoader` as the `ResoniteTargetModLoader`,
 there is additional properties defined by the SDK.
 
-| Property                | Value          | Overridable |
-|-------------------------|----------------|-------------|
-| IsMonkeyLoaderGamePack  | false          | Yes         |
-| MonkeyLoaderPackageType | Mod / GamePack | No          |
-| GeneratePackageOnBuild* | true           | No          |
+| Property                            | Value          | Overridable |
+|-------------------------------------|----------------|-------------|
+| IsMonkeyLoaderGamePack              | false          | Yes         |
+| MonkeyLoaderPackageType             | Mod / GamePack | No          |
+| GeneratePackageOnBuild*             | true           | No          |
+| MonkeyLoaderHideResoniteIntegration | false          | Yes         |
 
 Most importantly, `IsMonkeyLoaderGamePack` controls whether the packed project
 is placed into the `MonkeyLoader/Mods/` or `MonkeyLoader/GamePacks/` directory,
@@ -180,6 +183,12 @@ if `ResoniteInstallOnBuild` is set to `true`.
 
 To ensure that a NuGet package is created, the `MSBuild` property
 `GeneratePackageOnBuild` is always set to `true`.
+
+The property `MonkeyLoaderHideResoniteIntegration` can be used to hide the
+`MonkeyLoader.GamePacks.Resonite` reference from the resulting package.  
+In particular, this is useful for integrations that can load mods
+from other loaders, so that they can be used to build those mods too,
+without pulling in all of MonkeyLoader.
 
 
 ### Compilation
@@ -287,7 +296,13 @@ No matter your project type, the following attributes are always defined.
 Additionally, for each `ResoniteReference` with `UsePublicized` set to `true`,
 a corresponding `IgnoreAccessChecksTo` attribute is added.
 This ensures that there will be no issues when accessing non-public types or
-members of those assemblies at runtime.
+members of those assemblies at runtime.  
+As this attribute is supported by the runtime but not available by default,
+it has to be supplied directly or from another library.
+To do this, a definition for the attribute is automatically included
+for mod projects that do not already get access to it
+through a library included by the SDK.
+To prevent this, set the property `ResoniteHasIgnoreAccessChecksAttribute` to `true`.
 
 
 ### Publishing

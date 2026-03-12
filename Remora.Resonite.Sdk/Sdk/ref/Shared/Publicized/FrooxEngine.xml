@@ -2968,7 +2968,7 @@
              executed in a Linux environment.
             
              </summary>
-             
+            
              <remarks>
              <b>Beware! This may be removed when dispatch of the renderer process is improved!</b>
              </remarks>
@@ -3587,18 +3587,20 @@
             <returns>true for success, false otherwise</returns>
             <remarks>World Orb records, usually get two tags 'world_orb' and 'world_uri:resrec//etc' see <see cref="M:SkyFrost.Base.RecordTags.GetCorrespondingWorldUrl(System.Collections.Generic.HashSet{System.String})"/> for more info.</remarks>
         </member>
-        <member name="M:FrooxEngine.WorldStartSettings.HasValidUri(SkyFrost.Base.IPlatformProfile)">
+        <member name="M:FrooxEngine.WorldStartSettings.HasValidUri(SkyFrost.Base.IPlatformProfile,FrooxEngine.INetworkManagerManager)">
             <summary>
             Checks if any of the URIs in this are valid for a given platform
             </summary>
             <param name="platform">Platform to use when checking</param>
+            <param name="manager"></param>
             <returns><see langword="true"/> if there are valid URIs. <see langword="false"/> otherwise.</returns>
         </member>
-        <member name="M:FrooxEngine.WorldStartSettings.CanStart(SkyFrost.Base.IPlatformProfile)">
+        <member name="M:FrooxEngine.WorldStartSettings.CanStart(SkyFrost.Base.IPlatformProfile,FrooxEngine.INetworkManagerManager)">
             <summary>
             Checks if this worldstartsettings can "start" a world.
             </summary>
             <param name="platform">Platform the world should run on.</param>
+            <param name="manager"></param>
             <returns><see langword="true"/> if this can be used to start a world. <see langword="false"/> otherwise.</returns>
             <remarks>
             This is a quick check, that doesn't rely on anything external to the WorldStartSettings except for the platform.
@@ -3615,6 +3617,12 @@
             Checks to see if the <see cref="T:FrooxEngine.AvatarCreator"/> be spawned. Will check various permissions etc.
             </summary>
             <returns>true if the avatar creator can be spawned, false if it cannot.</returns>
+        </member>
+        <member name="P:FrooxEngine.World.IsAuthority">
+            <summary>
+            Owner of the World/Session.
+            </summary>
+            <remarks>Analgous to "Host".</remarks>
         </member>
         <member name="M:FrooxEngine.World.RunSynchronously(System.Action,System.Boolean,FrooxEngine.IUpdatable,System.Boolean)">
             <summary>

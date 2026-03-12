@@ -1,0 +1,9 @@
+<Project Sdk="Remora.Resonite.Sdk">
+    <PropertyGroup>
+        <ResoniteTarget>client</ResoniteTarget>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Remora.Results" Version="7.2.3" />
+    </ItemGroup>
+</Project>

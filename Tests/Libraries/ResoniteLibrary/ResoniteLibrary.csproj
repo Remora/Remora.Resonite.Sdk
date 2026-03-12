@@ -1,0 +1,5 @@
+<Project Sdk="Remora.Resonite.Sdk">
+    <PropertyGroup>
+        <ResoniteTarget>client</ResoniteTarget>
+    </PropertyGroup>
+</Project>

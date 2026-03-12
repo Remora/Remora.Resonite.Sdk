@@ -1,0 +1,5 @@
+<Project Sdk="Remora.Resonite.Sdk">
+    <ItemGroup>
+        <ResoniteReference Include="FrooxEngine" />
+    </ItemGroup>
+</Project>

@@ -2,9 +2,17 @@
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);RESONITE_MOD</DefineConstants>
 
-    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteUseMonkeyLoaderCore)' == ''">true</ResoniteUseMonkeyLoaderCore>
+    <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteUseMonkeyLoaderCore)' == ''">false</ResoniteUseMonkeyLoaderCore>
     <ResoniteUseMonkeyLoaderCore Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'">false</ResoniteUseMonkeyLoaderCore>
+
+    <ResoniteHasIgnoreAccessChecksAttribute Condition="'$(ResoniteHasIgnoreAccessChecksAttribute)' == ''">false</ResoniteHasIgnoreAccessChecksAttribute>
+    <ResoniteHasIgnoreAccessChecksAttribute Condition="'$(ResoniteUseMonkeyLoaderCore)' == 'true'">true</ResoniteHasIgnoreAccessChecksAttribute>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)../include/IgnoresAccessChecksToAttribute.cs" Visible="false"
+             Condition="'$(ResoniteHasIgnoreAccessChecksAttribute)' != 'true'" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="1.6.1">
@@ -13,7 +21,7 @@
     </PackageReference>
 
     <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.30.0"
-                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' != 'false'" />
+                      Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' == 'true'" />
   </ItemGroup>
 
   <Import Project="Mod.MonkeyLoader.targets" Condition="'$(ResoniteTargetModLoader)' == 'MonkeyLoader'" />

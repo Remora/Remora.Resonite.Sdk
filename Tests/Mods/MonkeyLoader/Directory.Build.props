@@ -1,0 +1,8 @@
+<Project>
+  <!-- Recursively import Directory.Build.props in folders above -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../'))" />
+  
+  <PropertyGroup>
+    <ResoniteTargetModLoader>MonkeyLoader</ResoniteTargetModLoader>
+  </PropertyGroup>
+</Project>
