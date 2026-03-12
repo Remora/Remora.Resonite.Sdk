@@ -170,11 +170,12 @@ You can control the location where these assemblies are loaded from with
 When using `MonkeyLoader` as the `ResoniteTargetModLoader`,
 there is additional properties defined by the SDK.
 
-| Property                | Value          | Overridable |
-|-------------------------|----------------|-------------|
-| IsMonkeyLoaderGamePack  | false          | Yes         |
-| MonkeyLoaderPackageType | Mod / GamePack | No          |
-| GeneratePackageOnBuild* | true           | No          |
+| Property                            | Value          | Overridable |
+|-------------------------------------|----------------|-------------|
+| IsMonkeyLoaderGamePack              | false          | Yes         |
+| MonkeyLoaderPackageType             | Mod / GamePack | No          |
+| GeneratePackageOnBuild*             | true           | No          |
+| MonkeyLoaderHideResoniteIntegration | false          | Yes         |
 
 Most importantly, `IsMonkeyLoaderGamePack` controls whether the packed project
 is placed into the `MonkeyLoader/Mods/` or `MonkeyLoader/GamePacks/` directory,
@@ -182,6 +183,12 @@ if `ResoniteInstallOnBuild` is set to `true`.
 
 To ensure that a NuGet package is created, the `MSBuild` property
 `GeneratePackageOnBuild` is always set to `true`.
+
+The property `MonkeyLoaderHideResoniteIntegration` can be used to hide the
+`MonkeyLoader.GamePacks.Resonite` reference from the resulting package.  
+In particular, this is useful for integrations that can load mods
+from other loaders, so that they can be used to build those mods too,
+without pulling in all of MonkeyLoader.
 
 
 ### Compilation

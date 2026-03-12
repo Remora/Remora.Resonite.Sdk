@@ -11,6 +11,8 @@
     <MonkeyLoaderPackageType>Mod</MonkeyLoaderPackageType>
     <MonkeyLoaderPackageType Condition="'$(IsMonkeyLoaderGamePack)' == 'true'">GamePack</MonkeyLoaderPackageType>
 
+    <MonkeyLoaderHideResoniteIntegration Condition="'$(MonkeyLoaderHideResoniteIntegration)' == ''">false</MonkeyLoaderHideResoniteIntegration>
+
     <_MonkeyLoaderMainDirectory>MonkeyLoader/$(MonkeyLoaderPackageType)s/</_MonkeyLoaderMainDirectory>
     <_MonkeyLoaderLibraryDirectory>MonkeyLoader/Libs/</_MonkeyLoaderLibraryDirectory>
 
@@ -20,7 +22,11 @@
 
   <!-- References for client / headless -->
   <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'">
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.30.0" GeneratePathProperty="true" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.30.0" GeneratePathProperty="true"
+                      Condition="'$(MonkeyLoaderHideResoniteIntegration)' != 'true'" />
+
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.30.0" GeneratePathProperty="true" PrivateAssets="all"
+                      Condition="'$(MonkeyLoaderHideResoniteIntegration)' == 'true'" />
 
     <Reference Include="MonkeyLoader.Resonite.Data" PrivateAssets="all" Private="false">
       <HintPath>$(PkgMonkeyLoader_GamePacks_Resonite)/lib/net10.0/pre-patchers/MonkeyLoader.Resonite.Data.dll</HintPath>
