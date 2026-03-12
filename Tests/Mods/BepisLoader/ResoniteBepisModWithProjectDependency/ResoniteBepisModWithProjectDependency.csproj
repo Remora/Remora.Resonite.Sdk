@@ -1,9 +1,9 @@
 <Project Sdk="Remora.Resonite.Sdk">
   <PropertyGroup>
-    <ResoniteTarget>headless</ResoniteTarget>
+    <ResoniteTarget>client</ResoniteTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Library/Library.csproj" />
+    <ProjectReference Include="../../../Library/Library.csproj" />
   </ItemGroup>
 </Project>

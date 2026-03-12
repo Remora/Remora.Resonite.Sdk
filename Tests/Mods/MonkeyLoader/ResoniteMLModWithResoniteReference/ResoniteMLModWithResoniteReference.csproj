@@ -1,9 +1,9 @@
-<Project Sdk="Remora.Resonite.Sdk">
+﻿<Project Sdk="Remora.Resonite.Sdk">
   <PropertyGroup>
     <ResoniteTarget>client</ResoniteTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../Library/Library.csproj" />
+    <ResoniteReference Include="FrooxEngine" />
   </ItemGroup>
 </Project>

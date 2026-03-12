@@ -56,28 +56,82 @@
   </Folder>
   <Folder Name="/Tests/Mods/">
     <File Path="Tests/Mods/Directory.Build.props" />
-    <Project Path="Tests/Mods/ResoniteHeadlessMod/ResoniteHeadlessMod.csproj">
+  </Folder>
+  <Folder Name="/Tests/Mods/BepisLoader/">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteHeadlessBepisMod/ResoniteHeadlessBepisMod.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
-    <Project Path="Tests/Mods/ResoniteHeadlessModWithPackageDependency/ResoniteHeadlessModWithPackageDependency.csproj">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteHeadlessBepisModWithPackageDependency/ResoniteHeadlessBepisModWithPackageDependency.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
-    <Project Path="Tests/Mods/ResoniteHeadlessModWithProjectDependency/ResoniteHeadlessModWithProjectDependency.csproj">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteHeadlessBepisModWithProjectDependency/ResoniteHeadlessBepisModWithProjectDependency.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
-    <Project Path="Tests/Mods/ResoniteHeadlessModWithResoniteReference/ResoniteHeadlessModWithResoniteReference.csproj">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteHeadlessBepisModWithResoniteReference/ResoniteHeadlessBepisModWithResoniteReference.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
-    <Project Path="Tests/Mods/ResoniteMod/ResoniteMod.csproj">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteBepisMod/ResoniteBepisMod.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
-    <Project Path="Tests/Mods/ResoniteModWithPackageDependency/ResoniteModWithPackageDependency.csproj">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteBepisModWithPackageDependency/ResoniteBepisModWithPackageDependency.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
-    <Project Path="Tests/Mods/ResoniteModWithProjectDependency/ResoniteModWithProjectDependency.csproj">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteBepisModWithProjectDependency/ResoniteBepisModWithProjectDependency.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
-    <Project Path="Tests/Mods/ResoniteModWithResoniteReference/ResoniteModWithResoniteReference.csproj">
+    <Project Path="Tests/Mods/BepisLoader/ResoniteBepisModWithResoniteReference/ResoniteBepisModWithResoniteReference.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+  </Folder>
+  <Folder Name="/Tests/Mods/MonkeyLoader/">
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteHeadlessMLMod/ResoniteHeadlessMLMod.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteHeadlessMLModWithPackageDependency/ResoniteHeadlessMLModWithPackageDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteHeadlessMLModWithProjectDependency/ResoniteHeadlessMLModWithProjectDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteHeadlessMLModWithResoniteReference/ResoniteHeadlessMLModWithResoniteReference.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteMLMod/ResoniteMLMod.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteMLModWithPackageDependency/ResoniteMLModWithPackageDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteMLModWithProjectDependency/ResoniteMLModWithProjectDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/MonkeyLoader/ResoniteMLModWithResoniteReference/ResoniteMLModWithResoniteReference.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+  </Folder>
+  <Folder Name="/Tests/Mods/ResoniteModLoader/">
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteHeadlessRMLMod/ResoniteHeadlessRMLMod.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteHeadlessRMLModWithPackageDependency/ResoniteHeadlessRMLModWithPackageDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteHeadlessRMLModWithProjectDependency/ResoniteHeadlessRMLModWithProjectDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteHeadlessRMLModWithResoniteReference/ResoniteHeadlessRMLModWithResoniteReference.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteRMLMod/ResoniteRMLMod.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteRMLModWithPackageDependency/ResoniteRMLModWithPackageDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteRMLModWithProjectDependency/ResoniteRMLModWithProjectDependency.csproj">
+      <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
+    </Project>
+    <Project Path="Tests/Mods/ResoniteModLoader/ResoniteRMLModWithResoniteReference/ResoniteRMLModWithResoniteReference.csproj">
       <BuildDependency Project="Remora.Resonite.Sdk/Remora.Resonite.Sdk.msbuildproj" />
     </Project>
   </Folder>
