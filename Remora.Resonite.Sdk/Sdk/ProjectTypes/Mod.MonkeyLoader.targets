@@ -24,10 +24,10 @@
 
   <!-- References for client / headless -->
   <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'">
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.30.0" GeneratePathProperty="true"
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.32.0" GeneratePathProperty="true"
                       Condition="'$(MonkeyLoaderHideResoniteIntegration)' != 'true'" />
 
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.30.0" GeneratePathProperty="true" PrivateAssets="all"
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.32.0" GeneratePathProperty="true" PrivateAssets="all"
                       Condition="'$(MonkeyLoaderHideResoniteIntegration)' == 'true'" />
 
     <Reference Include="MonkeyLoader.Resonite.Data" PrivateAssets="all" Private="false">

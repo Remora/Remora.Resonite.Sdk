@@ -20,7 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.30.0"
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.32.0"
                       Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' == 'true'" />
   </ItemGroup>
 
