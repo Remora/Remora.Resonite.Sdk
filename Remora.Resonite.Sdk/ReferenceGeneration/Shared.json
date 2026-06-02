@@ -22,7 +22,8 @@
     "Renderite\\.Shared\\.dll$",
     "SkyFrost.*?\\.dll$",
     "YellowDogMan.*?\\.dll$",
-    "ResoniteLink\\.dll$"
+    "ResoniteLink\\.dll$",
+    "StrikePose\\.dll$"
   ],
   "ExcludePatterns": []
 }

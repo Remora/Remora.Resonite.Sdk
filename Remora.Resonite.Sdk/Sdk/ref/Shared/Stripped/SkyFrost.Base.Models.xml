@@ -619,22 +619,6 @@
             Actual Content of this comment
             </summary>
         </member>
-        <member name="T:SkyFrost.Base.ConfigFileData">
-            <summary>
-            This class represets a configuration file that should be automatically installed at a location.
-            This allow for registration/login to add additional configuration files relevant to the particular user.
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.ConfigFileData.Path">
-            <summary>
-            Relative path at which the file should be installed
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.ConfigFileData.Content">
-            <summary>
-            The content of the file - the actual configuration itself
-            </summary>
-        </member>
         <!-- Badly formed XML comment ignored for member "T:SkyFrost.Base.EntityInterfacePreference" -->
         <member name="F:SkyFrost.Base.EntityInterfacePreference.UserPreferred">
             <summary>
@@ -1300,6 +1284,22 @@
             Used by Resonite to ensure that we only process this once. 
             </summary>
         </member>
+        <member name="T:SkyFrost.Base.ConfigFileData">
+            <summary>
+            This class represets a configuration file that should be automatically installed at a location.
+            This allow for registration/login to add additional configuration files relevant to the particular user.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.ConfigFileData.Path">
+            <summary>
+            Relative path at which the file should be installed
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.ConfigFileData.Content">
+            <summary>
+            The content of the file - the actual configuration itself
+            </summary>
+        </member>
         <member name="P:SkyFrost.Base.DiscordIdentity.DiscordId">
             <summary>
             The unique ID of the Discord user.
@@ -1572,6 +1572,16 @@
             <param name="sessionUri">SessionUri to check</param>
             <returns>true for a valid session uri, false for invalid</returns>
         </member>
+        <member name="F:SkyFrost.Base.Record.MAX_NAME_LENGTH">
+            <summary>
+            Character limit for a record's name
+            </summary>
+        </member>
+        <member name="F:SkyFrost.Base.Record.MAX_DESCRIPTION_LENGTH">
+            <summary>
+            Character limit for a record's description
+            </summary>
+        </member>
         <member name="T:SkyFrost.Base.SessionAccessLevel">
             <summary>
             Used to determine the session access level for a session.
@@ -1813,72 +1823,6 @@
             The primary group for this universe. Replaces Platform group in Universe specific features.
             </summary>
         </member>
-        <member name="T:SkyFrost.Base.UserSession">
-            <summary>
-            Represents an individual session for a user who is logged in. Lasts until the Token has expired, or invalidated.
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.UserId">
-            <summary>
-            User ID of the Logged In User
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.SessionToken">
-            <summary>
-            Token for this session
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.SessionCreated">
-            <summary>
-            Timestamp for when this session and token were created
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.SessionExpire">
-            <summary>
-            Timestamp for when this session and token expire
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.SecretMachineIdHash">
-            <summary>
-            Hash of the SecretMachineId used to create this session
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.SecretMachineIdSalt">
-            <summary>
-            Salt used to produce the SecretMachineId hash
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.RememberMe">
-            <summary>
-            True, if the user has elected for this Login Session to be "Remembered" in app.
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.IsMachineBound">
-            <summary>
-            Indicates that this token is bound to specific machine, meaning that the token needs to be hashed with the
-            secret machine ID and UID, to produce raw token.
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.LogoutUrl">
-            <summary>
-            URL that needs to be opened to finalize the logout. This is typically used with external authentication services
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.LogoutUrlClientSide">
-            <summary>
-            Determines if the logout URL needs to be opened client side (typically opening in user's web browser)
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.OriginalLoginType">
-            <summary>
-            The type of login (password, OAuth, SAML 2.0 ...) that this session was created from
-            </summary>
-        </member>
-        <member name="P:SkyFrost.Base.UserSession.SessionLoginCounter">
-            <summary>
-            This is incremented each time a new user session is created from another one (for RememberMe logins)
-            </summary>
-        </member>
         <member name="P:SkyFrost.Base.BroadcastTarget.Group">
             <summary>
             The general group that the information is being broadcasted to
@@ -1960,6 +1904,73 @@
             List of badges that the user has currently on display
             </summary>
         </member>
+        <member name="T:SkyFrost.Base.RegistrationStatus">
+            <summary>
+            Basic status information for a registration. This is used to communicate the status of a registration with a client
+            after it has submitted a registration request since they're queued.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RegistrationStatus.Id">
+            <summary>
+            Unique identifier for the entity being registered
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RegistrationStatus.Token">
+            <summary>
+            Secret token for the registration (to check status)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RegistrationStatus.State">
+            <summary>
+            Current state of the registration
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RegistrationStatus.Error">
+            <summary>
+            Error encountered while processing the registration, if any.
+            This should be populated when <see cref="P:SkyFrost.Base.RegistrationStatus.State">State</see> is <see cref="F:SkyFrost.Base.RegistrationState.Failed"/>.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RegistrationStatus.IsDone">
+            <summary>
+            Whether <see cref="P:SkyFrost.Base.RegistrationStatus.State"/> is <see cref="F:SkyFrost.Base.RegistrationState.Done"/>
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RegistrationStatus.IsFailed">
+            <summary>
+            Whether <see cref="P:SkyFrost.Base.RegistrationStatus.State"/> is <see cref="F:SkyFrost.Base.RegistrationState.Failed"/>
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.RegistrationStatus.IsResolved">
+            <summary>
+            Whether <see cref="P:SkyFrost.Base.RegistrationStatus.State"/> is <see cref="F:SkyFrost.Base.RegistrationState.Done"/> or <see cref="F:SkyFrost.Base.RegistrationState.Failed"/>
+            </summary>
+        </member>
+        <member name="T:SkyFrost.Base.RegistrationState">
+            <summary>
+            Potential states of a registration
+            </summary>
+        </member>
+        <member name="F:SkyFrost.Base.RegistrationState.Pending">
+            <summary>
+            The registration is waiting to be processed
+            </summary>
+        </member>
+        <member name="F:SkyFrost.Base.RegistrationState.Processing">
+            <summary>
+            The registration is being processed
+            </summary>
+        </member>
+        <member name="F:SkyFrost.Base.RegistrationState.Done">
+            <summary>
+            The registration was completed successfully
+            </summary>
+        </member>
+        <member name="F:SkyFrost.Base.RegistrationState.Failed">
+            <summary>
+            The registration was aborted due to an error and will not be reattempted
+            </summary>
+        </member>
         <member name="T:SkyFrost.Base.PatreonSupporter">
             <summary>
             Patreon subscription support metadata
@@ -1972,6 +1983,15 @@
             <inheritdoc/>
         </member>
         <member name="P:SkyFrost.Base.PatreonSupporter.AccountNameColorOverride">
+            <inheritdoc/>
+        </member>
+        <member name="P:SkyFrost.Base.PromoSupporter.Priority">
+            <inheritdoc/>
+        </member>
+        <member name="P:SkyFrost.Base.PromoSupporter.AccountNameOverride">
+            <inheritdoc/>
+        </member>
+        <member name="P:SkyFrost.Base.PromoSupporter.AccountNameColorOverride">
             <inheritdoc/>
         </member>
         <member name="T:SkyFrost.Base.StripeSupporter">
@@ -2033,6 +2053,11 @@
             Last time the user supported
             </summary>
         </member>
+        <member name="P:SkyFrost.Base.SubscriptionSupporter.IsValid">
+            <summary>
+            Whether the user has ever supported
+            </summary>
+        </member>
         <member name="P:SkyFrost.Base.SubscriptionSupporter.IsSupporter">
             <summary>
             Whether the user has ever supported
@@ -2067,6 +2092,11 @@
         <member name="P:SkyFrost.Base.SupporterMetadata.IsActive">
             <summary>
             Is the supporter data currently active
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.SupporterMetadata.ShowSupporterBadge">
+            <summary>
+            If supporter badge should be shown for this supporter
             </summary>
         </member>
         <member name="M:SkyFrost.Base.SupporterMetadata.Sanitize">
@@ -2108,6 +2138,72 @@
             <typeparam name="T"></typeparam>
             <param name="filter"></param>
             <returns></returns>
+        </member>
+        <member name="T:SkyFrost.Base.UserSession">
+            <summary>
+            Represents an individual session for a user who is logged in. Lasts until the Token has expired, or invalidated.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.UserId">
+            <summary>
+            User ID of the Logged In User
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.SessionToken">
+            <summary>
+            Token for this session
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.SessionCreated">
+            <summary>
+            Timestamp for when this session and token were created
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.SessionExpire">
+            <summary>
+            Timestamp for when this session and token expire
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.SecretMachineIdHash">
+            <summary>
+            Hash of the SecretMachineId used to create this session
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.SecretMachineIdSalt">
+            <summary>
+            Salt used to produce the SecretMachineId hash
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.RememberMe">
+            <summary>
+            True, if the user has elected for this Login Session to be "Remembered" in app.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.IsMachineBound">
+            <summary>
+            Indicates that this token is bound to specific machine, meaning that the token needs to be hashed with the
+            secret machine ID and UID, to produce raw token.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.LogoutUrl">
+            <summary>
+            URL that needs to be opened to finalize the logout. This is typically used with external authentication services
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.LogoutUrlClientSide">
+            <summary>
+            Determines if the logout URL needs to be opened client side (typically opening in user's web browser)
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.OriginalLoginType">
+            <summary>
+            The type of login (password, OAuth, SAML 2.0 ...) that this session was created from
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.UserSession.SessionLoginCounter">
+            <summary>
+            This is incremented each time a new user session is created from another one (for RememberMe logins)
+            </summary>
         </member>
         <member name="F:SkyFrost.Base.UserTags.SuperAdmin">
             <remarks>

@@ -2211,6 +2211,17 @@
             <param name="positions">List to be filled with finger positions. Pass null if not interested.</param>
             <param name="rotations">List to be filled with finger rotations. Pass null if not interested.</param>
         </member>
+        <member name="M:FrooxEngine.BrushTool.TryUpdateColorFromWorld">
+            <summary>
+            Uses physics in the world, to source colors or materials for the brush.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.BrushTool.TryUpdateColorFromExternalSources">
+            <summary>
+            Updates the color from <see cref="F:FrooxEngine.BrushTool._pickedColor"/>.
+            </summary>
+            <remarks><see cref="F:FrooxEngine.BrushTool._pickedColor"/> is usually updated from the Color Picker,Components and ProtoFlux.</remarks>
+        </member>
         <member name="T:FrooxEngine.MaterialApplyPolicy">
             <summary>
             Used to tag a slot with a material policy, when the CanApply property is set to false. It will prevent material applications.
@@ -2346,6 +2357,126 @@
             <param name="onFalse">Locale key to be used when <paramref name="state"/> is False</param>
             <returns>The created <see cref="!:BooleanValueDriver&lt;string&gt;"/></returns>
         </member>
+        <member name="F:FrooxEngine.Consumable.Stage.ConsumeTime">
+            <summary>
+            How much time it takes to consume this stage
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.OverrideReferencePoint">
+            <summary>
+            Overrides the global reference point for this stage when not null
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.KeepConsumeProgressOnPause">
+            <summary>
+            Keeps the consume progress when consumation is paused
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.WaitForResetBeforeStart">
+            <summary>
+            When true, this stage requires the consumation to be reset before starting this stage
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.IsBeingConsumed">
+            <summary>
+            Indicates if it's being actively consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.HasBeenConsumed">
+            <summary>
+            Indicates if this stage has been consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.IsStageActive">
+            <summary>
+            Indicates if this is currently the active stage
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.ConsumedByUser">
+            <summary>
+            User which has consumed this Stage
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.NormalizedConsumeProgress">
+            <summary>
+            The current consume progress of this stage from 0...1
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.StageActiveDrive">
+            <summary>
+            Drives a field to be active when this stage is active. This is useful for activating visuals
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stage.OnStageConsumed">
+            <summary>
+            Trigger actions when this stage has been consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.MustBeHolding">
+            <summary>
+            Must be held to consume
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.CanFeedToOthers">
+            <summary>
+            When true, other users will consume this when held
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.OverrideReferencePoint">
+            <summary>
+            Reference point for determining if this item is close enough to mouth. When null, uses the Slot it's one
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Radius">
+            <summary>
+            Radius of the item where it will be consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.StartHysteresis">
+            <summary>
+            Ratio of the radius at which the consumation will start
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.CurrentStageIndex">
+            <summary>
+            Index of the active stage
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.IsBeingConsumed">
+            <summary>
+            Indicates if it's currently being actively consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.HasBeenFullyConsumed">
+            <summary>
+            Indicates if this has been fully consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.CurrentlyConsumingUser">
+            <summary>
+            User who is currently consuming this consumable
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.DestroyOnConsumed">
+            <summary>
+            Should this be destroyed on consumed?
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.OnAnyStageConsumed">
+            <summary>
+            Trigger actions when stage has been consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.OnFullyConsumed">
+            <summary>
+            Trigger actions when fully consumed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.Consumable.Stages">
+            <summary>
+            All the consumable stages. Needs at least 1 stage to work
+            </summary>
+        </member>
         <member name="T:FrooxEngine.SearchBlock">
             <summary>
             Indicates at which component should be recursive searched stopped (for example when grabbing, touching)
@@ -2417,6 +2548,19 @@
         <member name="F:FrooxEngine.Hyperlink.Reason">
             <summary>
             A reason, displayed to the user when the Hyperlink warning dialog is shown.
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.Hyperlink.AttachForWikiPage(FrooxEngine.Slot,System.Type)">
+            <summary>
+            Attaches a Hyperlink with a URL to a wiki page for a specific component/ProtoFlux node/etc
+            </summary>
+            <param name="slot">Slot to attach the Hyperlink to</param>
+            <param name="type">Type of the component/ProtoFlux node to link to</param>
+            <returns>Attached Hyperlink component instance</returns>
+        </member>
+        <member name="T:FrooxEngine.WikiPrefixAttribute">
+            <summary>
+            Marks a type as having a prefix for its wiki pages
             </summary>
         </member>
         <member name="M:FrooxEngine.ComponentBase`1.OnDestroy">
@@ -3535,6 +3679,14 @@
             <summary>
             Can this item be saved by any means?
             </summary>
+        </member>
+        <member name="M:FrooxEngine.LoginDialog.WaitForRegistration(System.String,System.String)">
+            <summary>
+            Waits for a user's registration to complete, displaying any errors encountered
+            </summary>
+            <param name="id"></param>
+            <param name="token"></param>
+            <returns>Whether the registration was completed successfully</returns>
         </member>
         <member name="F:FrooxEngine.MigrationDialog.LoginResult.OtherCloud">
             <summary>
