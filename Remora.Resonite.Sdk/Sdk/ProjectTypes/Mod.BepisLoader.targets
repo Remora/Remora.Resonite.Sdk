@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite'">
-    <PackageReference Include="BepInEx.ResonitePluginInfoProps" Version="3.*" />
-    <PackageReference Include="ResoniteModding.BepInExResoniteShim" Version="0.9.*" />
-    <PackageReference Include="ResoniteModding.BepisResoniteWrapper" Version="1.*" />
+    <PackageReference Include="BepInEx.ResonitePluginInfoProps" Version="$(BepInEx_ResonitePluginInfoProps_Version)" />
+    <PackageReference Include="ResoniteModding.BepInExResoniteShim" Version="$(ResoniteModding_BepInExResoniteShim_Version)" />
+    <PackageReference Include="ResoniteModding.BepisResoniteWrapper" Version="$(ResoniteModding_BepisResoniteWrapper_Version)" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(ResoniteTarget)' == 'renderite'">

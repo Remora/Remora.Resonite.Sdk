@@ -2,6 +2,6 @@
   <Import Project="Shared.ResoniteModLoader.targets" />
 
   <ItemGroup>
-    <PackageReference Include="MonkeyLoader.GamePacks.ResoniteModLoader" Version="5.0.1" />
+    <PackageReference Include="MonkeyLoader.GamePacks.ResoniteModLoader" Version="$(MonkeyLoader_GamePacks_ResoniteModLoader_Version)" />
   </ItemGroup>
 </Project>

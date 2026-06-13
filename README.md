@@ -289,9 +289,10 @@ several instances, the version is embedded into your assemblies as an assembly a
 
 No matter your project type, the following attributes are always defined.
 
-| Name             | Parameters                                          |
-|------------------|-----------------------------------------------------|
-| AssemblyMetadata | Key = "ResoniteVersion", Value = "$CURRENT_VERSION" |
+| Name             | Parameters                                                      |
+|------------------|-----------------------------------------------------------------|
+| AssemblyMetadata | Key = `"ResoniteSdkVersion"`, Value = `"$(ResoniteSdkVersion)"` |
+| AssemblyMetadata | Key = `"ResoniteVersion"`, Value = `"$(ResoniteVersion)"`       |
 
 Additionally, for each `ResoniteReference` with `UsePublicized` set to `true`,
 a corresponding `IgnoreAccessChecksTo` attribute is added.
@@ -319,6 +320,45 @@ unpacking into a Resonite installation. The archive can be uploaded as part of a
 GitHub release or other distribution process.
 
 You can disable this behaviour by setting `ResoniteGenerateReleaseArchive` to `false`.
+
+
+### SDK Metadata
+
+The following properties are defined by the SDK to provide information
+about itself to the `MSBuild` process.
+
+| Property           | Example Value   | Description                                                               |
+|--------------------|-----------------|---------------------------------------------------------------------------|
+| ResoniteSdkVersion | `2.3.0`         | The version of this SDK used in the build process.                        |
+| ResoniteVersion    | `2026.6.12.557` | The version of Resonite that the assemblies included in the SDK are from. |
+
+If you're using the assemblies from your local Resonite install, the version may differ.
+In this case, you can override the `ResoniteVersion` property if you want it to be correct.
+However, this does not have any effect beyond changing the value of the
+matching `AssemblyMetadata` attribute applied to your build output.
+
+
+### Package Versions
+
+The SDK will automatically reference the packages required to build your project,
+according to your chosen `ResoniteTarget`, `ResoniteProjectType`, and optionally `ResoniteTargetModLoader`.
+Their versions are defined through properties which can be overridden if necessary.
+For each package, the version property's name is derived from the package's name
+by replacing any `.` with `_` and appending `_Version`.
+
+The following version properties are currently used by the SDK:
+
+| Property                                         | Description                                                                                  |
+|--------------------------------------------------|----------------------------------------------------------------------------------------------|
+| PolySharp_Version                                | Version of the polyfill package when `ResoniteTarget` is `renderite`.                        |
+| MicroUtils_HarmonyAnalyzers_Version              | Version of the Harmony analyzer package when `ResoniteProjectType` is `mod`.                 |
+| MonkeyLoader_GamePacks_Unity_Version             | Version of the MonkeyLoader Unity package when `ResoniteTarget` is `renderite`.              |
+| MonkeyLoader_GamePacks_Resonite_Version          | Version of the MonkeyLoader Resonite (Core) package when `ResoniteTarget` isn't `renderite`. |
+| ResoniteModLoader_Version                        | Version of RML when `ResoniteTargetModLoader` is `ResoniteModLoaderStandalone`.              |
+| MonkeyLoader_GamePacks_ResoniteModLoader_Version | Version of MonkeyLoader RML when `ResoniteTargetModLoader` is `ResoniteModLoader`.           |
+| BepInEx_ResonitePluginInfoProps_Version          | Version of BepInEx plugin property package when `ResoniteTarget` isn't `renderite`.          |
+| ResoniteModding_BepInExResoniteShim_Version      | Version of BepInEx Resonite shim package when `ResoniteTarget` isn't `renderite`.            |
+| ResoniteModding_BepisResoniteWrapper_Version     | Version of BepInEx Resonite wrapper package when `ResoniteTarget` isn't `renderite`.         |
 
 
 ## Known Issues

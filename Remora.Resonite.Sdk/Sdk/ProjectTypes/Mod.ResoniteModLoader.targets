@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ResoniteModLoader" Version="5.0.1" />
+    <PackageReference Include="ResoniteModLoader" Version="$(ResoniteModLoader_Version)" />
   </ItemGroup>
 </Project>
