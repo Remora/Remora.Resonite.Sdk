@@ -15,12 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="1.6.1">
+    <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="$(MicroUtils_HarmonyAnalyzers_Version)">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="0.32.0"
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite.Core" Version="$(MonkeyLoader_GamePacks_Resonite_Version)"
                       Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTarget)' != 'renderite' AND '$(ResoniteUseMonkeyLoaderCore)' == 'true'" />
   </ItemGroup>
 

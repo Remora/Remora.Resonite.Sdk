@@ -4,5 +4,6 @@
   
   <PropertyGroup>
     <ResoniteProjectType>mod</ResoniteProjectType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 </Project>

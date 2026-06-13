@@ -24,10 +24,10 @@
 
   <!-- References for client / headless -->
   <ItemGroup Condition="'$(ResoniteTarget)' != 'renderite' AND '$(IsResoniteGamePack)' != 'true'">
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.32.0" GeneratePathProperty="true"
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="$(MonkeyLoader_GamePacks_Resonite_Version)" GeneratePathProperty="true"
                       Condition="'$(MonkeyLoaderHideResoniteIntegration)' != 'true'" />
 
-    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.32.0" GeneratePathProperty="true" PrivateAssets="all"
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="$(MonkeyLoader_GamePacks_Resonite_Version)" GeneratePathProperty="true" PrivateAssets="all"
                       Condition="'$(MonkeyLoaderHideResoniteIntegration)' == 'true'" />
 
     <Reference Include="MonkeyLoader.Resonite.Data" PrivateAssets="all" Private="false">
@@ -37,7 +37,7 @@
 
   <!-- References for renderite -->
   <ItemGroup Condition="'$(ResoniteTarget)' == 'renderite'">
-    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.8.0" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="$(MonkeyLoader_GamePacks_Unity_Version)" />
   </ItemGroup>
 
   <!-- Remove version number from resulting nupkg file -->
