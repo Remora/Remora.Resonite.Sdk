@@ -9,28 +9,6 @@
             Controls alignment for various UI elements. Vertical is first followed by Horizontal
             </summary>
         </member>
-        <member name="T:Elements.Core.CurveAnimationTrack`1">
-            <summary>
-            This supports full blown keyframes, each with different type - hold, linear interpolation or even curves with tangents for each frame
-            This should support majority of animation needs, but also is the most expensive to evaluate
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:Elements.Core.DiscreteAnimationTrack`1">
-            <summary>
-            This type of animation track can have key frames with different duration, but no interpolation between them
-            All of the frames are effectively "Hold" type of animation. This can be very useful when the values are more sparse
-            but don't require being interpolated between.
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:Elements.Core.RawAnimationTrack`1">
-            <summary>
-            This type of animation track doesn't store any duration information - every element takes same amount of time
-            This can be very efficient for homogenous animations, where the frames are all baked - no curves and no durations
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
         <member name="M:Elements.Core.Coder.IsBaseEnginePrimitive(System.Type)">
             <summary>
             Indicates is given type is a base engine primitive - this includes numeric types, bool and strings.
