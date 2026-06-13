@@ -1,4 +1,8 @@
 <Project InitialTargets="Resonite_SDK_Checks">
+  <!-- SDK and Resonite Version files -->
+  <Import Project="Sdk.ResoniteSdkVersion.props" />
+  <Import Project="Sdk.ResoniteVersion.props" />
+
   <!-- Defaults for centrally managed package versions -->
   <Import Project="Sdk.Packages.props" />
 
@@ -64,7 +68,7 @@
   </PropertyGroup>
 
   <Target Name="Resonite_SDK_Checks">
-    <Message Importance="high" Text="Using Resonite SDK version 2.3.0 for Resonite v2026.6.12.557" />
+    <Message Importance="high" Text="Using Resonite SDK version $(ResoniteSdkVersion) for Resonite v$(ResoniteVersion)!" />
 
     <Error Code="RESO401" Text="Property ResoniteTarget must be one of 'client', 'headless', or 'renderite'!"
            Condition="'$(ResoniteTarget)' != 'client' AND '$(ResoniteTarget)' != 'headless' AND '$(ResoniteTarget)' != 'renderite'" />

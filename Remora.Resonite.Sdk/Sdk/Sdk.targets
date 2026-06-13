@@ -16,8 +16,6 @@
     </ResoniteReference>
   </ItemDefinitionGroup>
 
-  <Import Project="Sdk.ResoniteVersion.targets" />
-
   <Import Project="Targets/Client.targets" Condition="'$(ResoniteTarget)' == 'client'" />
   <Import Project="Targets/Headless.targets" Condition="'$(ResoniteTarget)' == 'headless'" />
   <Import Project="Targets/Renderite.targets" Condition="'$(ResoniteTarget)' == 'renderite'" />
