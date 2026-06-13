@@ -7,11 +7,15 @@ Write-Output "Creating assembly version directives..."
 @"
 <!-- auto-generated -->
 <Project>
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-            <_Parameter1>ResoniteVersion</_Parameter1>
-            <_Parameter2>$resoniteVersion</_Parameter2>
-        </AssemblyAttribute>
-    </ItemGroup>
+  <PropertyGroup>
+    <ResoniteVersion>$resoniteVersion</ResoniteVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ResoniteVersion</_Parameter1>
+      <_Parameter2>`$(ResoniteVersion)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
-"@ | Out-File -Encoding UTF8 -FilePath "Sdk/Sdk.ResoniteVersion.targets"
+"@ | Out-File -Encoding UTF8 -FilePath "Sdk/Sdk.ResoniteVersion.props"
