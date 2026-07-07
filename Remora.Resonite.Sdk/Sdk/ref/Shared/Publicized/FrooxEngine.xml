@@ -536,6 +536,11 @@
             Type of the value
             </summary>
         </member>
+        <member name="T:FrooxEngine.FieldSlotReceiver`1">
+            <summary>
+            When a slot is dropped on this, offer to copy compatible data into the linked field.
+            </summary>
+        </member>
         <member name="M:FrooxEngine.SyncMemberEditorBuilder.BuildField(FrooxEngine.IField,System.Reflection.FieldInfo,FrooxEngine.Slot,FrooxEngine.UIX.LayoutElement)">
             <summary>
             This method builds a specific field in the editor.
@@ -2765,7 +2770,7 @@
             If the function returns false, the walking of the hierachy is stopped.
             </summary>
             <typeparam name="T">The type of the components to find</typeparam>
-            <param name="callback">The functio nwhich to call for each component.</param>
+            <param name="callback">The function which to call for each component.</param>
             <returns>True if the function returned true for all found components, otherwise false</returns>
         </member>
         <member name="M:FrooxEngine.Slot.ForeachComponentInParents``1(System.Action{``0},System.Boolean,System.Boolean)">
