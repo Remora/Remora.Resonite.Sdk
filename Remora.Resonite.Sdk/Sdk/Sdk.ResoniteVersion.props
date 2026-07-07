@@ -1,13 +1,13 @@
 ﻿<!-- auto-generated -->
 <Project>
-    <PropertyGroup>
-        <ResoniteVersion>2026.6.12.557</ResoniteVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <ResoniteVersion>2026.7.7.829</ResoniteVersion>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-            <_Parameter1>ResoniteVersion</_Parameter1>
-            <_Parameter2>$(ResoniteVersion)</_Parameter2>
-        </AssemblyAttribute>
-    </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ResoniteVersion</_Parameter1>
+      <_Parameter2>$(ResoniteVersion)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>

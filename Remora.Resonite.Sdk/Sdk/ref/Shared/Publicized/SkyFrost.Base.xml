@@ -202,6 +202,21 @@
             <param name="cryptoData">Crypto data for digital signing</param>
             <returns></returns>
         </member>
+        <member name="M:SkyFrost.Base.UsersManager.GetUser(System.String,System.String)">
+            <summary>
+            Gets a user from a user ID.
+            </summary>
+            <param name="userId">User ID</param>
+            <param name="banAccessKey">Ban access key</param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.UsersManager.GetUserByName(System.String)">
+            <summary>
+            Gets a user by username.
+            </summary>
+            <param name="username">Username</param>
+            <returns></returns>
+        </member>
         <member name="M:SkyFrost.Base.UsersManager.Register(System.String,System.String,System.String,System.DateTimeOffset,System.String)">
             <summary>
             Submits a new user registration
