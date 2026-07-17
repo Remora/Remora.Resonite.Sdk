@@ -98,15 +98,10 @@ intended for general purpose projects that may be used by any of the others.
 official Resonite clients - this can be used to build tools and utilities that
 work with the Resonite ecosystem outside of direct client interaction.
 
-`ResoniteTargetModLoader` can be set to `MonkeyLoader`, `BepisLoader`,
-`ResoniteModLoader` or `ResoniteModLoaderStandalone`.  
+`ResoniteTargetModLoader` can be set to `MonkeyLoader`, `BepisLoader` or `ResoniteModLoader`.  
 For `MonkeyLoader` and `BepisLoader`, all `ResoniteTarget`s are supported,
 with the right references being chosen automatically,
-while the two `ResoniteModLoader` options only support `client` or `headless`.  
-Here, `ResoniteModLoader` refers to the
-[MonkeyLoader Compatibility Pack](https://github.com/ResoniteModdingGroup/MonkeyLoader.GamePacks.ResoniteModLoader),
-while `ResoniteModLoaderStandalone` refers to the version used through `-LoadAssembly`.
-For maximum compatibility, `ResoniteModLoader` should be used as the target.
+while the two `ResoniteModLoader` options only support `client` or `headless`.
 
 `TargetFramework` determines which version of .NET (Framework) a project is built for.
 For a `ResoniteTarget` of `client` or `headless`, this must be `net10.0`,
@@ -274,9 +269,7 @@ being compiled for.
 | RESONITE_STANDALONE     | defined if `'$(ResoniteProjectType)' == 'standalone'`                       |
 | RESONITE_MONKEYLOADER   | defined if `'$(ResoniteTargetModLoader)' == 'MonkeyLoader'`                 |
 | RESONITE_BEPISLOADER    | defined if `'$(ResoniteTargetModLoader)' == 'BepisLoader'`                  |
-| RESONITE_RML            | defined if `'$(ResoniteTargetModLoader)' == 'ResoniteModLoader*'`           |
-| RESONITE_RML_STANDALONE | defined if `'$(ResoniteTargetModLoader)' == 'ResoniteModLoaderStandalone'`  |
-
+| RESONITE_RML            | defined if `'$(ResoniteTargetModLoader)' == 'ResoniteModLoader'`            |
 These can be useful if you want to support both the headless and the normal 
 client but need to use specialized API surfaces in either target,
 or if you want to build a library that interacts with multiple mod loaders.
@@ -354,8 +347,7 @@ The following version properties are currently used by the SDK:
 | MicroUtils_HarmonyAnalyzers_Version              | Version of the Harmony analyzer package when `ResoniteProjectType` is `mod`.                 |
 | MonkeyLoader_GamePacks_Unity_Version             | Version of the MonkeyLoader Unity package when `ResoniteTarget` is `renderite`.              |
 | MonkeyLoader_GamePacks_Resonite_Version          | Version of the MonkeyLoader Resonite (Core) package when `ResoniteTarget` isn't `renderite`. |
-| ResoniteModLoader_Version                        | Version of RML when `ResoniteTargetModLoader` is `ResoniteModLoaderStandalone`.              |
-| MonkeyLoader_GamePacks_ResoniteModLoader_Version | Version of MonkeyLoader RML when `ResoniteTargetModLoader` is `ResoniteModLoader`.           |
+| ResoniteModLoader_Version                        | Version of RML when `ResoniteTargetModLoader` is `ResoniteModLoader`.                        |
 | BepInEx_ResonitePluginInfoProps_Version          | Version of BepInEx plugin property package when `ResoniteTarget` isn't `renderite`.          |
 | ResoniteModding_BepInExResoniteShim_Version      | Version of BepInEx Resonite shim package when `ResoniteTarget` isn't `renderite`.            |
 | ResoniteModding_BepisResoniteWrapper_Version     | Version of BepInEx Resonite wrapper package when `ResoniteTarget` isn't `renderite`.         |
