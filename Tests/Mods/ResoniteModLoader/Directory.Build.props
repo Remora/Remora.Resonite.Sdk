@@ -3,6 +3,6 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)../'))" />
   
   <PropertyGroup>
-    <ResoniteTargetModLoader>ResoniteModLoaderStandalone</ResoniteTargetModLoader>
+    <ResoniteTargetModLoader>ResoniteModLoader</ResoniteTargetModLoader>
   </PropertyGroup>
 </Project>

@@ -76,8 +76,8 @@
     <Error Code="RESO402" Text="Property ResoniteProjectType must be one of 'mod', 'plugin', 'library', or 'standalone'!"
            Condition="'$(ResoniteProjectType)' != 'mod' AND '$(ResoniteProjectType)' != 'plugin' AND '$(ResoniteProjectType)' != 'library' AND '$(ResoniteProjectType)' != 'standalone'" />
 
-    <Error Code="RESO403" Text="Property ResoniteTargetModLoader must be one of 'MonkeyLoader', 'ResoniteModLoader', 'ResoniteModLoaderStandalone', or 'BepisLoader'!"
-           Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTargetModLoader)' != 'ResoniteModLoader' AND '$(ResoniteTargetModLoader)' != 'ResoniteModLoaderStandalone' AND '$(ResoniteTargetModLoader)' != 'BepisLoader'" />
+    <Error Code="RESO403" Text="Property ResoniteTargetModLoader must be one of 'MonkeyLoader', 'ResoniteModLoader', or 'BepisLoader'!"
+           Condition="'$(ResoniteTargetModLoader)' != 'MonkeyLoader' AND '$(ResoniteTargetModLoader)' != 'ResoniteModLoader' AND '$(ResoniteTargetModLoader)' != 'BepisLoader'" />
 
     <Error Code="RESO404" Text="Property ResonitePath is set but points to invalid path! Path: $(ResonitePath)"
            Condition="'$(ResonitePath)' != '' AND '$(ResonitePath)' != '$(_ProjectResonitePath)' AND !Exists('$(ResonitePath)')" />
