@@ -3270,7 +3270,7 @@
             Updates the active state of this driver.
             </summary>
         </member>
-        <member name="M:FrooxEngine.AudioInput.#ctor(System.String,System.String,FrooxEngine.InputInterface,FrooxEngine.AudioInputType,System.Boolean)">
+        <member name="M:FrooxEngine.AudioInput.#ctor(Elements.Core.LocaleString,System.String,FrooxEngine.InputInterface,FrooxEngine.AudioInputType,System.Boolean)">
             <summary>
             Creates a new audio input driver.
             </summary>
@@ -3286,7 +3286,7 @@
             </summary>
             <param name="sampleRate">The target sample rate.</param>
         </member>
-        <member name="M:FrooxEngine.AudioInput.WriteSamples``1(System.Span{``0},System.Double@,``0@)">
+        <member name="M:FrooxEngine.AudioInput.WriteSamples``1(System.ReadOnlySpan{``0},System.Double@,``0@)">
             <summary>
             Writes samples from the input buffer to the internal audio system.
             </summary>
@@ -3481,6 +3481,24 @@
             <param name="platformName"></param>
             <param name="config"></param>
             <returns>true if the provided platform should be initialized</returns>
+        </member>
+        <member name="M:FrooxEngine.BootstrapperManager.KillProcessOnExit(System.Diagnostics.Process)">
+            <summary>
+            This is used as failsafe for when Resonite crashes for any spawned processes to be killed properly.
+            It SHOULD NOT be used as proper shutdown mechanism - it's recommended to do proper shutdown when possible
+            and only have this serve as a fallback.
+            </summary>
+            <param name="process">Process to kill</param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.BootstrapperManager.KillProcessOnExit(System.Int32)">
+            <summary>
+            This is used as failsafe for when Resonite crashes for any spawned processes to be killed properly.
+            It SHOULD NOT be used as proper shutdown mechanism - it's recommended to do proper shutdown when possible
+            and only have this serve as a fallback.
+            </summary>
+            <param name="processId">ID of the process to kill</param>
+            <returns></returns>
         </member>
         <member name="F:FrooxEngine.HostAccessPermission.Denied">
             <summary>

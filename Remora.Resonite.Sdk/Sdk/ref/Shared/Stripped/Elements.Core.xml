@@ -950,17 +950,17 @@
             </summary>
         </member>
         <member name="T:Elements.Core.RecyclableMemoryStreamManager">
-            <summary>
-            Manages pools of RecyclableMemoryStream objects.
-            </summary>
-            <remarks>
-            There are two pools managed in here. The small pool contains same-sized buffers that are handed to streams
-            as they write more data.
+             <summary>
+             Manages pools of RecyclableMemoryStream objects.
+             </summary>
+             <remarks>
+             There are two pools managed in here. The small pool contains same-sized buffers that are handed to streams
+             as they write more data.
             
-            For scenarios that need to call GetBuffer(), the large pool contains buffers of various sizes, all
-            multiples of LargeBufferMultiple (1 MB by default). They are split by size to avoid overly-wasteful buffer
-            usage. There should be far fewer 8 MB buffers than 1 MB buffers, for example.
-            </remarks>
+             For scenarios that need to call GetBuffer(), the large pool contains buffers of various sizes, all
+             multiples of LargeBufferMultiple (1 MB by default). They are split by size to avoid overly-wasteful buffer
+             usage. There should be far fewer 8 MB buffers than 1 MB buffers, for example.
+             </remarks>
         </member>
         <member name="T:Elements.Core.RecyclableMemoryStreamManager.EventHandler">
             <summary>
