@@ -3157,6 +3157,52 @@
             Whether the attempt to login succeeded.
             </returns>
         </member>
+        <member name="T:FrooxEngine.IconDescriptor">
+            <summary>
+            Describes a custom Icon for FrooxEngine to use.
+            </summary>
+            <seealso cref="T:FrooxEngine.SplashScreenDescriptor" />
+        </member>
+        <member name="P:FrooxEngine.IconDescriptor.Texture">
+            <summary>
+            Texture to use
+            </summary>
+        </member>
+        <member name="M:FrooxEngine.IconDescriptor.FromFile(System.String)">
+            <summary>
+            Loads an Icon Descriptor from a file.
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.IconDescriptor.FromStream(System.IO.Stream,System.String)">
+            <summary>
+            Loads an IconDescriptor from a Stream
+            </summary>
+        </member>
+        <member name="T:FrooxEngine.SplashScreenDescriptor">
+            <summary>
+            Describes a custom splash screen to sent as a part of <see cref="T:Renderite.Shared.RendererInitData"/> to the renderer.
+            </summary>
+            <remarks>
+            See <seealso cref="T:Renderite.Shared.RendererSplashScreenOverride"/> for the Renderite counterpart.
+            </remarks>
+        </member>
+        <member name="P:FrooxEngine.SplashScreenDescriptor.Texture">
+            <summary>
+            Texture to send.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.SplashScreenDescriptor.LoadingBarOffset">
+            <summary>
+            Offset of the loading bar on the screen, in screen relative units
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.SplashScreenDescriptor.SplashScreenRelativeSize">
+            <summary>
+            Relative size of the texture on the screen (from 0.0 to 1.0 covering the screen fully)
+            </summary>
+        </member>
         <member name="P:FrooxEngine.WorkerInitializer.Workers">
             <summary>
             List of all found workers in the FrooxEngine
@@ -3481,6 +3527,11 @@
             <param name="platformName"></param>
             <param name="config"></param>
             <returns>true if the provided platform should be initialized</returns>
+        </member>
+        <member name="P:FrooxEngine.LaunchOptions.OverrideWindowTitle">
+            <summary>
+            Optional window title to override the render's title with.
+            </summary>
         </member>
         <member name="M:FrooxEngine.BootstrapperManager.KillProcessOnExit(System.Diagnostics.Process)">
             <summary>
