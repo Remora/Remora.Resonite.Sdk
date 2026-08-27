@@ -990,6 +990,12 @@
             The HttpTransports that SkyFrost will instruct SignalR to use.
             </summary>
         </member>
+        <member name="P:SkyFrost.Base.SkyFrostInterface.SafeHttpClient">
+            <summary>
+            Separate HTTP Client, used for user generated requests such as from ProtoFlux Nodes
+            </summary>
+            <remarks>Does not contain user's authentication etc. For that use <see cref="P:SkyFrost.Base.SkyFrostInterface.Api"/></remarks>
+        </member>
         <member name="M:SkyFrost.Base.SkyFrostInterface.WaitForRegistration(System.String,System.String)">
             <summary>
             Waits for a user's registration to complete
@@ -997,6 +1003,12 @@
             <param name="id"></param>
             <param name="token"></param>
             <returns>Error encountered, or <c>null</c> when successful</returns>
+        </member>
+        <member name="M:SkyFrost.Base.Utility.HttpClientUtilities.CreateHttpClient(SkyFrost.Base.SkyFrostConfig,System.Net.Http.Headers.ProductInfoHeaderValue,System.Net.WebProxy,System.Net.Http.HttpMessageHandler,System.Nullable{System.TimeSpan})">
+            <summary>
+            Create a HTTP Client suitable for SkyFrostInterfaces
+            </summary>
+            <remarks>Used to ensure consistency between multiple HTTP Clients</remarks>
         </member>
         <member name="M:SkyFrost.Base.WebProxyUtility.CreateProxy(SkyFrost.Base.ProxyConfig,SkyFrost.Base.IPlatformProfile)">
             <summary>

@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <ResoniteSdkVersion>2.3.3</ResoniteSdkVersion>
+    <ResoniteSdkVersion>2.3.4</ResoniteSdkVersion>
   </PropertyGroup>
 
   <ItemGroup>

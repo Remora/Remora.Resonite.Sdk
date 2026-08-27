@@ -777,6 +777,11 @@
             A list of paths which the App can browse in the FileBrowser. Set to an empty array to disable the FileBrowser.
             </summary>
         </member>
+        <member name="P:SkyFrost.Base.AppConfig.QUICConfig">
+            <summary>
+            Configuration for the QUIC protocol
+            </summary>
+        </member>
         <member name="P:SkyFrost.Base.AppConfig.ForceStartMicrophoneMuted">
             <summary>
             When set, overrides VoiceSettings.MutePersistence, and mutes your microphone at startup.
@@ -917,6 +922,13 @@
             </summary>
             <remarks>This may become more complex in future, it original skipped AutoDetecting a proxy if an address and port were supplied, but this broke a client.</remarks>
         </member>
+        <member name="T:SkyFrost.Base.QUICConfig">
+            <summary>
+            QUIC Specific Configuration for this copy of Resonite
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:SkyFrost.Base.QUICConfig.Ports" -->
+        <!-- Badly formed XML comment ignored for member "P:SkyFrost.Base.QUICConfig.PublicIP" -->
         <member name="T:SkyFrost.Base.SessionJoinParameters">
             <summary>
             Configuration for a session which should be automatically joined by this client.
@@ -1126,7 +1138,12 @@
         </member>
         <member name="P:SkyFrost.Base.WorldStartupParameters.ForcePort">
             <summary>
-            <b>Optional</b>, If specified it will force this session to run on a specific network port.
+            Legacy option. Applies to LNL protocol. Use ForcePorts Instead
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.WorldStartupParameters.ForcePorts">
+            <summary>
+            <b>Optional</b>, Specify which ports should each protocol use. If not specified, a random port will be chosen.
             </summary>
         </member>
         <member name="P:SkyFrost.Base.WorldStartupParameters.EnableResoniteLink">
@@ -2351,6 +2368,16 @@
             <returns></returns>
         </member>
         <member name="M:SkyFrost.Base.PortRange.Try(System.Func{System.Int32,System.Boolean})">
+            <summary>
+            For each port in this range, call the startFunction with that port.
+            </summary>
+            <remarks>startFunction should try to use the port and then return a boolean indicating success.
+            This method, is aimed to make things very simple for consumers but it does take away all of the control.
+            </remarks>
+            <param name="startFunction">A function that is called with each port in this port range. It should return true if it was able to use a given port.</param>
+            <returns>true if a port was successful used and allocated, false otherwise</returns>
+        </member>
+        <member name="M:SkyFrost.Base.PortRange.TryAsync(System.Func{System.Int32,System.Threading.Tasks.Task{System.Boolean}})">
             <summary>
             For each port in this range, call the startFunction with that port.
             </summary>
