@@ -4,7 +4,7 @@
     <MicroUtils_HarmonyAnalyzers_Version>1.6.1</MicroUtils_HarmonyAnalyzers_Version>
 
     <MonkeyLoader_GamePacks_Unity_Version>0.8.*</MonkeyLoader_GamePacks_Unity_Version>
-    <MonkeyLoader_GamePacks_Resonite_Version>0.32.*</MonkeyLoader_GamePacks_Resonite_Version>
+    <MonkeyLoader_GamePacks_Resonite_Version>0.33.*</MonkeyLoader_GamePacks_Resonite_Version>
 
     <ResoniteModLoader_Version>5.0.1</ResoniteModLoader_Version>
     <MonkeyLoader_GamePacks_ResoniteModLoader_Version>$(ResoniteModLoader_Version).*</MonkeyLoader_GamePacks_ResoniteModLoader_Version>

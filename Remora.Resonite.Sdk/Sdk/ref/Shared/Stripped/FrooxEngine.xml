@@ -1447,6 +1447,13 @@
             Reference to the audio clip that this player will play and control.
             </summary>
         </member>
+        <member name="P:FrooxEngine.TCP_TunnelBase.CreateListenerForOwner">
+            <summary>
+            Indicates if the owner of the instance of the component will have a listener on the host
+            This means that instead of the owner contacting the host, the host contacts the owner.
+            When false, the host does not have a listener at all and all clients are expected to connect to the host instead
+            </summary>
+        </member>
         <member name="T:FrooxEngine.CharacterControllerData">
             <summary>
             Raw data for a dynamic character controller instance.
@@ -1759,6 +1766,7 @@
             </summary>
             <remarks>Be careful changing this as it will mess with everyone's cursor settings</remarks>
         </member>
+        <!-- Badly formed XML comment ignored for member "F:FrooxEngine.RadiantDashScreen.DASH_SCREENS_CLEANUP_VERSION" -->
         <member name="P:FrooxEngine.DataFeedCategory.OverrideSubpath">
             <summary>
             In case the category links deeper than one subcategory, this can be 
@@ -2573,6 +2581,25 @@
             Not guarenteed to be called. Use <see cref="M:FrooxEngine.Worker.OnDispose"/> to run actions that must be guarenteed to run.
             </remarks>
         </member>
+        <member name="M:FrooxEngine.ContainerWorker`1.RemoveAllComponents(System.Predicate{`0})">
+            <remarks>
+            <seealso cref="M:FrooxEngine.ContainerWorker`1.RemoveAllComponents``1(System.Predicate{``0})"/> for one that filters by Component Type.
+            </remarks>
+        </member>
+        <member name="M:FrooxEngine.ContainerWorker`1.RemoveAllComponents``1(System.Predicate{``0})">
+            <summary>
+            Destroys all components on this <see cref="T:FrooxEngine.ContainerWorker`1"/> who match an ivalidity check.
+            </summary>
+            <typeparam name="T">Type of components to retrieve</typeparam>
+            <param name="match">Returns true for <strong>Invalid</strong> component that should be removed and false for <strong>valid</strong> component.</param>
+            <returns>The number of components removed.</returns>
+            <remarks>
+            <list type="bullet">
+            <item>See <seealso cref="M:FrooxEngine.ContainerWorker`1.EnsureSingleComponent``1(System.Boolean@,System.Int32@,System.Predicate{``0})"/>, which removes all but one.</item>
+            <item>See <seealso cref="M:FrooxEngine.ContainerWorker`1.RemoveAllComponents(System.Predicate{`0})"/> For one that operates on the base class <typeparamref name="C"/></item>
+            </list>
+            </remarks>
+        </member>
         <member name="T:FrooxEngine.Slot">
             <summary>
             Slot is an empty hiearchy element that forms the base data tree of the World scene.
@@ -3088,6 +3115,15 @@
             This is an out of data model event and shouldn't be used for anything data model related
             </remarks>
         </member>
+        <member name="P:FrooxEngine.Worker.Version">
+            <summary>
+            Worker version number of this component.
+            </summary>
+            <remarks>
+            Used for upgrading components in case of any breaking changes on load. See: <see cref="T:FrooxEngine.LoadControl"/> for more on this process.<br/>
+            <see cref="T:FrooxEngine.SaveControl"/> may also provide insights on how Versions get persisted to <see cref="T:Elements.Core.DataTreeDictionary"/>.
+            </remarks>
+        </member>
         <member name="M:FrooxEngine.Worker.CopyValues(FrooxEngine.Worker)">
             <summary>
             Copies values from a Worker of the same type
@@ -3311,7 +3347,7 @@
             <param name="isDefault">Indicator of whether this is the system default.</param>
             <returns><c>True</c> if the default was successfully updated, otherwise <c>False</c>.</returns>
         </member>
-        <member name="M:FrooxEngine.AudioInput.UpdateActiveState">
+        <member name="M:FrooxEngine.AudioInput.UpdateActiveState(System.Boolean)">
             <summary>
             Updates the active state of this driver.
             </summary>
@@ -3368,6 +3404,11 @@
         <member name="P:FrooxEngine.AudioOutputDriver.DeviceID">
             <summary>
             The ID of the device this driver controls.
+            </summary>
+        </member>
+        <member name="P:FrooxEngine.AudioOutputDriver.Quantum">
+            <summary>
+            The minimum number of samples this driver will handle at once.
             </summary>
         </member>
         <member name="P:FrooxEngine.AudioOutputDriver.IsConnected">
