@@ -738,11 +738,10 @@
             Version of the product that it will identify as.
             </summary>
         </member>
-        <member name="P:SkyFrost.Base.SkyFrostConfig.GZip">
+        <member name="P:SkyFrost.Base.SkyFrostConfig.Compression">
             <summary>
-            Enable GZip compression for requests and responses. This can decrease latency and
+            Enable compression for requests and responses. This can decrease latency and
             signififcantly decreate the bandwidth necessary to communicate with the API.
-            On some platforms it causes trouble though (e.g. Linux) so must be disabled.
             </summary>
         </member>
         <member name="P:SkyFrost.Base.SkyFrostConfig.ProxyConfig">
@@ -1009,6 +1008,121 @@
             Create a HTTP Client suitable for SkyFrostInterfaces
             </summary>
             <remarks>Used to ensure consistency between multiple HTTP Clients</remarks>
+        </member>
+        <member name="T:SkyFrost.Base.IPAddressExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Net.IPAddress"/>
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.IPAddressExtensions.IsLinkLocal(System.Net.IPAddress)">
+            <summary>
+            Checks whether the IP address is a
+            <see href="https://en.wikipedia.org/wiki/Link-local_address">link-local address</see>
+            </summary>
+            <param name="ipAddress"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IPAddressExtensions.IsPrivate(System.Net.IPAddress)">
+            <summary>
+            Checks whether the IP address is within
+            <see href="https://en.wikipedia.org/wiki/Private_network">private address space</see>
+            </summary>
+            <param name="ipAddress"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IPAddressExtensions.Canonicalize(System.Net.IPAddress)">
+            <summary>
+            Canonicalizes the IP address, converting IPv6-mapped IPv4 addresses into their plain IPv4 form.
+            All other addresses are left untouched.
+            </summary>
+            <param name="ipAddress"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IPAddressExtensions.Canonicalize(System.Net.IPAddress,SkyFrost.Base.IPMask)">
+            <summary>
+            Canonicalizes the IP address, applying a mask to the result if the address isn't link-local or private.
+            </summary>
+            <param name="ipAddress"></param>
+            <param name="mask"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SkyFrost.Base.IPAddressExtensions.Mask(System.Net.IPAddress,SkyFrost.Base.IPMask)">
+            <summary>
+            Applies a specified mask to the IP address
+            </summary>
+            <param name="ipAddress"></param>
+            <param name="mask"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SkyFrost.Base.IPMask">
+            <summary>
+            Represents an IP address mask separately for IPv4 and IPv6 addresses
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.IPMask.BytesV4">
+            <summary>
+            Bytes representing the IPv4 mask. Must be exactly 4 bytes.
+            </summary>
+        </member>
+        <member name="P:SkyFrost.Base.IPMask.BytesV6">
+            <summary>
+            Bytes representing the IPv6 mask. Must be exactly 16 bytes.
+            </summary>
+        </member>
+        <member name="M:SkyFrost.Base.IPMask.#ctor(System.Byte[],System.Byte[])">
+            <summary>
+            Constructs an IPMask from given byte arrays representing IPv4 and IPv6 masks
+            </summary>
+            <param name="bytesV4">Byte array representing the IPv4 mask. Must be exactly 4 bytes.</param>
+            <param name="bytesV6">Byte array representing the IPv6 mask. Must be exactly 16 bytes.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">If either of the byte arrays are not the correct length</exception>
+        </member>
+        <member name="M:SkyFrost.Base.IPMask.#ctor(System.Byte,System.Byte)">
+            <summary>
+            Constructs an IPMask with the specified prefix lengths (CIDR masks) for IPv4 and IPv6 addresses
+            </summary>
+            <param name="prefixLengthV4">Prefix length to use for IPv4 addresses. Must be between 1 and 32 (inclusive).</param>
+            <param name="prefixLengthV6">Prefix length to use for IPv6 addresses. Must be between 1 and 128 (inclusive).</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            If <paramref name="prefixLengthV4"/> is outside 1-32 (inclusive) or <paramref name="prefixLengthV6"/> is outside 1-128 (inclusive)
+            </exception>
+        </member>
+        <member name="M:SkyFrost.Base.IPMask.#ctor(System.Byte)">
+            <summary>
+            Constructs an IPMask with the specified prefix length (CIDR mask).
+            Prefix lengths greater than 32 are treated as 32 for IPv4.
+            </summary>
+            <param name="prefixLength">Prefix length to use. Must be between 1 and 128 (inclusive).</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="prefixLength"/> is outside 1-128 (inclusive)</exception>
+        </member>
+        <member name="M:SkyFrost.Base.IPMask.PrefixLengthToBytes(System.Byte,System.Byte)">
+            <summary>
+            Converts a prefix length (CIDR mask) to a byte array with the specified number of bytes
+            </summary>
+            <param name="prefixLength"></param>
+            <param name="byteCount"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            If <paramref name="prefixLength"/> is greater than <c><paramref name="byteCount"/> * 8</c>
+            </exception>
+        </member>
+        <member name="F:SkyFrost.Base.IPMask.SECURITY_MASK">
+            <summary>
+            Default IP address mask used for identifying clients in a security context.
+            </summary>
+            <remarks>
+            For IPv4, it usually makes sense to just take the whole address.
+            For IPv6, /56 is the standard prefix length issued to consumer internet connections, and /48 for businesses.
+            Some ISPs may issue /64 prefixes to consumers, but this is nonstandard.<br/><br/>
+            For the purpose of identifying a user for rate-limiting and other security-related tasks, it may make sense
+            to look at the /56 so a user can't just easily change their local IP address in their given prefix to get around
+            restrictions.
+            </remarks>
+        </member>
+        <member name="F:SkyFrost.Base.IPMask.PRIVACY_MASK">
+            <summary>
+            Default IP address mask used for identifying clients in a privacy (e.g. logging) context.
+            </summary>
         </member>
         <member name="M:SkyFrost.Base.WebProxyUtility.CreateProxy(SkyFrost.Base.ProxyConfig,SkyFrost.Base.IPlatformProfile)">
             <summary>
