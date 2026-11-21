@@ -27,14 +27,6 @@
             Determines if the asset is currently loaded and available for use
             </summary>
         </member>
-        <member name="T:FrooxEngine.AdjustHDRInverseGamma22">
-            <summary>
-            This adapter will adjust HDR values over 1 against an inverse 2.2 gamma curve.
-            This is useful for various situations where an HDR color exceeds 1, and a shader is expecting Unity to apply its own HDR conversion.
-            Given we do these conversions ourselves, this ensures scenarios where we want a corrected color - particularly on legacy assets.
-            This also avoids the creation of "fake" color spaces that have no real world basis.
-            </summary>
-        </member>
         <member name="M:FrooxEngine.UniversalImporter.SpawnInventoryLink(FrooxEngine.Slot,System.Uri,SkyFrost.Base.IRecord)">
             <summary>
             Spawns an in-world representation of a folder or link to a folder.
@@ -184,6 +176,11 @@
             <returns></returns>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
+        <member name="P:FrooxEngine.RecordManager.ReadOnly">
+            <summary>
+            When true, Records will not be saved.
+            </summary>
+        </member>
         <member name="F:FrooxEngine.LocomotionAnimationFeetMetrics.DEFAULT_FOOT_HEIGHT">
             <summary>
             We use a 3D model based reference for calibrating feet, taken from the Y-bot mixamo model.
@@ -191,6 +188,41 @@
             This means that the actual position of the foot pivot is off the ground. So in order to position
             the foot correctly at the ground, we need to know how much above the ground it is located.
             This value is measured from the model itself in-game.
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FFT_RealAnalyzer.WindowSize">
+            <summary>
+            Size of the FFT window - the buffer that will be analyzed
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FFT_RealAnalyzer.WindowFilter">
+            <summary>
+            Filter applied to the window data
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FFT_RealAnalyzer.OutputFormat">
+            <summary>
+            What is the format of the output values
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FFT_RealAnalyzer.OutputLength">
+            <summary>
+            The length of the output array
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FFT_RealAnalyzer.NormalizeOutput">
+            <summary>
+            When true, the output FFT values are normalized to be within -1...1 range
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FixedBufferAudioAnalysisBase.BufferAnalysisMode.Discrete">
+            <summary>
+            Will collect a full buffer of data and then run the analysis once it's been filled
+            </summary>
+        </member>
+        <member name="F:FrooxEngine.FixedBufferAudioAnalysisBase.BufferAnalysisMode.Rolling">
+            <summary>
+            Will continually run analysis each time it gets new audio data, shifting the previous data
             </summary>
         </member>
         <member name="T:FrooxEngine.GrabbableUserVoiceModifier">
@@ -537,9 +569,10 @@
             </summary>
         </member>
         <member name="T:FrooxEngine.FieldSlotReceiver`1">
-            <summary>
-            When a slot is dropped on this, offer to copy compatible data into the linked field.
-            </summary>
+             <summary>
+             When a slot is dropped on this, offer to copy compatible data into the linked field.
+             </summary>
+            
         </member>
         <member name="M:FrooxEngine.SyncMemberEditorBuilder.BuildField(FrooxEngine.IField,System.Reflection.FieldInfo,FrooxEngine.Slot,FrooxEngine.UIX.LayoutElement)">
             <summary>
@@ -3574,6 +3607,9 @@
             Optional window title to override the render's title with.
             </summary>
         </member>
+        <member name="P:FrooxEngine.LaunchOptions.NeverSaveAnything">
+            <inheritdoc cref="P:SkyFrost.Base.AppConfig.NeverSaveAnything"/>
+        </member>
         <member name="M:FrooxEngine.BootstrapperManager.KillProcessOnExit(System.Diagnostics.Process)">
             <summary>
             This is used as failsafe for when Resonite crashes for any spawned processes to be killed properly.
@@ -3879,11 +3915,44 @@
             </summary>
             <param name="pathChain"></param>
         </member>
+        <member name="F:FrooxEngine.BufferUpdateRange.needsUpdate">
+            <summary>
+            Indicates if the buffer needs to be updated. This might be true, even if the count is 0
+            This is for cases where the buffer was completely cleared - there will be no valid range of data
+            to upload (it will be zero), but the buffers still need to be cleared appropriately to reflect the new state.
+            </summary>
+        </member>
         <member name="M:FrooxEngine.AvatarCreatorSpawner.CanSpawn(FrooxEngine.World)">
             <summary>
             Checks to see if the <see cref="T:FrooxEngine.AvatarCreator"/> be spawned. Will check various permissions etc.
             </summary>
             <returns>true if the avatar creator can be spawned, false if it cannot.</returns>
+        </member>
+        <member name="M:FrooxEngine.VideoEncoder.ConformAndSubmitFrame(Elements.Assets.Bitmap2D)">
+            <summary>
+            Submits any Bitmap2D as a frame to the video to encode.
+            Will automatically ensure the bitmap matches the expected format.
+            This will be A LOT more expensive when the format does not match, but provides convenience.
+            </summary>
+            <param name="bitmap"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FrooxEngine.VideoEncoder.SubmitFrame(Elements.Assets.Bitmap2D)">
+            <summary>
+            Submits a Bitmap2D as a frame to video to encode.
+            The bitmap MUST match the expected format.
+            </summary>
+            <param name="bitmap"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:FrooxEngine.VideoEncoder.SubmitRawFrame(System.ReadOnlyMemory{System.Byte})">
+            <summary>
+            Submit raw memory buffer as a frame to encode. This is expected in the indicated format.
+            </summary>
+            <param name="frame"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="P:FrooxEngine.World.IsAuthority">
             <summary>

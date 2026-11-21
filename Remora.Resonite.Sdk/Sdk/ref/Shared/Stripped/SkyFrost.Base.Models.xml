@@ -838,6 +838,11 @@
              While using both options, is possible, It is not recommended due to potential confusion
              </remarks>
         </member>
+        <member name="P:SkyFrost.Base.AppConfig.NeverSaveAnything">
+            <summary>
+            When enabled, will prevent ANY Record from saving
+            </summary>
+        </member>
         <member name="T:SkyFrost.Base.InputConfig">
             <summary>
             Configuration options for a Client's input devices.
